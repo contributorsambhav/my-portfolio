@@ -19,7 +19,7 @@ export interface Profile {
 
 export interface Technology {
   name: string;
-  category: 'language' | 'framework' | 'tool' | 'database' | 'other';
+  category: "language" | "framework" | "tool" | "database" | "other";
 }
 
 export interface ExperienceItem {
@@ -44,7 +44,7 @@ export interface Project {
   description: string;
   longDescription: string;
   technologies: string[];
-  category: 'web' | 'web3' | 'ai' | 'fullstack' | 'blockchain';
+  category: "web" | "web3" | "ai" | "fullstack" | "blockchain";
   featured: boolean;
   github?: string;
   live?: string;
@@ -79,8 +79,8 @@ export interface Hackathon {
 export interface Web3Project {
   id: string;
   title: string;
-  type: 'grant' | 'project' | 'attempt';
-  status: 'completed' | 'in-progress' | 'applied' | 'rejected';
+  type: "grant" | "project" | "attempt";
+  status: "completed" | "in-progress" | "applied" | "rejected";
   description: string;
   technologies: string[];
   blockchain?: string;
@@ -99,7 +99,7 @@ export interface Achievement {
   title: string;
   description: string;
   date: string;
-  category: 'hackathon' | 'competition' | 'certification' | 'award';
+  category: "hackathon" | "competition" | "certification" | "award";
   organization?: string;
   proof?: string;
   icon?: string;

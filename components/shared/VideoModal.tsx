@@ -1,10 +1,10 @@
 // components/shared/VideoModal.tsx
 "use client";
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from "framer-motion";
 
-import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { X } from "lucide-react";
+import { useEffect } from "react";
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -13,46 +13,51 @@ interface VideoModalProps {
   title?: string;
 }
 
-export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps) {
+export default function VideoModal({
+  isOpen,
+  onClose,
+  videoUrl,
+  title,
+}: VideoModalProps) {
   // Close on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener("keydown", handleEscape);
       // Prevent body scroll when modal is open
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen, onClose]);
 
   // Extract video ID and determine platform
   const getEmbedUrl = (url: string) => {
     // YouTube
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      const videoId = url.includes('youtu.be') 
-        ? url.split('youtu.be/')[1]?.split('?')[0]
-        : url.split('v=')[1]?.split('&')[0];
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      const videoId = url.includes("youtu.be")
+        ? url.split("youtu.be/")[1]?.split("?")[0]
+        : url.split("v=")[1]?.split("&")[0];
       return `https://www.youtube.com/embed/${videoId}`;
     }
-    
+
     // Vimeo
-    if (url.includes('vimeo.com')) {
-      const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+    if (url.includes("vimeo.com")) {
+      const videoId = url.split("vimeo.com/")[1]?.split("?")[0];
       return `https://player.vimeo.com/video/${videoId}`;
     }
-    
+
     // Loom
-    if (url.includes('loom.com')) {
-      const videoId = url.split('share/')[1]?.split('?')[0];
+    if (url.includes("loom.com")) {
+      const videoId = url.split("share/")[1]?.split("?")[0];
       return `https://www.loom.com/embed/${videoId}`;
     }
 
@@ -61,7 +66,10 @@ export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoMo
   };
 
   const embedUrl = getEmbedUrl(videoUrl);
-  const isVideoFile = videoUrl.endsWith('.mp4') || videoUrl.endsWith('.webm') || videoUrl.endsWith('.ogg');
+  const isVideoFile =
+    videoUrl.endsWith(".mp4") ||
+    videoUrl.endsWith(".webm") ||
+    videoUrl.endsWith(".ogg");
 
   return (
     <AnimatePresence>
@@ -89,7 +97,7 @@ export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoMo
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b">
               <h3 className="text-lg font-semibold line-clamp-1">
-                {title || 'Video'}
+                {title || "Video"}
               </h3>
               <button
                 onClick={onClose}
@@ -102,7 +110,10 @@ export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoMo
 
             {/* Video Container */}
             <div className="relative bg-black">
-              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              <div
+                className="relative w-full"
+                style={{ paddingBottom: "56.25%" }}
+              >
                 {isVideoFile ? (
                   // Native HTML5 video player for direct video files
                   <video
@@ -118,7 +129,7 @@ export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoMo
                   <iframe
                     className="absolute inset-0 w-full h-full"
                     src={embedUrl}
-                    title={title || 'Video player'}
+                    title={title || "Video player"}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
@@ -129,7 +140,11 @@ export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoMo
             {/* Footer (optional) */}
             <div className="p-4 border-t bg-muted/30">
               <p className="text-sm text-muted-foreground text-center">
-                Press <kbd className="px-2 py-1 text-xs bg-background border rounded">ESC</kbd> to close
+                Press{" "}
+                <kbd className="px-2 py-1 text-xs bg-background border rounded">
+                  ESC
+                </kbd>{" "}
+                to close
               </p>
             </div>
           </motion.div>

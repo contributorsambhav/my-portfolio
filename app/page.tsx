@@ -1,15 +1,15 @@
-import { ArrowRight, Briefcase, Rocket } from 'lucide-react';
+import { ArrowRight, Briefcase, Rocket } from "lucide-react";
 
-import { Button } from '../components/ui/button';
-import ExperienceCard from '../components/shared/ExperienceCard';
+import { Button } from "../components/ui/button";
+import ExperienceCard from "../components/shared/ExperienceCard";
 // app/page.tsx
-import Hero from '../components/sections/Hero';
-import Link from 'next/link';
-import ProjectCard from '../components/shared/ProjectCard';
-import { Separator } from '../components/ui/separator';
-import TechStack from '../components/sections/TechStack';
-import { experiences } from '../data/experience';
-import { featuredProjects } from '../data/projects';
+import Hero from "../components/sections/Hero";
+import Link from "next/link";
+import ProjectCard from "../components/shared/ProjectCard";
+import { Separator } from "../components/ui/separator";
+import TechStack from "../components/sections/TechStack";
+import { experiences } from "../data/experience";
+import { featuredProjects } from "../data/projects";
 
 export default function Home() {
   return (
@@ -87,10 +87,10 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Explore More
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/hackathons" className="group">
-              <div className="p-8 border rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 bg-gradient-to-br from-yellow-500/10 to-orange-500/10">
+              <div className="p-8 border rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 bg-linear-to-br from-yellow-500/10 to-orange-500/10">
                 <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mb-4">
                   <Rocket className="w-6 h-6 text-yellow-500" />
                 </div>
@@ -104,7 +104,7 @@ export default function Home() {
             </Link>
 
             <Link href="/web3" className="group">
-              <div className="p-8 border rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 bg-gradient-to-br from-purple-500/10 to-pink-500/10">
+              <div className="p-8 border rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 bg-linear-to-br from-purple-500/10 to-pink-500/10">
                 <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-4">
                   <span className="text-2xl">⛓️</span>
                 </div>
@@ -118,7 +118,7 @@ export default function Home() {
             </Link>
 
             <Link href="/projects" className="group">
-              <div className="p-8 border rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 bg-gradient-to-br from-blue-500/10 to-cyan-500/10">
+              <div className="p-8 border rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 bg-linear-to-br from-blue-500/10 to-cyan-500/10">
                 <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4">
                   <span className="text-2xl">💻</span>
                 </div>

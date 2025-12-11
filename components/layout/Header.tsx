@@ -1,20 +1,20 @@
 // components/layout/Header.tsx
 "use client";
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/work', label: 'Experience' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/hackathons', label: 'Hackathons' },
-  { href: '/web3', label: 'Web3' },
+  { href: "/", label: "Home" },
+  { href: "/work", label: "Experience" },
+  { href: "/projects", label: "Projects" },
+  { href: "/hackathons", label: "Hackathons" },
+  { href: "/web3", label: "Web3" },
 ];
 
 export default function Header() {
@@ -22,7 +22,7 @@ export default function Header() {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
+    if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
 
@@ -32,7 +32,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold">
-            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               SG
             </span>
           </Link>
@@ -44,18 +44,14 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.href)
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
+                  isActive(link.href) ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
             <Button asChild size="sm">
-              <a href="mailto:sambhav511974@gmail.com">
-                Contact
-              </a>
+              <a href="mailto:sambhav511974@gmail.com">Contact</a>
             </Button>
           </div>
 
@@ -66,7 +62,11 @@ export default function Header() {
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </Button>
         </div>
 
@@ -75,7 +75,7 @@ export default function Header() {
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
               className="md:hidden overflow-hidden"
@@ -88,17 +88,15 @@ export default function Header() {
                     onClick={() => setIsMenuOpen(false)}
                     className={`text-sm font-medium transition-colors hover:text-primary ${
                       isActive(link.href)
-                        ? 'text-primary'
-                        : 'text-muted-foreground'
+                        ? "text-primary"
+                        : "text-muted-foreground"
                     }`}
                   >
                     {link.label}
                   </Link>
                 ))}
                 <Button asChild size="sm" className="w-full">
-                  <a href="mailto:sambhav511974@gmail.com">
-                    Contact
-                  </a>
+                  <a href="mailto:sambhav511974@gmail.com">Contact</a>
                 </Button>
               </div>
             </motion.div>

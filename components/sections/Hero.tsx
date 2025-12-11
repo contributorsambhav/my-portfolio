@@ -1,12 +1,12 @@
 // components/sections/Hero.tsx
 "use client";
 
-import { Code2, FileText, Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Code2, FileText, Github, Linkedin, Mail, Twitter } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { profile } from '@/data/profile';
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { profile } from "@/data/profile";
 
 const iconMap: Record<string, any> = {
   Github,
@@ -14,7 +14,7 @@ const iconMap: Record<string, any> = {
   Mail,
   FileText,
   Code2,
-  Twitter
+  Twitter,
 };
 
 export default function Hero() {
@@ -48,7 +48,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
           >
             {profile.name}
           </motion.h1>

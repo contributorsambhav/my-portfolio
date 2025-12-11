@@ -11,7 +11,7 @@ export const preset: Partial<Config> = {
       },
       textColor: {
         DEFAULT: "hsl(var(--foreground))",
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};

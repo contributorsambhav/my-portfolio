@@ -39,6 +39,7 @@ mkdir -p app/{work,projects,hackathons,web3}
 Copy all the files I've provided into their respective locations:
 
 **Types & Data:**
+
 - `types/index.ts` - TypeScript interfaces
 - `data/profile.ts` - Your personal information
 - `data/experience.ts` - Work experience array
@@ -47,6 +48,7 @@ Copy all the files I've provided into their respective locations:
 - `data/web3.ts` - Web3 projects and grants
 
 **Components:**
+
 - `components/layout/Header.tsx` - Navigation header
 - `components/layout/Footer.tsx` - Footer
 - `components/sections/Hero.tsx` - Hero section
@@ -57,6 +59,7 @@ Copy all the files I've provided into their respective locations:
 - `components/shared/VideoModal.tsx` - Video modal component
 
 **Pages:**
+
 - `app/layout.tsx` - Root layout
 - `app/page.tsx` - Home page
 - `app/work/page.tsx` - Work experience page
@@ -67,14 +70,17 @@ Copy all the files I've provided into their respective locations:
 ### 4. Add Your Content
 
 **Profile Image:**
+
 - Add your photo to `public/images/avatar.jpg`
 
 **Project Images & Videos:**
+
 - Add project screenshots to `public/images/projects/`
 - Add project demo videos to `public/videos/`
 
 **Update Data Files:**
 All your data is centralized in the `data/` folder. Simply edit these files to:
+
 - Update personal info
 - Add new projects
 - Add new experiences
@@ -123,6 +129,7 @@ portfolio/
 ## ✨ Features
 
 ### Home Page (/)
+
 - Hero section with animated intro
 - Infinite scrolling tech stack marquee
 - Featured projects showcase
@@ -130,24 +137,28 @@ portfolio/
 - Quick navigation cards
 
 ### Work Page (/work)
+
 - Timeline view of all experiences
 - Detailed job descriptions
 - Key achievements highlighted
 - Technologies used per role
 
 ### Projects Page (/projects)
+
 - Category filters (All, Web3, AI, Fullstack, Web)
 - Project cards with metrics
 - GitHub and live links
 - Video demo modals
 
 ### Hackathons Page (/hackathons)
+
 - All hackathon participations
 - Win badges and achievements
 - Team size and role info
 - Project demos and code
 
 ### Web3 Page (/web3)
+
 - Web3 projects showcase
 - Grant applications tracker
 - Status filters (completed, applied, in-progress)
@@ -156,11 +167,13 @@ portfolio/
 ## 🎨 Customization
 
 ### Colors & Theme
+
 Edit `tailwind.config.ts` to customize colors and theme.
 
 ### Add New Content
 
 **Add a New Project:**
+
 ```typescript
 // data/projects.ts
 {
@@ -186,6 +199,7 @@ Edit `tailwind.config.ts` to customize colors and theme.
 ```
 
 **Add a New Experience:**
+
 ```typescript
 // data/experience.ts
 {
@@ -211,6 +225,7 @@ Edit `tailwind.config.ts` to customize colors and theme.
 ```
 
 **Add a New Hackathon:**
+
 ```typescript
 // data/hackathons.ts
 {
@@ -234,6 +249,7 @@ Edit `tailwind.config.ts` to customize colors and theme.
 ```
 
 **Add a Web3 Grant Application:**
+
 ```typescript
 // data/web3.ts
 {
@@ -263,6 +279,7 @@ Edit `tailwind.config.ts` to customize colors and theme.
 ## 📱 Responsive Design
 
 The portfolio is fully responsive and tested on:
+
 - Desktop (1920px+)
 - Laptop (1280px)
 - Tablet (768px)
@@ -285,6 +302,7 @@ Or connect your GitHub repo to Vercel for automatic deployments.
 ### Environment Variables
 
 No environment variables needed for basic setup. Add later if you integrate:
+
 - Analytics (Google Analytics, Plausible)
 - Contact forms
 - CMS integration
@@ -322,6 +340,7 @@ No environment variables needed for basic setup. Add later if you integrate:
 ## 🤝 Support
 
 If you encounter any issues:
+
 1. Check the folder structure matches exactly
 2. Ensure all dependencies are installed
 3. Clear `.next` folder and restart: `rm -rf .next && npm run dev`

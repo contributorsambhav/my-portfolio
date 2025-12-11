@@ -1,18 +1,21 @@
 // components/shared/ExperienceCard.tsx
 "use client";
 
-import { Building2, Calendar, MapPin } from 'lucide-react';
+import { Building2, Calendar, MapPin } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { ExperienceItem } from '@/types';
-import { motion } from 'framer-motion';
+import { Badge } from "@/components/ui/badge";
+import { ExperienceItem } from "@/types";
+import { motion } from "framer-motion";
 
 interface ExperienceCardProps {
   experience: ExperienceItem;
   index: number;
 }
 
-export default function ExperienceCard({ experience, index }: ExperienceCardProps) {
+export default function ExperienceCard({
+  experience,
+  index,
+}: ExperienceCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -23,7 +26,7 @@ export default function ExperienceCard({ experience, index }: ExperienceCardProp
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
         <div className="flex-1">
           <div className="flex items-start gap-3">
-            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
               <Building2 className="w-6 h-6 text-primary" />
             </div>
             <div>
@@ -39,13 +42,15 @@ export default function ExperienceCard({ experience, index }: ExperienceCardProp
             </div>
           </div>
         </div>
-        
+
         <div className="flex flex-col gap-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             <span>{experience.duration}</span>
             {experience.current && (
-              <Badge variant="secondary" className="text-xs">Current</Badge>
+              <Badge variant="secondary" className="text-xs">
+                Current
+              </Badge>
             )}
           </div>
           <div className="flex items-center gap-2">
