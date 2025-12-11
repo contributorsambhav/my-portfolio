@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
-, "components/sections/TechStack.tsx"  ],
+    "**/*.mts",
+    "components/sections/TechStack.tsx"
+  ],
   "exclude": ["node_modules"]
 }

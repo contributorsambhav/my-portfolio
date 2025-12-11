@@ -1,13 +1,13 @@
 // components/shared/ProjectCard.tsx
 "use client";
 
-import { ExternalLink, Github, Video } from 'lucide-react';
+import { ExternalLink, Github, Video } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { Project } from '@/types';
-import { motion } from 'framer-motion';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Project } from "@/types";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   project: Project;
@@ -18,29 +18,29 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   const getCategoryConfig = (category: string) => {
     const configs = {
       web: {
-        gradient: 'from-blue-500/20 to-cyan-500/20',
-        badge: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-        icon: '🌐'
+        gradient: "from-blue-500/20 to-cyan-500/20",
+        badge: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+        icon: "🌐",
       },
       web3: {
-        gradient: 'from-purple-500/20 to-pink-500/20',
-        badge: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-        icon: '⛓️'
+        gradient: "from-purple-500/20 to-pink-500/20",
+        badge: "bg-purple-500/10 text-purple-500 border-purple-500/20",
+        icon: "⛓️",
       },
       ai: {
-        gradient: 'from-green-500/20 to-emerald-500/20',
-        badge: 'bg-green-500/10 text-green-500 border-green-500/20',
-        icon: '🤖'
+        gradient: "from-green-500/20 to-emerald-500/20",
+        badge: "bg-green-500/10 text-green-500 border-green-500/20",
+        icon: "🤖",
       },
       fullstack: {
-        gradient: 'from-orange-500/20 to-amber-500/20',
-        badge: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
-        icon: '💻'
+        gradient: "from-orange-500/20 to-amber-500/20",
+        badge: "bg-orange-500/10 text-orange-500 border-orange-500/20",
+        icon: "💻",
       },
       blockchain: {
-        gradient: 'from-pink-500/20 to-rose-500/20',
-        badge: 'bg-pink-500/10 text-pink-500 border-pink-500/20',
-        icon: '🔗'
+        gradient: "from-pink-500/20 to-rose-500/20",
+        badge: "bg-pink-500/10 text-pink-500 border-pink-500/20",
+        icon: "🔗",
       },
     };
     return configs[category as keyof typeof configs] || configs.web;
@@ -66,7 +66,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       )}
 
       {/* Project Image/Visual */}
-      <div className={`relative h-52 bg-gradient-to-br ${categoryConfig.gradient} overflow-hidden`}>
+      <div
+        className={`relative h-52 bg-linear-to-br ${categoryConfig.gradient} overflow-hidden`}
+      >
         {project.image ? (
           <Image
             src={project.image}
@@ -84,15 +86,13 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           </div>
         )}
-        
+
         {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
         {/* Category Badge */}
         <div className="absolute top-3 right-3 z-10">
-          <Badge className={categoryConfig.badge}>
-            {project.category}
-          </Badge>
+          <Badge className={categoryConfig.badge}>{project.category}</Badge>
         </div>
       </div>
 
@@ -114,7 +114,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         {project.highlights && project.highlights.length > 0 && (
           <div className="space-y-1">
             {project.highlights.slice(0, 3).map((highlight, i) => (
-              <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+              <div
+                key={i}
+                className="flex items-start gap-2 text-xs text-muted-foreground"
+              >
                 <span className="text-primary mt-0.5">•</span>
                 <span className="line-clamp-1">{highlight}</span>
               </div>

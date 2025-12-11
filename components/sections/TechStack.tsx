@@ -1,25 +1,25 @@
 // components/sections/TechStack.tsx
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const technologies = [
-  { name: 'React', icon: '⚛️' },
-  { name: 'Next.js', icon: '▲' },
-  { name: 'TypeScript', icon: '📘' },
-  { name: 'Node.js', icon: '🟢' },
-  { name: 'Python', icon: '🐍' },
-  { name: 'MongoDB', icon: '🍃' },
-  { name: 'PostgreSQL', icon: '🐘' },
-  { name: 'Docker', icon: '🐳' },
-  { name: 'AWS', icon: '☁️' },
-  { name: 'Git', icon: '📝' },
-  { name: 'Solidity', icon: '⛓️' },
-  { name: 'Web3', icon: '🌐' },
-  { name: 'GraphQL', icon: '◼️' },
-  { name: 'Redis', icon: '🔴' },
-  { name: 'Tailwind', icon: '💨' },
+  { name: "React", icon: "⚛️" },
+  { name: "Next.js", icon: "▲" },
+  { name: "TypeScript", icon: "📘" },
+  { name: "Node.js", icon: "🟢" },
+  { name: "Python", icon: "🐍" },
+  { name: "MongoDB", icon: "🍃" },
+  { name: "PostgreSQL", icon: "🐘" },
+  { name: "Docker", icon: "🐳" },
+  { name: "AWS", icon: "☁️" },
+  { name: "Git", icon: "📝" },
+  { name: "Solidity", icon: "⛓️" },
+  { name: "Web3", icon: "🌐" },
+  { name: "GraphQL", icon: "◼️" },
+  { name: "Redis", icon: "🔴" },
+  { name: "Tailwind", icon: "💨" },
 ];
 
 export default function TechStack() {
@@ -37,8 +37,8 @@ export default function TechStack() {
       {/* Scrolling Container */}
       <div className="relative">
         {/* Gradient Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-linear-to-r from-background to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-linear-to-l from-background to-transparent z-10" />
 
         {/* Scrolling Content */}
         <motion.div

@@ -1,32 +1,56 @@
 // components/shared/HackathonCard.tsx
 "use client";
 
-import { Calendar, ExternalLink, Github, MapPin, Play, Trophy, Users } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Calendar,
+  ExternalLink,
+  Github,
+  MapPin,
+  Play,
+  Trophy,
+  Users,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Hackathon } from '@/types';
-import VideoModal from './VideoModal';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Hackathon } from "@/types";
+import VideoModal from "./VideoModal";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface HackathonCardProps {
   hackathon: Hackathon;
   index?: number;
 }
 
-export default function HackathonCard({ hackathon, index = 0 }: HackathonCardProps) {
+export default function HackathonCard({
+  hackathon,
+  index = 0,
+}: HackathonCardProps) {
   const [showVideo, setShowVideo] = useState(false);
 
   const getAchievementColor = (achievement: string) => {
-    if (achievement.toLowerCase().includes('winner') || achievement.toLowerCase().includes('1st')) {
-      return 'bg-yellow-500';
+    if (
+      achievement.toLowerCase().includes("winner") ||
+      achievement.toLowerCase().includes("1st")
+    ) {
+      return "bg-yellow-500";
     }
-    if (achievement.toLowerCase().includes('finalist') || achievement.toLowerCase().includes('top')) {
-      return 'bg-blue-500';
+    if (
+      achievement.toLowerCase().includes("finalist") ||
+      achievement.toLowerCase().includes("top")
+    ) {
+      return "bg-blue-500";
     }
-    return 'bg-gray-500';
+    return "bg-gray-500";
   };
 
   return (
@@ -42,7 +66,9 @@ export default function HackathonCard({ hackathon, index = 0 }: HackathonCardPro
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <CardTitle className="text-xl flex items-center gap-2">
-                  <Trophy className={`w-5 h-5 ${getAchievementColor(hackathon.achievement)}`} />
+                  <Trophy
+                    className={`w-5 h-5 ${getAchievementColor(hackathon.achievement)}`}
+                  />
                   {hackathon.name}
                 </CardTitle>
                 <CardDescription className="mt-2">
@@ -90,7 +116,9 @@ export default function HackathonCard({ hackathon, index = 0 }: HackathonCardPro
               {hackathon.prize && (
                 <div>
                   <p className="text-xs text-muted-foreground">Prize</p>
-                  <p className="text-sm font-medium text-primary">{hackathon.prize}</p>
+                  <p className="text-sm font-medium text-primary">
+                    {hackathon.prize}
+                  </p>
                 </div>
               )}
             </div>
@@ -113,7 +141,11 @@ export default function HackathonCard({ hackathon, index = 0 }: HackathonCardPro
           <CardFooter className="flex gap-2">
             {hackathon.github && (
               <Button variant="outline" size="sm" asChild>
-                <a href={hackathon.github} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={hackathon.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Github className="w-4 h-4 mr-2" />
                   Code
                 </a>
@@ -121,7 +153,11 @@ export default function HackathonCard({ hackathon, index = 0 }: HackathonCardPro
             )}
             {hackathon.demo && (
               <Button variant="outline" size="sm" asChild>
-                <a href={hackathon.demo} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={hackathon.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Demo
                 </a>
