@@ -1,3 +1,4 @@
+// app/layout.tsx
 import "./globals.css";
 
 import Footer from "../components/layout/Footer";
@@ -36,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} antialiased`}>
+    <html lang="en" className="scroll-smooth dark">
+      <body className={`${inter.className} antialiased bg-gray-950 text-gray-100`}>
         <Header />
         <div className="pt-16">{children}</div>
         <Footer />

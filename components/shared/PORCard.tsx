@@ -1,21 +1,19 @@
-// components/shared/ExperienceCard.tsx
+// components/shared/PORCard.tsx
 "use client";
 
-import { Building2, Calendar, MapPin } from "lucide-react";
+import { Award, Calendar, MapPin } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { ExperienceItem } from "@/types";
+import Image from "next/image";
+import { PositionOfResponsibility } from "@/types";
 import { motion } from "framer-motion";
 
-interface ExperienceCardProps {
-  experience: ExperienceItem;
+interface PORCardProps {
+  por: PositionOfResponsibility;
   index: number;
 }
 
-export default function ExperienceCard({
-  experience,
-  index,
-}: ExperienceCardProps) {
+export default function PORCard({ por, index }: PORCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,9 +23,18 @@ export default function ExperienceCard({
     >
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-[250px_1fr] gap-0">
         {/* Left Column - 1:1 Image */}
-        <div className="relative w-full aspect-square bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center h-full">
-          <Building2 className="w-16 h-16 text-primary" />
-          {experience.current && (
+        <div className="relative w-full aspect-square bg-gradient-to-br from-purple-500/20 to-blue-500/5 flex items-center h-full justify-center">
+          {por.imageUrl ? (
+            <Image
+              src={por.imageUrl}
+              alt={por.organization}
+              fill
+              className=" object-contain p-4"
+            />
+          ) : (
+            <Award className="w-16 h-16 text-purple-500" />
+          )}
+          {por.current && (
             <div className="absolute top-3 right-3">
               <Badge variant="secondary" className="text-xs">
                 Current
@@ -39,24 +46,24 @@ export default function ExperienceCard({
         {/* Right Column - Content */}
         <div className="p-6 flex flex-col justify-center">
           <div className="mb-4">
-            <h3 className="text-xl font-bold mb-1">{experience.role}</h3>
+            <h3 className="text-xl font-bold mb-1">{por.position}</h3>
             <a
-              href={experience.companyUrl}
+              href={por.organizationUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-lg text-primary hover:underline"
             >
-              {experience.company}
+              {por.organization}
             </a>
             
             <div className="flex flex-wrap gap-3 mt-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
-                <span>{experience.duration}</span>
+                <span>{por.duration}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4" />
-                <span>{experience.location}</span>
+                <span>{por.location}</span>
               </div>
             </div>
           </div>
@@ -65,17 +72,17 @@ export default function ExperienceCard({
             <div>
               <h4 className="font-semibold mb-2 text-sm">Responsibilities:</h4>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                {experience.description.map((item, i) => (
+                {por.description.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}
               </ul>
             </div>
 
-            {experience.achievements && experience.achievements.length > 0 && (
+            {por.achievements && por.achievements.length > 0 && (
               <div>
                 <h4 className="font-semibold mb-2 text-sm">Key Achievements:</h4>
                 <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                  {experience.achievements.map((achievement, i) => (
+                  {por.achievements.map((achievement, i) => (
                     <li key={i}>{achievement}</li>
                   ))}
                 </ul>
@@ -85,7 +92,7 @@ export default function ExperienceCard({
             <div>
               <h4 className="font-semibold mb-2 text-sm">Technologies:</h4>
               <div className="flex flex-wrap gap-2">
-                {experience.technologies.map((tech) => (
+                {por.technologies.map((tech) => (
                   <Badge key={tech} variant="outline">
                     {tech}
                   </Badge>

@@ -1,0 +1,92 @@
+// data/POR.ts
+import { PositionOfResponsibility } from "@/types";
+
+export const positionsOfResponsibility: PositionOfResponsibility[] = [
+  {
+    id: "por-1",
+    organization: "Google Developer Student Clubs, NIT Hamirpur",
+    position: "Web Team Coordinator",
+    location: "NIT Hamirpur",
+    duration: "Jan 2024 - Present",
+    startDate: "2024-01",
+    endDate: null,
+    current: true,
+    description: [
+      "Led web development initiatives for GDSC NIT Hamirpur",
+      "Built event management platform with real-time communication features",
+      "Engineered interactive coding games (Spacewars and Codeblocks) with 15+ programming challenges",
+    ],
+    achievements: [
+      "Served 1200+ participants through event management platform",
+      "Increased participant engagement by 70% and achieved 85% completion rate in coding challenges",
+      "Implemented WebSocket-based polling system achieving 99.9% uptime during critical event periods",
+    ],
+    technologies: [
+      "React.js",
+      "Node.js",
+      "WebSockets",
+      "Real-time Systems",
+      "Event Management",
+    ],
+    organizationUrl: "https://gdsc.community.dev/national-institute-of-technology-nit-hamirpur/",
+    imageUrl: "/POR/GDG.png",
+  },
+  {
+    id: "por-2",
+    organization: "Smart India Hackathon 2024",
+    position: "Team Lead",
+    location: "National Competition",
+    duration: "2024",
+    startDate: "2024-01",
+    endDate: "2024-12",
+    current: false,
+    description: [
+      "Led team in developing AI frame interpolator for Smart India Hackathon 2024",
+      "Coordinated with team members to implement advanced computer vision algorithms",
+      "Demonstrated leadership and technical skills in competitive environment",
+    ],
+    achievements: [
+      "Achieved 36.38 PSNR on Xiph-2K dataset",
+      "Successfully delivered working AI frame interpolator solution",
+      "Led team through national-level competition demonstrating strong leadership capabilities",
+    ],
+    technologies: [
+      "Python",
+      "AI/ML",
+      "Computer Vision",
+      "Frame Interpolation",
+      "Deep Learning",
+    ],
+    organizationUrl: "https://www.sih.gov.in/",
+    imageUrl: "/POR/SIH.png",
+  },
+  {
+    id: "por-3",
+    organization: "Physteo - Society of Physics and Photonics Sciences",
+    position: "Technical Head",
+    location: "NIT Hamirpur",
+    duration: "2024 - Present",
+    startDate: "2024-01",
+    endDate: null,
+    current: true,
+    description: [
+      "Oversee technical operations and initiatives for the physics and photonics society",
+      "Coordinate technical workshops and events for students",
+      "Bridge gap between theoretical physics concepts and practical implementations",
+    ],
+    achievements: [
+      "Organized technical workshops and seminars on physics and photonics",
+      "Fostered collaboration between physics and engineering students",
+      "Enhanced technical capabilities of society members through hands-on sessions",
+    ],
+    technologies: [
+      "MATLAB",
+      "Python",
+      "Scientific Computing",
+      "Data Analysis",
+      "Physics Simulations",
+    ],
+    organizationUrl: "https://nith.ac.in/",
+    imageUrl: "/POR/physteo.png",
+  },
+];

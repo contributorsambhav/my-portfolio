@@ -29,12 +29,29 @@ export interface ExperienceItem {
   location: string;
   duration: string;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   current: boolean;
   description: string[];
   achievements: string[];
   technologies: string[];
   companyUrl?: string;
+  imageUrl?: string;
+}
+
+export interface PositionOfResponsibility {
+  id: string;
+  organization: string;
+  position: string;
+  location: string;
+  duration: string;
+  startDate: string;
+  endDate: string | null;
+  current: boolean;
+  description: string[];
+  achievements: string[];
+  technologies: string[];
+  organizationUrl?: string;
+  imageUrl?: string;
 }
 
 export interface Project {

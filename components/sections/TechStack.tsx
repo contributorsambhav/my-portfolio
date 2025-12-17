@@ -4,90 +4,153 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const technologies = [
-  { name: "React", icon: "⚛️" },
-  { name: "Next.js", icon: "▲" },
-  { name: "TypeScript", icon: "📘" },
-  { name: "Node.js", icon: "🟢" },
-  { name: "Python", icon: "🐍" },
-  { name: "MongoDB", icon: "🍃" },
-  { name: "PostgreSQL", icon: "🐘" },
-  { name: "Docker", icon: "🐳" },
-  { name: "AWS", icon: "☁️" },
-  { name: "Git", icon: "📝" },
-  { name: "Solidity", icon: "⛓️" },
-  { name: "Web3", icon: "🌐" },
-  { name: "GraphQL", icon: "◼️" },
-  { name: "Redis", icon: "🔴" },
-  { name: "Tailwind", icon: "💨" },
+const techCategories = [
+  {
+    category: "Languages",
+    technologies: [
+      { name: "JavaScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+      { name: "TypeScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+      { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+      { name: "C++", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+      { name: "C", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
+      { name: "Solidity", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solidity/solidity-original.svg" },
+      { name: "HTML5", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+      { name: "CSS3", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
+    ],
+  },
+  {
+    category: "Frameworks & Libraries",
+    technologies: [
+      { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+      { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+      { name: "Express", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
+      { name: "Redux", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" },
+      { name: "Tailwind", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+    ],
+  },
+  {
+    category: "Databases & Tools",
+    technologies: [
+      { name: "MongoDB", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+      { name: "PostgreSQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+      { name: "Prisma", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg" },
+      { name: "Redis", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" },
+      { name: "MySQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+    ],
+  },
+  {
+    category: "DevOps & Cloud",
+    technologies: [
+      { name: "Git", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+      { name: "GitHub", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      { name: "Docker", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+      { name: "Vercel", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
+      { name: "Cloudflare", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cloudflare/cloudflare-original.svg" },
+      { name: "VS Code", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
+    ],
+  },
 ];
 
 export default function TechStack() {
-  // Duplicate the array for seamless loop
-  const duplicatedTech = [...technologies, ...technologies];
-
   return (
-    <section className="py-16 px-4 bg-muted/30 overflow-hidden">
-      <div className="max-w-7xl mx-auto mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-center">
-          Technologies I Work With
-        </h2>
-      </div>
+    <section className="py-16 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold mb-3 tracking-tight"
+          >
+            Technical Skills
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-muted-foreground"
+          >
+            Technologies I work with to build modern applications
+          </motion.p>
+        </div>
 
-      {/* Scrolling Container */}
-      <div className="relative">
-        {/* Gradient Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-linear-to-r from-background to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-linear-to-l from-background to-transparent z-10" />
-
-        {/* Scrolling Content */}
+        {/* Single Container with All Categories */}
         <motion.div
-          className="flex gap-8"
-          animate={{
-            x: [0, -50 * technologies.length],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 30,
-              ease: "linear",
-            },
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-card border rounded-xl p-8 space-y-6"
         >
-          {duplicatedTech.map((tech, index) => (
-            <div
-              key={`${tech.name}-${index}`}
-              className="flex flex-col items-center justify-center gap-3 min-w-[120px] p-4 bg-card border rounded-lg hover:shadow-lg transition-shadow"
-            >
-              <span className="text-4xl">{tech.icon}</span>
-              <span className="text-sm font-medium whitespace-nowrap">
-                {tech.name}
-              </span>
+          {techCategories.map((category, categoryIndex) => (
+            <div key={category.category} className="space-y-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                {category.category}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {category.technologies.map((tech, techIndex) => (
+                  <motion.div
+                    key={tech.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      delay: (categoryIndex * 0.1) + (techIndex * 0.02),
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25,
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    className="group inline-flex items-center gap-2 px-3 py-1.5 bg-background border rounded-full hover:shadow-md hover:border-primary/50 transition-all duration-200 cursor-pointer"
+                  >
+                    {/* Logo - Rounded */}
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
+                      <img
+                        src={tech.logo}
+                        alt={tech.name}
+                        className="w-4 h-4 object-contain transition-transform duration-200 group-hover:scale-110"
+                      />
+                    </div>
+                    
+                    {/* Name */}
+                    <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors whitespace-nowrap">
+                      {tech.name}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           ))}
+
+          {/* Methodologies Section */}
+          <div className="pt-4 border-t space-y-3">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              Development Methodologies
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "RESTful APIs",
+                "WebSockets",
+                "ORM",
+                "JWT Authentication",
+              ].map((methodology, index) => (
+                <motion.span
+                  key={methodology}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 + (index * 0.02) }}
+                  className="px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors cursor-default whitespace-nowrap"
+                >
+                  {methodology}
+                </motion.span>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
-
-      {/* Alternative Grid Layout (commented out) */}
-      {/* <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-4">
-          {technologies.map((tech, index) => (
-            <motion.div
-              key={tech.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="flex flex-col items-center justify-center gap-2 p-4 bg-card border rounded-lg hover:shadow-lg transition-all hover:scale-105"
-            >
-              <span className="text-3xl">{tech.icon}</span>
-              <span className="text-xs font-medium text-center">
-                {tech.name}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      </div> */}
     </section>
   );
 }

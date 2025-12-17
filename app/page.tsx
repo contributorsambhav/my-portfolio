@@ -1,15 +1,17 @@
-import { ArrowRight, Briefcase, Rocket } from "lucide-react";
+// app/page.tsx
+import { ArrowRight, Award, Briefcase, Rocket } from "lucide-react";
 
 import { Button } from "../components/ui/button";
 import ExperienceCard from "../components/shared/ExperienceCard";
-// app/page.tsx
 import Hero from "../components/sections/Hero";
 import Link from "next/link";
+import PORCard from "../components/shared/PORCard";
 import ProjectCard from "../components/shared/ProjectCard";
 import { Separator } from "../components/ui/separator";
 import TechStack from "../components/sections/TechStack";
 import { experiences } from "../data/experience";
 import { featuredProjects } from "../data/projects";
+import { positionsOfResponsibility } from "../data/POR";
 
 export default function Home() {
   return (
@@ -40,8 +42,8 @@ export default function Home() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProjects.map((project, index) => (
+          <div className="space-y-6">
+            {featuredProjects.slice(0, 3).map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
@@ -75,6 +77,37 @@ export default function Home() {
             {experiences.slice(0, 2).map((exp, index) => (
               <ExperienceCard key={exp.id} experience={exp} index={index} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      <Separator className="max-w-7xl mx-auto" />
+
+      {/* Positions of Responsibility Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-12 flex-wrap gap-4">
+        <div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
+            <Award className="w-8 h-8" />
+            Positions of Responsibility
+          </h2>
+          <p className="text-muted-foreground">
+            Leadership roles and community contributions
+          </p>
+        </div>
+        <Button asChild variant="outline" size="lg">
+          <Link href="/por" className="flex items-center gap-2">
+            View All Positions
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </Button>
+          </div>
+
+          <div className="space-y-6">
+        {positionsOfResponsibility.map((por, index) => (
+          <PORCard key={por.id} por={por} index={index} />
+        ))}
           </div>
         </div>
       </section>

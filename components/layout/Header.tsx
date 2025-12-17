@@ -1,4 +1,3 @@
-// components/layout/Header.tsx
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -27,12 +26,12 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800">
       <nav className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold">
-            <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               SG
             </span>
           </Link>
@@ -43,14 +42,18 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.href) ? "text-primary" : "text-muted-foreground"
+                className={`text-sm font-medium transition-colors hover:text-blue-400 ${
+                  isActive(link.href) ? "text-blue-400" : "text-gray-400"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <Button asChild size="sm">
+            <Button 
+              asChild 
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
               <a href="mailto:sambhav511974@gmail.com">Contact</a>
             </Button>
           </div>
@@ -59,7 +62,7 @@ export default function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden text-gray-400 hover:text-white hover:bg-gray-800"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -80,22 +83,26 @@ export default function Header() {
               transition={{ duration: 0.3 }}
               className="md:hidden overflow-hidden"
             >
-              <div className="flex flex-col gap-4 py-4">
+              <div className="flex flex-col gap-4 py-4 bg-gray-900/50 rounded-lg mt-4 px-4">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                    className={`text-sm font-medium transition-colors hover:text-blue-400 ${
                       isActive(link.href)
-                        ? "text-primary"
-                        : "text-muted-foreground"
+                        ? "text-blue-400"
+                        : "text-gray-400"
                     }`}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <Button asChild size="sm" className="w-full">
+                <Button 
+                  asChild 
+                  size="sm" 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                >
                   <a href="mailto:sambhav511974@gmail.com">Contact</a>
                 </Button>
               </div>

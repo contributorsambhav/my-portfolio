@@ -1,4 +1,3 @@
-// components/layout/Footer.tsx
 "use client";
 
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
@@ -40,30 +39,30 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-gray-800 bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
             <Link href="/" className="text-2xl font-bold inline-block">
-              <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 SG
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-400">
               Building digital experiences with passion and precision.
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Quick Links</h3>
+            <h3 className="text-sm font-semibold text-gray-200">Quick Links</h3>
             <ul className="space-y-2">
               {footerLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -74,7 +73,7 @@ export default function Footer() {
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Connect</h3>
+            <h3 className="text-sm font-semibold text-gray-200">Connect</h3>
             <div className="flex gap-4">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
@@ -84,7 +83,7 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-gray-400 hover:text-blue-400 transition-colors transform hover:scale-110 duration-200"
                     aria-label={social.label}
                   >
                     <Icon className="w-5 h-5" />
@@ -96,21 +95,21 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-border">
+        <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-500">
               © {currentYear} Sambhav Gupta. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link
                 href="/privacy"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-sm text-gray-500 hover:text-blue-400 transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/terms"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-sm text-gray-500 hover:text-blue-400 transition-colors"
               >
                 Terms of Service
               </Link>
