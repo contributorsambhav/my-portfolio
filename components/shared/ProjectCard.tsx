@@ -152,7 +152,20 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   className="flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Demo
+                  Live
+                </a>
+              </Button>
+            )}
+            {project.video && (
+              <Button asChild variant="outline" size="sm" className="flex-1">
+                <a
+                  href={project.video}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Video className="w-4 h-4" />
+                  Video Demo
                 </a>
               </Button>
             )}
@@ -166,19 +179,6 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                 >
                   <Github className="w-4 h-4" />
                   Code
-                </a>
-              </Button>
-            )}
-            {project.video && !project.live && !project.github && (
-              <Button asChild variant="outline" size="sm" className="flex-1">
-                <a
-                  href={project.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Video className="w-4 h-4" />
-                  Video
                 </a>
               </Button>
             )}
