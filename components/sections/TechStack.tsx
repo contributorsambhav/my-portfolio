@@ -1,67 +1,134 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
+import { JSX } from "react";
 import { allProjects } from "@/data/projects";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
-const techCategories = [
+interface Technology {
+  name: string;
+  logo: string;
+}
+
+interface TechCategory {
+  category: string;
+  technologies: Technology[];
+}
+
+interface Methodology {
+  name: string;
+  description: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  tagline: string;
+  description: string;
+  longDescription: string;
+  technologies: string[];
+  category: "web" | "web3" | "ai" | "fullstack" | "blockchain";
+  featured: boolean;
+  github?: string;
+  live?: string;
+  video?: string;
+  image?: string;
+  highlights: string[];
+  metrics?: {
+    label: string;
+    value: string;
+  }[];
+}
+
+const techCategories: TechCategory[] = [
   {
     category: "Languages",
     technologies: [
-      { name: "JavaScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", years: "3+" },
-      { name: "TypeScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", years: "2+" },
-      { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", years: "2+" },
-      { name: "C++", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg", years: "2+" },
-      { name: "C", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg", years: "1+" },
-      { name: "Solidity", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solidity/solidity-original.svg", years: "1+" },
-      { name: "HTML5", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", years: "3+" },
-      { name: "CSS3", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", years: "3+" },
+      { name: "JavaScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+      { name: "TypeScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+      { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+      { name: "C++", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+      { name: "C", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
+      { name: "Solidity", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solidity/solidity-original.svg" },
+      { name: "HTML5", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+      { name: "CSS3", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
     ],
   },
   {
     category: "Frameworks & Libraries",
     technologies: [
-      { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", years: "2+" },
-      { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", years: "2+" },
-      { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", years: "2+" },
-      { name: "Express", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", years: "2+" },
-      { name: "Redux", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg", years: "1+" },
-      { name: "Tailwind", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", years: "2+" },
+      { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+      { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+      { name: "Express", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
+      { name: "Redux", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" },
+      { name: "Tailwind", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
     ],
   },
   {
     category: "Databases & Tools",
     technologies: [
-      { name: "MongoDB", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg", years: "2+" },
-      { name: "PostgreSQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg", years: "1+" },
-      { name: "Prisma", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg", years: "1+" },
-      { name: "Redis", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg", years: "1+" },
-      { name: "MySQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", years: "2+" },
+      { name: "MongoDB", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+      { name: "PostgreSQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+      { name: "Prisma", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg" },
+      { name: "Redis", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" },
+      { name: "MySQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
     ],
   },
   {
     category: "DevOps & Cloud",
     technologies: [
-      { name: "Git", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", years: "3+" },
-      { name: "GitHub", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg", years: "3+" },
-      { name: "Docker", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", years: "1+" },
-      { name: "Vercel", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg", years: "2+" },
-      { name: "Cloudflare", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cloudflare/cloudflare-original.svg", years: "1+" },
-      { name: "VS Code", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg", years: "3+" },
+      { name: "Git", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+      { name: "GitHub", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      { name: "Docker", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+      { name: "Vercel", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
+      { name: "Cloudflare", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cloudflare/cloudflare-original.svg" },
+      { name: "VS Code", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
     ],
   },
 ];
 
-const methodologies = [
+const methodologies: Methodology[] = [
   { name: "RESTful APIs", description: "Building scalable REST endpoints" },
   { name: "WebSockets", description: "Real-time bidirectional communication" },
   { name: "JWT Auth", description: "Secure token-based authentication" },
   { name: "Responsive Design", description: "Mobile-first approach" },
 ];
 
-export default function TechStack() {
-  const [hoveredTech, setHoveredTech] = useState(null);
+// Simple exact matching in technologies array
+export const projectHasTechnology = (project: Project, techName: string): boolean => {
+  return project.technologies.some(tech => 
+    tech.toLowerCase() === techName.toLowerCase()
+  );
+};
+
+export default function TechStack(): JSX.Element {
+  const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const router = useRouter();
+
+  // Calculate project count for each technology
+  const techProjectCounts = useMemo<Record<string, number>>(() => {
+    const counts: Record<string, number> = {};
+    
+    // Get all unique tech names from all categories
+    const allTechs = techCategories.flatMap(cat => cat.technologies.map(t => t.name));
+    
+    allTechs.forEach(techName => {
+      const count = allProjects.filter((project: Project) => 
+        projectHasTechnology(project, techName)
+      ).length;
+      counts[techName] = count;
+    });
+    
+    return counts;
+  }, []);
+
+  const handleTechClick = (techName: string): void => {
+    // Navigate to projects page with tech filter
+    router.push(`/projects?tech=${encodeURIComponent(techName)}`);
+  };
 
   return (
     <section className="py-16 px-4 bg-gradient-to-b from-background to-background/50">
@@ -98,54 +165,59 @@ export default function TechStack() {
                 {category.category}
               </h3>
               <div className="flex flex-wrap gap-3">
-                {category.technologies.map((tech, techIndex) => (
-                  <motion.div
-                    key={tech.name}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      delay: categoryIndex * 0.1 + techIndex * 0.02,
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 25,
-                    }}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    onHoverStart={() => setHoveredTech(tech.name)}
-                    onHoverEnd={() => setHoveredTech(null)}
-                    className="relative group inline-flex items-center gap-2.5 px-4 py-2 bg-background border rounded-lg hover:shadow-lg hover:border-primary/50 transition-all duration-200 cursor-pointer"
-                  >
-                    <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                      <img
-                        src={tech.logo}
-                        alt={tech.name}
-                        className="w-full h-full object-contain transition-transform duration-200 group-hover:scale-110"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      />
-                    </div>
+                {category.technologies.map((tech, techIndex) => {
+                  const projectCount = techProjectCounts[tech.name] || 0;
+                  
+                  return (
+                    <motion.div
+                      key={tech.name}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        delay: categoryIndex * 0.1 + techIndex * 0.02,
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 25,
+                      }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      onHoverStart={() => setHoveredTech(tech.name)}
+                      onHoverEnd={() => setHoveredTech(null)}
+                      onClick={() => handleTechClick(tech.name)}
+                      className="relative group inline-flex items-center gap-2.5 px-4 py-2 bg-background border rounded-lg hover:shadow-lg hover:border-primary/50 transition-all duration-200 cursor-pointer"
+                    >
+                      <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                        <img
+                          src={tech.logo}
+                          alt={tech.name}
+                          className="w-full h-full object-contain transition-transform duration-200 group-hover:scale-110"
+                          onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </div>
 
-                    <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors whitespace-nowrap">
-                      {tech.name}
-                    </span>
+                      <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors whitespace-nowrap">
+                        {tech.name}
+                      </span>
 
-                    {hoveredTech === tech.name && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1.5 bg-popover border rounded-md shadow-lg whitespace-nowrap z-10"
-                      >
-                        <p className="text-xs font-medium">
-                          {tech.years} experience
-                        </p>
-                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                          <div className="w-2 h-2 bg-popover border-r border-b rotate-45" />
-                        </div>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                ))}
+                      {hoveredTech === tech.name && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1.5 bg-popover border rounded-md shadow-lg whitespace-nowrap z-10"
+                        >
+                          <p className="text-xs font-medium">
+                            {projectCount} {projectCount === 1 ? 'project' : 'projects'}
+                          </p>
+                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
+                            <div className="w-2 h-2 bg-popover border-r border-b rotate-45" />
+                          </div>
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           ))}
