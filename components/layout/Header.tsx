@@ -2,11 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,7 +16,16 @@ const navLinks = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -26,85 +33,108 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800">
-      <nav className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? "bg-[#09090b]/80 backdrop-blur-xl border-b border-white/[0.06]" 
+          : "bg-transparent"
+      }`}
+    >
+      <nav className="max-w-6xl mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold">
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              SG
+          <Link 
+            href="/" 
+            className="relative group"
+          >
+            <span className="text-xl font-semibold text-white">
+              S<span className="text-violet-400">.</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-blue-400 ${
-                  isActive(link.href) ? "text-blue-400" : "text-gray-400"
-                }`}
+          <div className="hidden md:flex items-center">
+            <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.03] border border-white/[0.06]">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                    isActive(link.href) 
+                      ? "text-white" 
+                      : "text-gray-400 hover:text-gray-200"
+                  }`}
+                >
+                  {isActive(link.href) && (
+                    <motion.span
+                      layoutId="navbar-active"
+                      className="absolute inset-0 bg-white/[0.08] rounded-full"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">{link.label}</span>
+                </Link>
+              ))}
+            </div>
+            
+            <div className="ml-4">
+              <a 
+                href="mailto:sambhav511974@gmail.com"
+                className="px-5 py-2 text-sm font-medium text-gray-900 bg-white rounded-full hover:bg-gray-100 transition-colors"
               >
-                {link.label}
-              </Link>
-            ))}
-            <Button 
-              asChild 
-              size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              <a href="mailto:sambhav511974@gmail.com">Contact</a>
-            </Button>
+                Contact
+              </a>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-gray-400 hover:text-white hover:bg-gray-800"
+          <button
+            className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/[0.06] transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5" />
             )}
-          </Button>
+          </button>
         </div>
 
         {/* Mobile Navigation */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden absolute top-full left-0 right-0 bg-[#09090b]/95 backdrop-blur-xl border-b border-white/[0.06]"
             >
-              <div className="flex flex-col gap-4 py-4 bg-gray-900/50 rounded-lg mt-4 px-4">
+              <div className="flex flex-col p-4 space-y-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-sm font-medium transition-colors hover:text-blue-400 ${
+                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                       isActive(link.href)
-                        ? "text-blue-400"
-                        : "text-gray-400"
+                        ? "text-white bg-white/[0.06]"
+                        : "text-gray-400 hover:text-white hover:bg-white/[0.04]"
                     }`}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <Button 
-                  asChild 
-                  size="sm" 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                  <a href="mailto:sambhav511974@gmail.com">Contact</a>
-                </Button>
+                <div className="pt-2 mt-2 border-t border-white/[0.06]">
+                  <a 
+                    href="mailto:sambhav511974@gmail.com"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-4 py-3 text-sm font-medium text-center text-gray-900 bg-white rounded-xl hover:bg-gray-100 transition-colors"
+                  >
+                    Contact
+                  </a>
+                </div>
               </div>
             </motion.div>
           )}

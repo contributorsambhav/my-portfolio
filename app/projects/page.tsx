@@ -1,11 +1,12 @@
 "use client";
 
-import { Search, X } from "lucide-react";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Search, X, Sparkles, Grid3X3, LayoutList } from "lucide-react";
+import { Suspense, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { JSX } from "react";
-import   ProjectCard from "@/components/shared/ProjectCard";
+import ProjectCard from "@/components/shared/ProjectCard";
 import { allProjects } from "@/data/projects";
 
 export interface Project {
@@ -31,6 +32,7 @@ export interface Project {
 interface Tab {
   id: string;
   label: string;
+  icon: string;
 }
 
 const projectHasTechnology = (project: Project, techName: string): boolean => {
@@ -46,13 +48,24 @@ const projectHasAllTechnologies = (project: Project, techNames: string[]): boole
 function ProjectsPageContent(): JSX.Element {
   const searchParams = useSearchParams();
   const router = useRouter();
+  
+  // Initialize state from URL params using lazy initialization
   const [activeTab, setActiveTab] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [techFilters, setTechFilters] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>(() => {
+    return searchParams.get("search") || "";
+  });
+  const [techFilters, setTechFilters] = useState<string[]>(() => {
+    const techFromUrl = searchParams.get("tech");
+    if (techFromUrl) {
+      return techFromUrl.split(',').map(t => t.trim()).filter(Boolean);
+    }
+    return [];
+  });
   const [techInput, setTechInput] = useState<string>("");
   const [showTechSuggestions, setShowTechSuggestions] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useRef(true);
 
   // Get all unique technologies from all projects
   const allTechnologies = useMemo<string[]>(() => {
@@ -72,30 +85,16 @@ function ProjectsPageContent(): JSX.Element {
         tech.toLowerCase().includes(query) && 
         !techFilters.includes(tech)
       )
-      .slice(0, 10);
+      .slice(0, 8);
   }, [techInput, techFilters, allTechnologies]);
 
-  // Set filters from URL on mount ONLY
-  useEffect(() => {
-    setMounted(true);
-    const techFromUrl = searchParams.get("tech");
-    const searchFromUrl = searchParams.get("search");
-    
-    if (techFromUrl) {
-      const techs = techFromUrl.split(',').map(t => t.trim()).filter(Boolean);
-      setTechFilters(techs);
-    }
-    if (searchFromUrl) {
-      setSearchQuery(searchFromUrl);
-    }
-  }, []); // Empty dependency array - only run once
-
   const tabs: Tab[] = [
-    { id: "all", label: "All Projects" },
-    { id: "featured", label: "Featured" },
-    { id: "blockchain", label: "Blockchain" },
-    { id: "web", label: "Web" },
-    { id: "ai", label: "AI" }
+    { id: "all", label: "All", icon: "✦" },
+    { id: "featured", label: "Featured", icon: "★" },
+    { id: "blockchain", label: "Blockchain", icon: "⛓" },
+    { id: "web", label: "Web", icon: "◎" },
+    { id: "ai", label: "AI", icon: "◈" },
+    { id: "fullstack", label: "Fullstack", icon: "◇" }
   ];
 
   const getFilteredProjects = (): Project[] => {
@@ -146,7 +145,7 @@ function ProjectsPageContent(): JSX.Element {
       setShowTechSuggestions(false);
       
       // Update URL manually
-      if (mounted) {
+      if (mounted.current) {
         const params = new URLSearchParams(searchParams.toString());
         params.set("tech", newFilters.join(','));
         router.replace(`/projects?${params.toString()}`);
@@ -159,7 +158,7 @@ function ProjectsPageContent(): JSX.Element {
     setTechFilters(newFilters);
     
     // Update URL manually
-    if (mounted) {
+    if (mounted.current) {
       const params = new URLSearchParams(searchParams.toString());
       if (newFilters.length > 0) {
         params.set("tech", newFilters.join(','));
@@ -175,7 +174,7 @@ function ProjectsPageContent(): JSX.Element {
     setTechFilters([]);
     
     // Update URL manually
-    if (mounted) {
+    if (mounted.current) {
       const params = new URLSearchParams(searchParams.toString());
       params.delete("tech");
       const newUrl = params.toString() ? `/projects?${params.toString()}` : '/projects';
@@ -198,149 +197,258 @@ function ProjectsPageContent(): JSX.Element {
   };
 
   return (
-    <main className="min-h-screen">
-      <section className="py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-2">All Projects</h2>
-            <p className="text-muted-foreground mb-8">
-              Explore my complete portfolio of projects
+    <main className="min-h-screen bg-[#0a0a0f]">
+      {/* Hero Section */}
+      <section className="relative pt-20 pb-12 px-4 overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.15),transparent)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(59,130,246,0.08),transparent)]" />
+        </div>
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:72px_72px]" />
+        
+        <div className="max-w-6xl mx-auto relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 text-sm text-amber-200/90 mb-8"
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span className="font-medium">{allProjects.length} Projects</span>
+            </motion.div>
+            
+            <h1 className="text-5xl md:text-7xl font-extralight tracking-tight text-white mb-5">
+              My{" "}
+              <span className="font-semibold bg-gradient-to-r from-blue-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
+                Work
+              </span>
+            </h1>
+            
+            <p className="text-lg text-gray-400/90 max-w-2xl mx-auto font-light leading-relaxed">
+              A curated collection of projects spanning web development, blockchain, and artificial intelligence.
             </p>
+          </motion.div>
 
-            {/* Search Bar, Tabs, and Tech Filter in one row on desktop */}
-            <div className="flex flex-col gap-4 mb-6">
-              {/* Top Row: Search and Tabs */}
-              <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-                {/* Search Bar */}
-                <div className="relative w-full lg:w-80">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Search projects..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  />
-                </div>
+          {/* Search & Filters Container */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-6"
+          >
+            {/* Search Bar */}
+            <div className="relative max-w-2xl mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-50" />
+              <div className="relative">
+                <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-14 pr-5 py-4 bg-white/[0.03] border border-white/[0.08] rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-white/20 focus:bg-white/[0.05] transition-all duration-300 backdrop-blur-sm"
+                />
+              </div>
+            </div>
 
-                {/* Tabs */}
-                <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 w-full lg:w-auto">
+            {/* Category Tabs - Horizontal Scroll with Hidden Scrollbar */}
+            <div className="flex justify-center px-4 -mx-4">
+              <div className="overflow-x-auto scrollbar-hide max-w-full">
+                <div className="inline-flex gap-1.5 p-1.5 bg-white/[0.03] border border-white/[0.06] rounded-2xl min-w-max">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`px-6 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                      className={`relative px-4 sm:px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                         activeTab === tab.id
-                          ? "bg-primary text-primary-foreground shadow-md"
-                          : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                          ? "text-white"
+                          : "text-gray-400 hover:text-gray-200"
                       }`}
                     >
-                      {tab.label}
+                      {activeTab === tab.id && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-white/10"
+                          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                        />
+                      )}
+                      <span className="relative flex items-center gap-2">
+                        <span className="text-xs opacity-70">{tab.icon}</span>
+                        {tab.label}
+                      </span>
                     </button>
                   ))}
-                </div>
-              </div>
-
-              {/* Bottom Row: Compact Tech Filter */}
-              <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-card/50 border border-border/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 min-w-fit">
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    Technologies:
-                  </span>
-                  {techFilters.length > 0 && (
-                    <button
-                      onClick={clearAllTechFilters}
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
-                    >
-                      Clear all
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex-1 flex flex-wrap gap-2 items-center w-full">
-                  {/* Active Tech Filters */}
-                  {techFilters.map((tech) => (
-                    <div
-                      key={tech}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 border border-primary/30 rounded text-xs"
-                    >
-                      <span className="font-medium text-primary">{tech}</span>
-                      <button
-                        onClick={() => removeTechFilter(tech)}
-                        className="p-0.5 hover:bg-primary/20 rounded transition-colors"
-                        aria-label={`Remove ${tech} filter`}
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))}
-
-                  {/* Tech Input with Dropdown */}
-                  <div className="relative flex-1 min-w-[200px]">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      placeholder="Add technology..."
-                      value={techInput}
-                      onChange={(e) => {
-                        setTechInput(e.target.value);
-                        setShowTechSuggestions(true);
-                      }}
-                      onFocus={() => setShowTechSuggestions(true)}
-                      onBlur={() => {
-                        setTimeout(() => setShowTechSuggestions(false), 200);
-                      }}
-                      onKeyDown={handleTechInputKeyDown}
-                      className="w-full px-3 py-1.5 bg-background border border-border rounded text-xs focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
-                    />
-                    
-                    {/* Suggestions Dropdown with Backdrop Blur */}
-                    {showTechSuggestions && techSuggestions.length > 0 && (
-                      <div className="absolute top-full left-0 right-0 mt-1 backdrop-blur-md bg-popover/95 border border-border rounded-lg shadow-2xl z-50 max-h-60 overflow-y-auto">
-                        {techSuggestions.map((tech) => (
-                          <button
-                            key={tech}
-                            onMouseDown={(e) => {
-                              e.preventDefault();
-                              addTechFilter(tech);
-                            }}
-                            className="w-full px-3 py-2 text-left text-sm hover:bg-accent/80 transition-colors border-b border-border/50 last:border-b-0 backdrop-blur-sm"
-                          >
-                            <span className="font-medium">{tech}</span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-{/* 
-                  {techFilters.length > 0 && (
-                    <span className="text-xs text-muted-foreground italic whitespace-nowrap">
-                      (AND filter)
-                    </span>
-                  )} */}
                 </div>
               </div>
             </div>
+
+            {/* Tech Filter */}
+            <div className="max-w-3xl mx-auto">
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+                {/* Active Tech Filters */}
+                <AnimatePresence>
+                  {techFilters.map((tech) => (
+                    <motion.div
+                      key={tech}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-gradient-to-r from-blue-500/15 to-cyan-500/15 border border-blue-400/25 rounded-full backdrop-blur-sm"
+                    >
+                      <span className="text-sm text-blue-300 font-medium">{tech}</span>
+                      <button
+                        onClick={() => removeTechFilter(tech)}
+                        className="p-0.5 hover:bg-blue-400/20 rounded-full transition-colors"
+                      >
+                        <X className="w-3.5 h-3.5 text-blue-300" />
+                      </button>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                
+                {techFilters.length > 0 && (
+                  <button
+                    onClick={clearAllTechFilters}
+                    className="text-xs text-gray-500 hover:text-gray-300 transition-colors px-2 py-1"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
+
+              {/* Tech Input */}
+              <div className="relative max-w-sm mx-auto">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Filter by technology..."
+                  value={techInput}
+                  onChange={(e) => {
+                    setTechInput(e.target.value);
+                    setShowTechSuggestions(true);
+                  }}
+                  onFocus={() => setShowTechSuggestions(true)}
+                  onBlur={() => {
+                    setTimeout(() => setShowTechSuggestions(false), 200);
+                  }}
+                  onKeyDown={handleTechInputKeyDown}
+                  className="w-full px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/15 transition-all"
+                />
+                
+                {/* Suggestions Dropdown */}
+                <AnimatePresence>
+                  {showTechSuggestions && techSuggestions.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      className="absolute top-full left-0 right-0 mt-2 bg-[#13131a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden"
+                    >
+                      {techSuggestions.map((tech) => (
+                        <button
+                          key={tech}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            addTechFilter(tech);
+                          }}
+                          className="w-full px-4 py-3 text-left text-sm text-gray-300 hover:bg-white/[0.06] hover:text-white transition-colors"
+                        >
+                          {tech}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section className="px-4 pb-24">
+        <div className="max-w-6xl mx-auto">
+          {/* View Toggle & Results Count */}
+          <div className="flex items-center justify-between mb-8 px-1">
+            <p className="text-sm text-gray-500">
+              Showing <span className="text-gray-300 font-medium">{filteredProjects.length}</span> projects
+            </p>
+            
+            <div className="flex items-center gap-1 p-1 bg-white/[0.03] rounded-xl border border-white/[0.06]">
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-2.5 rounded-lg transition-all ${
+                  viewMode === "list" 
+                    ? "bg-white/10 text-white shadow-sm" 
+                    : "text-gray-500 hover:text-gray-300"
+                }`}
+              >
+                <LayoutList className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-2.5 rounded-lg transition-all ${
+                  viewMode === "grid" 
+                    ? "bg-white/10 text-white shadow-sm" 
+                    : "text-gray-500 hover:text-gray-300"
+                }`}
+              >
+                <Grid3X3 className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          {/* Projects Grid */}
-          <div className="space-y-4">
+          {/* Projects Grid/List */}
+          <AnimatePresence mode="wait">
             {filteredProjects.length > 0 ? (
-              filteredProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))
+              <motion.div
+                key={viewMode}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className={viewMode === "grid" 
+                  ? "grid grid-cols-1 md:grid-cols-2 gap-5" 
+                  : "space-y-5"
+                }
+              >
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard 
+                    key={project.id} 
+                    project={project} 
+                    index={index} 
+                    viewMode={viewMode}
+                  />
+                ))}
+              </motion.div>
             ) : (
-              <div className="text-center py-12 bg-card rounded-lg border border-border">
-                <p className="text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center py-24"
+              >
+                <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/[0.08] flex items-center justify-center">
+                  <Search className="w-9 h-9 text-gray-600" />
+                </div>
+                <h3 className="text-xl font-medium text-gray-300 mb-3">No projects found</h3>
+                <p className="text-gray-500 max-w-md mx-auto leading-relaxed">
                   {techFilters.length > 0
-                    ? `No projects found with all technologies: ${techFilters.join(', ')}`
+                    ? `No projects match all selected technologies: ${techFilters.join(', ')}`
                     : searchQuery 
                     ? `No projects found matching "${searchQuery}"`
-                    : "No projects found matching your filters."}
+                    : "Try adjusting your filters to find what you're looking for."}
                 </p>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
       </section>
     </main>
@@ -349,7 +457,14 @@ function ProjectsPageContent(): JSX.Element {
 
 export default function ProjectsPage(): JSX.Element {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-2 border-white/10 border-t-blue-400 rounded-full animate-spin" />
+          <p className="text-gray-400 text-sm">Loading projects...</p>
+        </div>
+      </div>
+    }>
       <ProjectsPageContent />
     </Suspense>
   );
