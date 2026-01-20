@@ -344,6 +344,7 @@ export const allProjects: Project[] = [
   tagline: "AI-Powered NFT Generator & Ethereum Marketplace",
   description:
     "An AI-driven NFT creation platform with a full Ethereum-based marketplace for minting, listing, and trading digital art.",
+    image : "/projects/flute.jpeg",
   longDescription:
     "Flute (also branded as ArtiFusion) is a complete AI + blockchain application that enables users to generate artwork using AI, mint it as NFTs, and trade them on an Ethereum-based marketplace. The platform integrates AI-generated art pipelines with smart contract interactions for minting, listing, buying, and liking NFTs. Users can view their personal NFT collections, manage listings, and interact with on-chain assets through a modern, dark-themed UI. This project demonstrates end-to-end Web3 development, AI integration, and production-grade frontend design.",
   technologies: [
@@ -361,6 +362,7 @@ export const allProjects: Project[] = [
   category: "blockchain",
   featured: true,
   github: "https://github.com/contributorsambhav/flute",
+  live: "https://flute-pi.vercel.app/",
   highlights: [
     "AI-based automatic artwork generation",
     "One-click NFT minting on Ethereum",

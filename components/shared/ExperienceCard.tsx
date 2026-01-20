@@ -40,14 +40,17 @@ export default function ExperienceCard({
         <div className="p-6 flex flex-col justify-center">
           <div className="mb-4">
             <h3 className="text-xl font-bold mb-1">{experience.role}</h3>
-            <a
-              href={experience.companyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg text-primary hover:underline"
+            <button
+              type="button"
+              onClick={() =>
+              window.open(experience.companyUrl, "_blank", "noopener,noreferrer")
+              }
+              role="link"
+              aria-label={`Open ${experience.company} website`}
+              className="text-lg text-primary hover:underline text-left"
             >
               {experience.company}
-            </a>
+            </button>
             
             <div className="flex flex-wrap gap-3 mt-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-1.5">

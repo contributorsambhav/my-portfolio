@@ -3,7 +3,7 @@ import { ExperienceItem } from "@/types";
 
 export const experiences: ExperienceItem[] = [
   {
-    id: "exp-1",
+    id: "exp-2",
     company: "Atlantis Newtech Pvt. Ltd.",
     role: "Full Stack Developer Intern",
     location: "Remote",
@@ -33,7 +33,7 @@ export const experiences: ExperienceItem[] = [
     imageUrl: "/images/companies/atlantis.png",
   },
   {
-    id: "exp-3",
+    id: "exp-1",
     company: "NullClass",
     role: "Web Development Intern",
     location: "Remote",

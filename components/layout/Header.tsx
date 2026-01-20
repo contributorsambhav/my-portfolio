@@ -2,16 +2,16 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/work", label: "Experience" },
+  // { href: "/work", label: "Experience" },
   { href: "/projects", label: "Projects" },
-  { href: "/hackathons", label: "Hackathons" },
-  { href: "/web3", label: "Web3" },
+  // { href: "/web3", label: "Web3" },
 ];
 
 export default function Header() {
@@ -77,14 +77,14 @@ export default function Header() {
               ))}
             </div>
             
-            <div className="ml-4">
+            {/* <div className="ml-4">
               <a 
                 href="mailto:sambhav511974@gmail.com"
                 className="px-5 py-2 text-sm font-medium text-gray-900 bg-white rounded-full hover:bg-gray-100 transition-colors"
               >
                 Contact
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -126,7 +126,7 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
-                <div className="pt-2 mt-2 border-t border-white/[0.06]">
+                {/* <div className="pt-2 mt-2 border-t border-white/[0.06]">
                   <a 
                     href="mailto:sambhav511974@gmail.com"
                     onClick={() => setIsMenuOpen(false)}
@@ -134,7 +134,7 @@ export default function Header() {
                   >
                     Contact
                   </a>
-                </div>
+                </div> */}
               </div>
             </motion.div>
           )}

@@ -1,8 +1,8 @@
 // app/page.tsx
 "use client";
 
-import { ArrowRight, Briefcase, Award, Rocket, Code2, Sparkles, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, Award, Briefcase, ChevronRight, Code2, Rocket, Sparkles } from "lucide-react";
+
 import ExperienceCard from "../components/shared/ExperienceCard";
 import Hero from "../components/sections/Hero";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import ProjectCard from "../components/shared/ProjectCard";
 import TechStack from "../components/sections/TechStack";
 import { experiences } from "../data/experience";
 import { featuredProjects } from "../data/projects";
+import { motion } from "framer-motion";
 import { positionsOfResponsibility } from "../data/POR";
 
 // Section Header Component
@@ -219,7 +220,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Hackathons Card */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -227,7 +228,6 @@ export default function Home() {
             >
               <Link href="/hackathons" className="group block">
                 <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-amber-500/[0.08] to-orange-500/[0.04] border border-amber-500/10 hover:border-amber-500/25 transition-all duration-500 overflow-hidden">
-                  {/* Glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative">
@@ -250,10 +250,10 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
-
+            </motion.div> 
+*/}
             {/* Web3 Card */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -261,7 +261,6 @@ export default function Home() {
             >
               <Link href="/web3" className="group block">
                 <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.04] border border-violet-500/10 hover:border-violet-500/25 transition-all duration-500 overflow-hidden">
-                  {/* Glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative">
@@ -284,7 +283,7 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </motion.div> */}
 
             {/* All Projects Card */}
             <motion.div
