@@ -1,9 +1,9 @@
 "use client";
 
-import { Search, X, Sparkles, Grid3X3, LayoutList } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Grid3X3, LayoutList, Search, Sparkles, X } from "lucide-react";
 import { Suspense, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 
 import { JSX } from "react";
 import ProjectCard from "@/components/shared/ProjectCard";
@@ -127,11 +127,11 @@ function ProjectsPageContent(): JSX.Element {
       });
     }
 
+    // Sort by numeric ID in ascending order
     return filtered.sort((a, b) => {
-      if (a.featured === b.featured) {
-        return a.title.localeCompare(b.title);
-      }
-      return b.featured ? 1 : -1;
+      const numA = parseInt(a.id, 10);
+      const numB = parseInt(b.id, 10);
+      return numA - numB;
     });
   };
 

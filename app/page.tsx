@@ -9,8 +9,8 @@ import Link from "next/link";
 import PORCard from "../components/shared/PORCard";
 import ProjectCard from "../components/shared/ProjectCard";
 import TechStack from "../components/sections/TechStack";
+import { allProjects } from "@/data/projects";
 import { experiences } from "../data/experience";
-import { featuredProjects } from "../data/projects";
 import { motion } from "framer-motion";
 import { positionsOfResponsibility } from "../data/POR";
 
@@ -86,6 +86,10 @@ function Divider() {
 }
 
 export default function Home() {
+    const featuredProjects = allProjects
+    .filter(project => project.featured)
+    .sort((a, b) => Number(a.id) - Number(b.id));
+
   return (
     <main className="min-h-screen bg-[#0a0a0f]">
       {/* Hero Section */}
@@ -113,7 +117,7 @@ export default function Home() {
           />
 
           <div className="space-y-5">
-            {featuredProjects.slice(0, 3).map((project, index) => (
+            {featuredProjects.slice(0, 5).map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
