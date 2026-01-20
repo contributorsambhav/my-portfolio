@@ -117,7 +117,7 @@ export default function Home() {
           />
 
           <div className="space-y-5">
-            {featuredProjects.slice(0, 5).map((project, index) => (
+            {featuredProjects.slice(0, 3).map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
