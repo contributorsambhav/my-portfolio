@@ -8,14 +8,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { PlatformContributions } from "./contribution-calendar";
 import clsx from "clsx";
 import { useState } from "react";
 
 type Platform = "github" | "leetcode" | "codeforces";
 
 interface ContributionCalendarClientProps {
-  contributions: PlatformContributions;
+  contributions: any;
 }
 
 const platformConfig = {

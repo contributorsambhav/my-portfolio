@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 
-import { ArrowRight, Award, Briefcase, ChevronRight, Code2, Rocket, Sparkles } from "lucide-react";
+import { ArrowRight, Award, Briefcase, ChevronRight, Code2, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import ExperienceCard from "../components/shared/ExperienceCard";
@@ -34,7 +34,7 @@ function SectionHeader({
   linkText?: string;
 }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 mb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -101,11 +101,15 @@ export default function Home() {
         const github = githubRes ? await githubRes.json().then(d => d.contributions).catch(() => []) : [];
         const leetcodeData = leetcodeRes ? await leetcodeRes.json().catch(() => null) : null;
         const codeforcesData = codeforcesRes ? await codeforcesRes.json().catch(() => ({ status: 'FAILED' })) : { status: 'FAILED' };
-
+        console.log(leetcodeData, "leetcodeData");
+        console.log(codeforcesData, "codeforcesData");
         // Process LeetCode data
         let leetcode: any[] = [];
         if (leetcodeData?.submissionCalendar) {
-          const calendar = leetcodeData.submissionCalendar;
+          const calendarData = typeof leetcodeData.submissionCalendar === 'string' 
+            ? JSON.parse(leetcodeData.submissionCalendar)
+            : leetcodeData.submissionCalendar;
+          const calendar = calendarData as Record<string, number>;
           const counts = Object.values(calendar).filter(v => typeof v === 'number') as number[];
           const maxCount = Math.max(...counts, 1);
           
