@@ -202,7 +202,7 @@ export default function ContributionCalendarClient({
       </div> */}
 
       {/* Scrollable Calendar Container */}
-      <div className="flex-1 overflow-y-scroll max-h-[75vh] overflow-x-hidden px-4 scrollbar-hide">
+      <div className="flex-1 overflow-y-scroll max-h-[72vh] overflow-x-hidden px-4 scrollbar-hide">
         <div className="flex flex-col gap-4 pb-4">
           <CalendarCard platform="combined" />
           <CalendarCard platform="leetcode" />
