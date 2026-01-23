@@ -2,6 +2,7 @@
 "use client";
 
 import { ArrowRight, Award, Briefcase, ChevronRight, Code2, Rocket, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import ExperienceCard from "../components/shared/ExperienceCard";
 import Hero from "../components/sections/Hero";
@@ -76,7 +77,6 @@ function SectionHeader({
   );
 }
 
-// Decorative Divider
 function Divider() {
   return (
     <div className="max-w-6xl mx-auto px-4">
@@ -86,14 +86,74 @@ function Divider() {
 }
 
 export default function Home() {
-    const featuredProjects = allProjects
+  const [contributions, setContributions] = useState<any>(null);
+
+  useEffect(() => {
+    // Fetch contributions client-side
+    async function fetchContributions() {
+      try {
+        const [githubRes, leetcodeRes, codeforcesRes] = await Promise.all([
+          fetch(`https://github-contributions-api.jogruber.de/v4/contributorsambhav?y=last`).catch(() => null),
+          fetch(`https://alfa-leetcode-api.onrender.com/coder_sambhav/calendar`).catch(() => null),
+          fetch(`https://codeforces.com/api/user.status?handle=FrozenMind18`).catch(() => null)
+        ]);
+
+        const github = githubRes ? await githubRes.json().then(d => d.contributions).catch(() => []) : [];
+        const leetcodeData = leetcodeRes ? await leetcodeRes.json().catch(() => null) : null;
+        const codeforcesData = codeforcesRes ? await codeforcesRes.json().catch(() => ({ status: 'FAILED' })) : { status: 'FAILED' };
+
+        // Process LeetCode data
+        let leetcode: any[] = [];
+        if (leetcodeData?.submissionCalendar) {
+          const calendar = leetcodeData.submissionCalendar;
+          const counts = Object.values(calendar).filter(v => typeof v === 'number') as number[];
+          const maxCount = Math.max(...counts, 1);
+          
+          leetcode = Object.entries(calendar).map(([timestamp, count]) => {
+            const date = new Date(parseInt(timestamp) * 1000).toISOString().split('T')[0];
+            const numCount = count as number;
+            return {
+              date,
+              count: numCount,
+              level: numCount > 0 ? Math.min(Math.ceil((numCount / maxCount) * 4), 4) as 0 | 1 | 2 | 3 | 4 : 0 as const
+            };
+          });
+        }
+
+        // Process Codeforces data
+        let codeforces: any[] = [];
+        if (codeforcesData.status === 'OK') {
+          const dateCounts: Record<string, number> = {};
+          codeforcesData.result.forEach((sub: any) => {
+            const date = new Date(sub.creationTimeSeconds * 1000).toISOString().split('T')[0];
+            dateCounts[date] = (dateCounts[date] || 0) + 1;
+          });
+          const maxCount = Math.max(...Object.values(dateCounts), 1);
+          codeforces = Object.entries(dateCounts).map(([date, count]) => ({
+            date,
+            count,
+            level: count > 0 ? Math.min(Math.floor((count / maxCount) * 4) + 1, 4) : 0
+          }));
+        }
+
+        setContributions({ github, leetcode, codeforces });
+      } catch (error) {
+        console.error('Error fetching contributions:', error);
+        setContributions({ github: [], leetcode: [], codeforces: [] });
+      }
+    }
+
+    fetchContributions();
+  }, []);
+
+  const featuredProjects = allProjects
     .filter(project => project.featured)
     .sort((a, b) => Number(a.id) - Number(b.id));
 
   return (
     <main className="min-h-screen bg-[#0a0a0f]">
       {/* Hero Section */}
-      <Hero />
+      <Hero contributions={contributions} />
 
       {/* Tech Stack */}
       <TechStack />
@@ -102,7 +162,6 @@ export default function Home() {
 
       {/* Featured Projects Section */}
       <section className="py-24 px-4 relative overflow-hidden">
-        {/* Background effect */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(120,119,198,0.08),transparent)]" />
         
         <div className="max-w-6xl mx-auto relative">
@@ -223,73 +282,6 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {/* Hackathons Card */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
-              <Link href="/hackathons" className="group block">
-                <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-amber-500/[0.08] to-orange-500/[0.04] border border-amber-500/10 hover:border-amber-500/25 transition-all duration-500 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <Rocket className="w-7 h-7 text-amber-400" />
-                    </div>
-                    
-                    <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-200 transition-colors">
-                      Hackathons
-                    </h3>
-                    
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                      Competition wins, innovative solutions, and collaborative projects built under pressure.
-                    </p>
-                    
-                    <div className="flex items-center gap-2 text-amber-400/80 text-sm font-medium group-hover:text-amber-300 transition-colors">
-                      <span>Explore wins</span>
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div> 
-*/}
-            {/* Web3 Card */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              <Link href="/web3" className="group block">
-                <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.04] border border-violet-500/10 hover:border-violet-500/25 transition-all duration-500 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-2xl">⛓️</span>
-                    </div>
-                    
-                    <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-violet-200 transition-colors">
-                      Web3 & Grants
-                    </h3>
-                    
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                      Blockchain projects, smart contracts, and grant applications pushing the boundaries.
-                    </p>
-                    
-                    <div className="flex items-center gap-2 text-violet-400/80 text-sm font-medium group-hover:text-violet-300 transition-colors">
-                      <span>View projects</span>
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div> */}
-
-            {/* All Projects Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -298,7 +290,6 @@ export default function Home() {
             >
               <Link href="/projects" className="group block">
                 <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-blue-500/[0.08] to-cyan-500/[0.04] border border-blue-500/10 hover:border-blue-500/25 transition-all duration-500 overflow-hidden">
-                  {/* Glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative">
@@ -326,7 +317,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom gradient fade */}
       <div className="h-32 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
     </main>
   );
