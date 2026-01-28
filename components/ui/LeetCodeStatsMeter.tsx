@@ -16,7 +16,6 @@ interface LeetCodeStatsMeterProps {
 }
 
 export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
-  // Demo data for visualization
   const demoStats: StatsData = {
     totalSolved: 555,
     easySolved: 555,
@@ -41,18 +40,23 @@ export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
   }
 
   const totalQuestions = displayStats.totalEasy + displayStats.totalMedium + displayStats.totalHard;
-  const solvedPercentage = (displayStats.totalSolved / totalQuestions) * 100;
-  const circumference = 2 * Math.PI * 75;
-  const strokeDashoffset = circumference - (solvedPercentage / 100) * circumference;
+  const radius = 90;
+  const circumference = 2 * Math.PI * radius;
 
   // Calculate individual percentages for multi-segment circle
-  const easyPercentage = (displayStats.easySolved / displayStats.totalEasy) * 100;
-  const mediumPercentage = (displayStats.mediumSolved / displayStats.totalMedium) * 100;
-  const hardPercentage = (displayStats.hardSolved / displayStats.totalHard) * 100;
+  const easyPercentage = (displayStats.easySolved / displayStats.totalSolved) * 100;
+  const mediumPercentage = (displayStats.mediumSolved / displayStats.totalSolved) * 100;
+  const hardPercentage = (displayStats.hardSolved / displayStats.totalSolved) * 100;
+  const easyLength = (easyPercentage / 100) * circumference;
+  const mediumLength = (mediumPercentage / 100) * circumference;
+  const hardLength = (hardPercentage / 100) * circumference;
+  const easyOffset = 0;
+  const mediumOffset = easyLength;
+  const hardOffset = easyLength + mediumLength;
 
   // Create segments for the circle
   const segments = [
-    { percentage: easyPercentage, color: '#fbbf24', label: 'Easy' },
+    { percentage: easyPercentage, color: '#f4d805', label: 'Easy' },
     { percentage: mediumPercentage, color: '#06b6d4', label: 'Medium' },
     { percentage: hardPercentage, color: '#ef4444', label: 'Hard' }
   ];
@@ -68,72 +72,32 @@ export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
               <defs>
                 {/* Gradients for each segment */}
                 <linearGradient id="easyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#fbbf24" />
-                </linearGradient>
-                <linearGradient id="mediumGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.3" />
                   <stop offset="100%" stopColor="#06b6d4" />
                 </linearGradient>
-                <linearGradient id="hardGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient id="mediumGradient" x1="0%" y1="0%" x2="50%" y2="0%">
+                  <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#fbbf24" />
+                </linearGradient>
+                <linearGradient id="hardGradient" x1="0%" y1="0%" x2="50%" y2="0%">
                   <stop offset="0%" stopColor="#ef4444" stopOpacity="0.3" />
                   <stop offset="100%" stopColor="#ef4444" />
                 </linearGradient>
               </defs>
-              
+
               {/* Background circle */}
-              <circle
-                cx="120"
-                cy="120"
-                r="90"
-                fill="none"
-                stroke="rgba(255,255,255,0.05)"
-                strokeWidth="16"
-              />
-              
+              <circle cx="120" cy="120" r="90" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
+
               {/* Easy segment */}
-              <circle
-                cx="120"
-                cy="120"
-                r="90"
-                fill="none"
-                stroke="url(#easyGradient)"
-                strokeWidth="16"
-                strokeLinecap="round"
-                strokeDasharray={`${(easyPercentage / 100) * (2 * Math.PI * 90) * 0.33} ${2 * Math.PI * 90}`}
-                strokeDashoffset="0"
-                className="transition-all duration-1000 ease-out"
-              />
-              
+              <circle cx="120" cy="120" r={radius} fill="none" stroke="url(#easyGradient)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${easyLength} ${circumference}`} strokeDashoffset={-easyOffset} className="transition-all duration-1000 ease-out" />
+
               {/* Medium segment */}
-              <circle
-                cx="120"
-                cy="120"
-                r="90"
-                fill="none"
-                stroke="url(#mediumGradient)"
-                strokeWidth="16"
-                strokeLinecap="round"
-                strokeDasharray={`${(mediumPercentage / 100) * (2 * Math.PI * 90) * 0.33} ${2 * Math.PI * 90}`}
-                strokeDashoffset={`-${(2 * Math.PI * 90) * 0.33}`}
-                className="transition-all duration-1000 ease-out"
-              />
-              
+              <circle cx="120" cy="120" r={radius} fill="none" stroke="url(#mediumGradient)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${mediumLength} ${circumference}`} strokeDashoffset={-mediumOffset} className="transition-all duration-1000 ease-out" />
+
               {/* Hard segment */}
-              <circle
-                cx="120"
-                cy="120"
-                r="90"
-                fill="none"
-                stroke="url(#hardGradient)"
-                strokeWidth="16"
-                strokeLinecap="round"
-                strokeDasharray={`${(hardPercentage / 100) * (2 * Math.PI * 90) * 0.34} ${2 * Math.PI * 90}`}
-                strokeDashoffset={`-${(2 * Math.PI * 90) * 0.66}`}
-                className="transition-all duration-1000 ease-out"
-              />
+              <circle cx="120" cy="120" r={radius} fill="none" stroke="url(#hardGradient)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${hardLength} ${circumference}`} strokeDashoffset={-hardOffset} className="transition-all duration-1000 ease-out" />
             </svg>
-            
+
             {/* Center text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="text-2xl font-bold text-white">
@@ -146,11 +110,7 @@ export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
                 </svg>
                 <span>Solved</span>
               </div>
-              {displayStats.ranking > 0 && (
-                <div className="text-sm text-gray-400 mt-1">
-                  {displayStats.ranking} Attempting
-                </div>
-              )}
+              {displayStats.ranking > 0 && <div className="text-sm text-gray-400 mt-1">{displayStats.ranking} Attempting</div>}
             </div>
           </div>
 

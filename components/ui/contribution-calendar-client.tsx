@@ -29,45 +29,115 @@ const platformConfig = {
     label: "GitHub",
     icon: Github,
     theme: {
-      light: ["hsl(0, 0%, 80%)", "hsl(142, 70%, 45%)"] as [string, string],
-      dark: ["hsl(0, 0%, 15%)", "hsl(142, 70%, 50%)"] as [string, string],
+      // GitHub uses distinct colors with clear empty state
+      light: [
+        "hsl(0, 0%, 92%)", // Level 0 - Empty (light gray)
+        "hsl(142, 52%, 85%)", // Level 1 - Very light green
+        "hsl(142, 62%, 65%)", // Level 2 - Light green
+        "hsl(142, 72%, 45%)", // Level 3 - Medium green
+        "hsl(142, 82%, 35%)", // Level 4 - Dark green
+      ] as [string, string, string, string, string],
+      dark: [
+        "hsl(0, 0%, 18%)", // Level 0 - Empty (dark gray)
+        "hsl(142, 40%, 25%)", // Level 1 - Very dark green
+        "hsl(142, 50%, 35%)", // Level 2 - Dark green
+        "hsl(142, 60%, 45%)", // Level 3 - Medium green
+        "hsl(142, 70%, 55%)", // Level 4 - Bright green
+      ] as [string, string, string, string, string],
     },
   },
   leetcode: {
     label: "LeetCode",
     icon: Code2,
     theme: {
-      light: ["hsl(33, 20%, 90%)", "hsl(25, 95%, 45%)"] as [string, string],
-      dark: ["hsl(33, 15%, 12%)", "hsl(25, 95%, 50%)"] as [string, string],
+      light: [
+        "hsl(0, 0%, 92%)",
+        "hsl(25, 70%, 85%)",
+        "hsl(25, 80%, 65%)",
+        "hsl(25, 90%, 51%)",
+        "hsl(25, 95%, 41%)",
+      ] as [string, string, string, string, string],
+      dark: [
+        "hsl(0, 0%, 18%)",
+        "hsl(25, 60%, 25%)",
+        "hsl(25, 70%, 35%)",
+        "hsl(25, 80%, 45%)",
+        "hsl(25, 90%, 55%)",
+      ] as [string, string, string, string, string],
     },
   },
   codeforces: {
     label: "Codeforces",
     icon: Trophy,
     theme: {
-      light: ["hsl(210, 20%, 90%)", "hsl(220, 85%, 45%)"] as [string, string],
-      dark: ["hsl(210, 15%, 12%)", "hsl(220, 85%, 55%)"] as [string, string],
+      light: [
+        "hsl(0, 0%, 92%)",
+        "hsl(220, 70%, 85%)",
+        "hsl(220, 75%, 65%)",
+        "hsl(220, 82%, 47%)",
+        "hsl(220, 90%, 37%)",
+      ] as [string, string, string, string, string],
+      dark: [
+        "hsl(0, 0%, 18%)",
+        "hsl(220, 50%, 25%)",
+        "hsl(220, 60%, 35%)",
+        "hsl(220, 70%, 45%)",
+        "hsl(220, 80%, 55%)",
+      ] as [string, string, string, string, string],
     },
   },
   combined: {
     label: "Combined",
     icon: Trophy,
     theme: {
-      light: ["hsl(280, 20%, 90%)", "hsl(270, 70%, 55%)"] as [string, string],
-      dark: ["hsl(280, 15%, 12%)", "hsl(270, 70%, 60%)"] as [string, string],
+      light: [
+        "hsl(0, 0%, 92%)",
+        "hsl(270, 70%, 85%)",
+        "hsl(270, 80%, 65%)",
+        "hsl(270, 90%, 50%)",
+        "hsl(270, 95%, 40%)",
+      ] as [string, string, string, string, string],
+      dark: [
+        "hsl(0, 0%, 18%)",
+        "hsl(270, 50%, 30%)",
+        "hsl(270, 60%, 40%)",
+        "hsl(270, 70%, 50%)",
+        "hsl(270, 80%, 60%)",
+      ] as [string, string, string, string, string],
     },
   },
 } as const;
 
-// Merge contributions from all platforms
-function mergeCombinedContributions(contributions: PlatformContributions | null): Activity[] {
-  if (!contributions) return [];
+// Calculate contribution level based on count
+// This mimics GitHub's actual algorithm more closely
+function calculateLevel(count: number, maxCount: number): 0 | 1 | 2 | 3 | 4 {
+  if (count === 0) return 0;
   
+  // For very low counts, always show level 1
+  if (count <= 2) return 1;
+  
+  // Use quartile-based approach for higher counts
+  // This ensures better distribution across levels
+  const quartile = maxCount / 4;
+  
+  if (count <= quartile) return 1;
+  if (count <= quartile * 2) return 2;
+  if (count <= quartile * 3) return 3;
+  return 4;
+}
+
+// Merge contributions from all platforms
+function mergeCombinedContributions(
+  contributions: PlatformContributions | null
+): Activity[] {
+  if (!contributions) return [];
+
   const dateMap = new Map<string, number>();
 
   // Aggregate all contributions by date
   ["github", "leetcode", "codeforces"].forEach((platform) => {
-    const platformData = contributions[platform as keyof PlatformContributions];
+    const platformData =
+      contributions[platform as keyof PlatformContributions];
     if (platformData) {
       platformData.forEach((activity) => {
         const current = dateMap.get(activity.date) || 0;
@@ -76,20 +146,37 @@ function mergeCombinedContributions(contributions: PlatformContributions | null)
     }
   });
 
-  // Convert map to sorted array
+  // Find max count for level calculation
+  const counts = Array.from(dateMap.values());
+  const maxCount = Math.max(...counts, 1);
+
+  // Convert map to sorted array with proper levels
   return Array.from(dateMap.entries())
     .map(([date, count]) => ({
       date,
       count,
-      level: Math.min(4, Math.floor(count / 3)) as 0 | 1 | 2 | 3 | 4,
+      level: calculateLevel(count, maxCount),
     }))
     .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// Process platform data with proper level calculation
+function processPlatformData(data: Activity[]): Activity[] {
+  if (!data || data.length === 0) return [];
+  
+  const maxCount = Math.max(...data.map(a => a.count), 1);
+  
+  return data.map(activity => ({
+    ...activity,
+    level: calculateLevel(activity.count, maxCount),
+  }));
 }
 
 export default function ContributionCalendarClient({
   contributions,
 }: ContributionCalendarClientProps) {
-  const [hoveredPlatform, setHoveredPlatform] = useState<Platform | null>(null);
+  const [hoveredPlatform, setHoveredPlatform] =
+    useState<Platform | null>(null);
 
   // Early return if no contributions
   if (!contributions) {
@@ -98,154 +185,129 @@ export default function ContributionCalendarClient({
 
   // Calculate combined contributions
   const combinedData = mergeCombinedContributions(contributions);
-  
+
+  // Process individual platform data
+  const processedContributions = {
+    github: contributions.github ? processPlatformData(contributions.github) : [],
+    leetcode: contributions.leetcode ? processPlatformData(contributions.leetcode) : [],
+    codeforces: contributions.codeforces ? processPlatformData(contributions.codeforces) : [],
+  };
+
   // Get total counts
   const totalCounts = {
-    github: contributions.github?.reduce((sum, a) => sum + a.count, 0) || 0,
-    leetcode: contributions.leetcode?.reduce((sum, a) => sum + a.count, 0) || 0,
-    codeforces: contributions.codeforces?.reduce((sum, a) => sum + a.count, 0) || 0,
+    github: processedContributions.github.reduce((sum, a) => sum + a.count, 0),
+    leetcode: processedContributions.leetcode.reduce((sum, a) => sum + a.count, 0),
+    codeforces: processedContributions.codeforces.reduce((sum, a) => sum + a.count, 0),
     combined: combinedData.reduce((sum, a) => sum + a.count, 0),
   };
 
-  const renderBlock = (platform: Platform) => (block: React.ReactElement, activity: Activity) => (
-    <Tooltip>
-      <TooltipTrigger asChild>{block}</TooltipTrigger>
-      <TooltipContent className="text-xs py-1.5 px-3 rounded">
-        <div className="space-y-0.5">
-          <div className="font-medium">{activity.date}</div>
-          <div className="text-neutral-400">{activity.count} contributions</div>
-        </div>
-      </TooltipContent>
-    </Tooltip>
-  );
+  const renderBlock =
+    (platform: Platform) =>
+    (block: React.ReactElement, activity: Activity) =>
+      (
+        <TooltipProvider key={activity.date}>
+          <Tooltip>
+            <TooltipTrigger asChild>{block}</TooltipTrigger>
+            <TooltipContent>
+              <div className="text-xs">
+                <div className="font-semibold">{activity.date}</div>
+                <div className="text-muted-foreground">
+                  {activity.count === 0 
+                    ? "No contributions" 
+                    : `${activity.count} contribution${activity.count !== 1 ? 's' : ''}`}
+                </div>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
 
   const CalendarCard = ({ platform }: { platform: Platform }) => {
     const config = platformConfig[platform];
     const Icon = config.icon;
-    const data = platform === "combined" ? combinedData : contributions[platform as keyof PlatformContributions] || [];
+    const data =
+      platform === "combined"
+        ? combinedData
+        : processedContributions[platform as keyof typeof processedContributions] || [];
     const totalCount = totalCounts[platform];
     const isHovered = hoveredPlatform === platform;
 
     return (
       <div
         className={clsx(
-          "relative group rounded-xl border transition-all duration-300",
-          "bg-white/[0.02] backdrop-blur-sm ",
-          platform === "combined" 
-            ? "border-violet-500/20 hover:border-violet-500/40" 
-            : platform === "github"
-            ? "border-green-500/10 hover:border-green-500/30"
-            : platform === "leetcode"
-            ? "border-orange-500/10 hover:border-orange-500/30"
-            : "border-blue-500/10 hover:border-blue-500/30",
-          isHovered && "scale-[1.02] shadow-lg"
+          "rounded-lg border bg-card p-4 transition-all duration-200 sm:p-6",
+          isHovered && "shadow-lg ring-2 ring-primary/20"
         )}
         onMouseEnter={() => setHoveredPlatform(platform)}
         onMouseLeave={() => setHoveredPlatform(null)}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 pb-4">
-          <div className="flex items-center gap-3.5">
-            <div className={clsx(
-              "w-12 h-12 rounded-lg flex items-center justify-center",
-              platform === "combined" && "bg-violet-500/10",
-              platform === "github" && "bg-green-500/10",
-              platform === "leetcode" && "bg-orange-500/10",
-              platform === "codeforces" && "bg-blue-500/10"
-            )}>
-              <Icon className={clsx(
-                "w-6 h-6",
-                platform === "combined" && "text-violet-400",
-                platform === "github" && "text-green-400",
-                platform === "leetcode" && "text-orange-400",
-                platform === "codeforces" && "text-blue-400"
-              )} />
-            </div>
-            <div>
-              <h3 className="text-base font-medium text-white">{config.label}</h3>
-            </div>
+        <div className="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2">
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+            <h3 className="text-sm font-semibold sm:text-base">{config.label}</h3>
           </div>
-          <div className="text-sm text-neutral-500 font-medium">
-            {totalCount.toLocaleString()}
+          <div className="text-xs text-muted-foreground sm:text-sm">
+            {totalCount.toLocaleString()} contributions
           </div>
         </div>
 
         {/* Calendar */}
-        <div className="px-6 pb-6 overflow-x-auto scrollbar-hide">
-          <TooltipProvider delayDuration={0} skipDelayDuration={0}>
-            <ActivityCalendar
-              data={data}
-              colorScheme="dark"
-              fontSize={13}
-              blockSize={12}
-              blockMargin={4}
-              theme={config.theme}
-              showWeekdayLabels={false}
-              renderBlock={renderBlock(platform)}
-              />
-          </TooltipProvider>
+        <div className="overflow-x-auto">
+          <ActivityCalendar
+            data={data}
+            theme={config.theme}
+            blockSize={12}
+            blockMargin={4}
+            fontSize={12}
+            hideColorLegend
+            hideTotalCount
+            renderBlock={renderBlock(platform)}
+            showWeekdayLabels
+          />
         </div>
       </div>
     );
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="flex h-full flex-col">
       {/* Header - Fixed */}
-      {/* <div className="flex items-center justify-between mb-4 px-4 pt-4 flex-shrink-0">
-        <div>
-          <h3 className="text-base font-medium text-white">Activity Overview</h3>
-          <p className="text-sm text-neutral-500 mt-1">
-            {totalCounts.combined.toLocaleString()} total contributions
-          </p>
-        </div>
-      </div> */}
+      {/*
+      <div className="border-b bg-background/95 p-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <h2 className="text-2xl font-bold tracking-tight">Activity Overview</h2>
+        <p className="text-muted-foreground">
+          {totalCounts.combined.toLocaleString()} total contributions
+        </p>
+      </div>
+      */}
 
       {/* Scrollable Calendar Container */}
-      <div className="flex-1 overflow-y-scroll max-h-[72vh] overflow-x-hidden px-4 scrollbar-hide">
-        <div className="flex flex-col gap-4 pb-4">
-          <CalendarCard platform="combined" />
-          <CalendarCard platform="leetcode" />
-          <CalendarCard platform="github" />
-          <CalendarCard platform="codeforces" />
-        </div>
+      <div className="max-h-[75vh] flex-1 space-y-4 overflow-y-auto p-4 sm:space-y-6 sm:p-6">
+        <CalendarCard platform="combined" />
+        <CalendarCard platform="github" />
+        <CalendarCard platform="leetcode" />
+        <CalendarCard platform="codeforces" />
       </div>
 
       {/* Legend - Fixed */}
-      {/* <div className="flex items-center justify-center gap-3 text-sm text-neutral-500 py-4 px-Jan
-196 activities in 2025
-Less
-More
-LeetCode
-419
-Feb
-Mar
-Apr
-May
-Jun
-Jul
-Aug
-Sep
-Oct
-Nov
-Dec
-Jan4 border-t border-white/5 flex-shrink-0">
-        <span>Less</span>
-        <div className="flex gap-1.5">
+      {/*
+      <div className="border-t bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+          <span>Less</span>
           {[0, 1, 2, 3, 4].map((level) => (
             <div
               key={level}
-              className="w-3.5 h-3.5 rounded-sm"
-              style={{ 
-                backgroundColor: level === 0 
-                  ? "hsl(0, 0%, 15%)" 
-                  : `hsl(270, 70%, ${60 - level * 8}%)`
+              className="h-3 w-3 rounded-sm border"
+              style={{
+                backgroundColor: platformConfig.combined.theme.light[level],
               }}
             />
           ))}
+          <span>More</span>
         </div>
-        <span>More</span>
-      </div> */}
+      </div>
+      */}
     </div>
   );
 }
