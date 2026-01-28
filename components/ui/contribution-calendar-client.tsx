@@ -260,8 +260,7 @@ export default function ContributionCalendarClient({
             blockSize={12}
             blockMargin={4}
             fontSize={12}
-            hideColorLegend
-            hideTotalCount
+            
             renderBlock={renderBlock(platform)}
             showWeekdayLabels
           />
