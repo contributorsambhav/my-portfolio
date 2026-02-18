@@ -3,6 +3,7 @@
 
 import { Building2, Calendar, MapPin, ArrowUpRight } from "lucide-react";
 import { ExperienceItem } from "@/types";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 interface ExperienceCardProps {
@@ -26,12 +27,21 @@ export default function ExperienceCard({
         <div className="flex flex-col lg:flex-row">
           {/* Image Section */}
           <div className="relative lg:w-80 xl:w-96 flex-shrink-0 aspect-[16/10] lg:aspect-auto bg-gradient-to-br from-blue-500/20 to-cyan-600/20">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center">
-                <Building2 className="w-12 h-12 text-blue-400 opacity-60" />
+            {experience.imageUrl ? (
+              <Image
+                src={experience.imageUrl}
+                alt={experience.company}
+                fill
+                className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+                  <Building2 className="w-12 h-12 text-blue-400 opacity-60" />
+                </div>
               </div>
-            </div>
-            
+            )}
+
             {/* Current Badge */}
             {experience.current && (
               <div className="absolute top-4 left-4">
@@ -54,7 +64,7 @@ export default function ExperienceCard({
                     Experience
                   </span>
                 </div>
-                
+
                 {/* Title */}
                 <h3 className="text-xl lg:text-2xl font-semibold text-white group-hover:text-gray-100 transition-colors">
                   {experience.role}
@@ -67,6 +77,7 @@ export default function ExperienceCard({
                   href={experience.companyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
                   className="flex-shrink-0 p-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all group/link"
                 >
                   <ArrowUpRight className="w-5 h-5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />

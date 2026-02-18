@@ -1,200 +1,308 @@
-import { ArrowLeft, Award, Calendar, Code, ExternalLink, MapPin } from "lucide-react";
+// app/work/exp-2/page.tsx - Atlantis Experience
+"use client";
+
+import { ArrowLeft, Award, Calendar, Code, ExternalLink, FileText, MapPin, Briefcase } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function AtlantisExperience() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
-      <div className="max-w-5xl mx-auto px-4 py-16">
-        {/* Back Button */}
-        <Link 
-          href="/work"
-          className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Work Experience
-        </Link>
+    <main className="min-h-screen bg-[#0a0a0f]">
+      {/* Hero Section */}
+      <section className="relative pt-28 pb-12 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(59,130,246,0.1),transparent)]" />
 
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-start gap-6 mb-6">
-            <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
-              <Image
-                src="/images/companies/atlantis.png"
-                alt="Atlantis Newtech"
-                fill
-                className="object-cover"
-              />
+        <div className="max-w-5xl mx-auto relative">
+          {/* Back Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-gray-400 hover:text-white hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-300 mb-8"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="text-sm font-medium">Back to Experience</span>
+            </Link>
+          </motion.div>
+
+          {/* Header Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="relative bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.05] to-transparent" />
+
+            <div className="relative flex items-start gap-6">
+              <div className="relative w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-500/20 to-cyan-600/20 border border-white/10">
+                <Image
+                  src="/EXPERIENCE/StartNd.png"
+                  alt="Atlantis Newtech"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  <span className="text-[11px] font-medium uppercase tracking-wider text-blue-400">
+                    Full Stack Developer Intern
+                  </span>
+                </div>
+
+                <h1 className="text-3xl md:text-4xl font-extralight tracking-tight text-white mb-2">
+                  Atlantis Newtech{" "}
+                  <span className="font-semibold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                    Pvt. Ltd.
+                  </span>
+                </h1>
+
+                <div className="flex flex-wrap gap-4 text-sm text-gray-400 mt-3">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-gray-500" />
+                    Apr 2025 - Jun 2025
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-gray-500" />
+                    Remote
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                Full Stack Developer Intern
-              </h1>
-              <div className="flex items-center gap-2 text-xl mb-4">
-                <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                  Atlantis Newtech Pvt. Ltd.
-                </span>
-                <a 
-                  href="https://drive.google.com/file/d/1Aq77kbPADmaZEYGNqrrjzhbYdacTg5xC/view?usp=sharing"
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+      </div>
+
+      {/* Content */}
+      <section className="py-12 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_50%,rgba(59,130,246,0.04),transparent)]" />
+
+        <div className="max-w-5xl mx-auto relative space-y-8">
+          {/* Documents Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="flex items-center gap-2 mb-6">
+              <FileText className="w-5 h-5 text-violet-400" />
+              <h2 className="text-xl font-semibold text-white">Documents</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Certificate of Completion (PDF Preview) */}
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:border-white/10 transition-all duration-300">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
+                    Certificate
+                  </span>
+                </div>
+                <h3 className="text-lg font-medium text-white mb-4">Certificate of Completion</h3>
+
+                {/* PDF Preview */}
+                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-white/[0.02] border border-white/[0.06]">
+                  <iframe
+                    src="/EXPERIENCE/StartNd_COC.pdf#toolbar=0&navpanes=0"
+                    className="w-full h-full border-0"
+                    title="Certificate of Completion - Atlantis Newtech"
+                  />
+                </div>
+
+                <a
+                  href="/EXPERIENCE/StartNd_COC.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-sm font-medium hover:bg-emerald-500/20 hover:border-emerald-500/30 transition-all duration-300"
                 >
-                  <ExternalLink className="w-5 h-5" />
+                  <ExternalLink className="w-4 h-4" />
+                  Open Full Size
                 </a>
               </div>
-              
-              <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Apr 2025 - Jun 2025
+
+              {/* Offer Letter (Image) */}
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:border-white/10 transition-all duration-300">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20">
+                    Offer Letter
+                  </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  Remote
+                <h3 className="text-lg font-medium text-white mb-4">Offer Letter</h3>
+
+                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-white/[0.02] border border-white/[0.06]">
+                  <Image
+                    src="/EXPERIENCE/StartNd_OL.jpeg"
+                    alt="Offer Letter - Atlantis Newtech"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
+
+                <a
+                  href="/EXPERIENCE/StartNd_OL.jpeg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl text-sm font-medium hover:bg-blue-500/20 hover:border-blue-500/30 transition-all duration-300"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Open Full Size
+                </a>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
 
-        {/* Project Demos */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl shadow-lg p-8 mb-8 border border-blue-100 dark:border-blue-800">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-            <ExternalLink className="w-6 h-6 text-blue-600" />
-            Live Project Demos
-          </h2>
-          
-          <div className="grid gap-6">
-            {/* ERP Dashboard */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                ERP Dashboard System
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Comprehensive ERP software with invoicing, GRN, purchase orders, and sales modules.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Platform:</span>
-                  <a 
-                    href="https://9d771190.erp-dashboard-7il.pages.dev/login" 
-                    target="_blank" 
+          {/* Live Project Demos */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+          >
+            <div className="flex items-center gap-2 mb-6">
+              <ExternalLink className="w-5 h-5 text-blue-400" />
+              <h2 className="text-xl font-semibold text-white">Live Project Demos</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* ERP Dashboard */}
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:border-white/10 transition-all duration-300">
+                <h3 className="text-lg font-medium text-white mb-2">ERP Dashboard System</h3>
+                <p className="text-sm text-gray-400 mb-4 leading-relaxed">
+                  Comprehensive ERP software with invoicing, GRN, purchase orders, and sales modules.
+                </p>
+                <div className="space-y-3">
+                  <a
+                    href="https://9d771190.erp-dashboard-7il.pages.dev/login"
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                    className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
                   >
+                    <ExternalLink className="w-3.5 h-3.5" />
                     erp-dashboard-7il.pages.dev
                   </a>
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  <span className="font-medium">Test Credentials:</span>
-                  <div className="mt-2 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg font-mono text-xs">
-                    Email: soumyadeephalder.web@gmail.com<br/>
-                    Password: test@123
+                  <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] font-mono text-xs text-gray-500">
+                    <span className="text-gray-400">Email:</span> soumyadeephalder.web@gmail.com<br />
+                    <span className="text-gray-400">Pass:</span> test@123
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Flight Management System */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                Flight Management System
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Admin dashboard for managing flight bookings and operations built with Next.js.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Platform:</span>
-                  <a 
-                    href="https://27cfcdc9.tjk-admin-dashboard.pages.dev/login" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+              {/* Flight Management System */}
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:border-white/10 transition-all duration-300">
+                <h3 className="text-lg font-medium text-white mb-2">Flight Management System</h3>
+                <p className="text-sm text-gray-400 mb-4 leading-relaxed">
+                  Admin dashboard for managing flight bookings and operations, enhancing booking efficiency by 45%.
+                </p>
+                <a
+                  href="https://27cfcdc9.tjk-admin-dashboard.pages.dev/dashboard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  tjk-admin-dashboard.pages.dev
+                </a>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Responsibilities */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <Briefcase className="w-5 h-5 text-blue-400" />
+                <h2 className="text-xl font-semibold text-white">Key Responsibilities</h2>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  "Developed Enterprise Resource Planning software with invoicing, Goods Receipt Note, purchase orders, and sales modules in team of 8 developers, improving operational efficiency by 40% and reducing processing time by 35%",
+                  "Implemented Object-Relational Mapping frameworks for database optimization, resulting in 50% faster query execution and improved scalability for 500+ concurrent users",
+                  "Architected flight management system using Next.js, enhancing booking efficiency by 45%",
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3 text-gray-300">
+                    <span className="text-blue-400/60 mt-0.5">→</span>
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+
+          {/* Achievements */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.25 }}
+          >
+            <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <Award className="w-5 h-5 text-amber-400" />
+                <h2 className="text-xl font-semibold text-white">Key Achievements</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { metric: "40%", label: "Operational Efficiency", desc: "Improved with ERP software" },
+                  { metric: "50%", label: "Faster Queries", desc: "500+ concurrent users scalability" },
+                  { metric: "45%", label: "Booking Efficiency", desc: "Flight management system" },
+                ].map((item, i) => (
+                  <div key={i} className="text-center p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                    <div className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent mb-1">
+                      {item.metric}
+                    </div>
+                    <div className="text-sm font-medium text-white mb-1">{item.label}</div>
+                    <div className="text-xs text-gray-500">{item.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Technologies */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <Code className="w-5 h-5 text-violet-400" />
+                <h2 className="text-xl font-semibold text-white">Technologies Used</h2>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {["Next.js", "React", "TypeScript", "Node.js", "Prisma ORM", "PostgreSQL"].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-4 py-2 text-sm font-medium text-gray-300 bg-white/[0.03] rounded-xl border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05] transition-all duration-300"
                   >
-                    tjk-admin-dashboard.pages.dev
-                  </a>
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  <span className="font-medium">Test Credentials:</span>
-                  <div className="mt-2 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg font-mono text-xs">
-                    Email: user@example.com<br/>
-                    Password: yourpassword123
-                  </div>
-                </div>
+                    {tech}
+                  </span>
+                ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
+      </section>
 
-        {/* Responsibilities */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-            Key Responsibilities
-          </h2>
-          <ul className="space-y-4">
-            <li className="flex gap-3 text-gray-700 dark:text-gray-300">
-              <span className="text-blue-600 dark:text-blue-400 mt-1.5 text-xl">•</span>
-              <span>Worked in a team of 8 developers using agile development to deliver comprehensive ERP software system</span>
-            </li>
-            <li className="flex gap-3 text-gray-700 dark:text-gray-300">
-              <span className="text-blue-600 dark:text-blue-400 mt-1.5 text-xl">•</span>
-              <span>Implemented object-relational mapping frameworks for database enhancement</span>
-            </li>
-            <li className="flex gap-3 text-gray-700 dark:text-gray-300">
-              <span className="text-blue-600 dark:text-blue-400 mt-1.5 text-xl">•</span>
-              <span>Collaborated with 3 cross-functional teams to architect flight management system using Next.js</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Achievements */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center gap-2 mb-6">
-            <Award className="w-6 h-6 text-yellow-500" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Key Achievements
-            </h2>
-          </div>
-          <ul className="space-y-4">
-            <li className="flex gap-3 text-gray-700 dark:text-gray-300">
-              <span className="text-yellow-500 mt-1.5 text-xl">★</span>
-              <span>Delivered ERP software with invoicing, GRN, purchase orders, and sales modules, improving operational efficiency by <strong>40%</strong> and reducing processing time by <strong>35%</strong></span>
-            </li>
-            <li className="flex gap-3 text-gray-700 dark:text-gray-300">
-              <span className="text-yellow-500 mt-1.5 text-xl">★</span>
-              <span>Achieved <strong>50%</strong> faster query execution and improved system scalability for <strong>500+</strong> concurrent users</span>
-            </li>
-            <li className="flex gap-3 text-gray-700 dark:text-gray-300">
-              <span className="text-yellow-500 mt-1.5 text-xl">★</span>
-              <span>Enhanced booking efficiency by <strong>45%</strong> through effective troubleshooting and debugging</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Technologies */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-          <div className="flex items-center gap-2 mb-6">
-            <Code className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Technologies Used
-            </h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {["Next.js", "React", "TypeScript", "Node.js", "Prisma ORM", "PostgreSQL"].map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+      <div className="h-32 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
+    </main>
   );
 }

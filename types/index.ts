@@ -35,6 +35,9 @@ export interface ExperienceItem {
   achievements: string[];
   technologies: string[];
   companyUrl?: string;
+  projectLinks?: { label: string; url: string }[];
+  certificateImage?: string;
+  offerLetterImage?: string;
   imageUrl?: string;
 }
 

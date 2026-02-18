@@ -1,4 +1,4 @@
-import { ArrowLeft, Award, Calendar, Code, ExternalLink, MapPin } from "lucide-react";
+import { ArrowLeft, Award, Calendar, Code, ExternalLink, FileText, MapPin } from "lucide-react";
 
 import Image from "next/image";
 // app/work/exp-1/page.tsx - NullClass Experience
@@ -9,7 +9,7 @@ export default function NullClassExperience() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
       <div className="max-w-5xl mx-auto px-4 py-16">
         {/* Back Button */}
-        <Link 
+        <Link
           href="/work"
           className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-8"
         >
@@ -22,13 +22,13 @@ export default function NullClassExperience() {
           <div className="flex items-start gap-6 mb-6">
             <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
               <Image
-                src="/images/companies/nullclass.png"
+                src="/images/companies/Nullclass.png  "
                 alt="NullClass"
                 fill
                 className="object-cover"
               />
             </div>
-            
+
             <div className="flex-1">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                 Web Development Intern
@@ -36,7 +36,7 @@ export default function NullClassExperience() {
               <div className="text-xl text-blue-600 dark:text-blue-400 mb-4 font-semibold">
                 NullClass
               </div>
-              
+
               <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
@@ -51,6 +51,49 @@ export default function NullClassExperience() {
           </div>
         </div>
 
+        {/* Documents - Certificate & Offer Letter */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-emerald-100 dark:border-emerald-800/30">
+            <div className="flex items-center gap-2 mb-4">
+              <FileText className="w-5 h-5 text-emerald-600" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Certificate of Completion</h3>
+            </div>
+            <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-3 bg-gray-100 dark:bg-gray-700">
+              <Image
+                src="/EXPERIENCE/NullClass_COC.jpeg"
+                alt="Certificate of Completion - NullClass"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <a
+              href="/EXPERIENCE/NullClass_COC.jpeg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors"
+            >
+              <ExternalLink className="w-4 h-4" />
+              View Full Size
+            </a>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-blue-100 dark:border-blue-800/30">
+            <div className="flex items-center gap-2 mb-4">
+              <FileText className="w-5 h-5 text-blue-600" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Offer Letter</h3>
+            </div>
+            <a
+              href="/EXPERIENCE/NullClass_OL.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+            >
+              <ExternalLink className="w-4 h-4" />
+              View Offer Letter (PDF)
+            </a>
+          </div>
+        </div>
+
         {/* Project Demo */}
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl shadow-lg p-8 mb-8 border border-blue-100 dark:border-blue-800">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -59,29 +102,22 @@ export default function NullClassExperience() {
           </h2>
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-              MediEnd - Healthcare Management Platform
+              Event Management Platform
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              A comprehensive platform where doctors can manage appointments, clinic operations, and write medical blogs.
+              Real-time event management platform with communication serving 1200+ participants, achieving 99.9% uptime during live events.
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Platform:</span>
-                <a 
-                  href="https://mediend.dev" 
-                  target="_blank" 
+                <a
+                  href="https://real-life-among-us-dsc.vercel.app/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 dark:text-blue-400 hover:underline"
                 >
-                  mediend.dev
+                  real-life-among-us-dsc.vercel.app
                 </a>
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                <span className="font-medium">Test Credentials:</span>
-                <div className="mt-2 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg font-mono text-xs">
-                  Email: admin@admin.com<br/>
-                  Password: 1234567890
-                </div>
               </div>
             </div>
           </div>
@@ -95,15 +131,15 @@ export default function NullClassExperience() {
           <ul className="space-y-4">
             <li className="flex gap-3 text-gray-700 dark:text-gray-300">
               <span className="text-blue-600 dark:text-blue-400 mt-1.5 text-xl">•</span>
-              <span>Created full-stack video platform supporting 50MB+ file processing with automated transformation pipeline</span>
+              <span>Built event management platform with real-time communication serving 1200+ participants, achieving 99.9% uptime during live events</span>
             </li>
             <li className="flex gap-3 text-gray-700 dark:text-gray-300">
               <span className="text-blue-600 dark:text-blue-400 mt-1.5 text-xl">•</span>
-              <span>Integrated Two-Factor Authentication using Google Authenticator</span>
+              <span>Engineered interactive coding games with 15+ programming challenges, increasing participant engagement by 70% and achieving 85% completion rate</span>
             </li>
             <li className="flex gap-3 text-gray-700 dark:text-gray-300">
               <span className="text-blue-600 dark:text-blue-400 mt-1.5 text-xl">•</span>
-              <span>Developed secure user authentication and authorization systems</span>
+              <span>Implemented WebSocket-based polling system for real-time data synchronization across multiple client connections</span>
             </li>
           </ul>
         </div>
@@ -119,11 +155,11 @@ export default function NullClassExperience() {
           <ul className="space-y-4">
             <li className="flex gap-3 text-gray-700 dark:text-gray-300">
               <span className="text-yellow-500 mt-1.5 text-xl">★</span>
-              <span>Reduced upload time by <strong>65%</strong> through efficient coding and system architecture</span>
+              <span>Served <strong>1200+</strong> participants with <strong>99.9%</strong> uptime during live events</span>
             </li>
             <li className="flex gap-3 text-gray-700 dark:text-gray-300">
               <span className="text-yellow-500 mt-1.5 text-xl">★</span>
-              <span>Improved security compliance by <strong>100%</strong> demonstrating proficiency in information technology security protocols</span>
+              <span>Increased participant engagement by <strong>70%</strong> with <strong>85%</strong> completion rate</span>
             </li>
           </ul>
         </div>
@@ -137,7 +173,7 @@ export default function NullClassExperience() {
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">
-            {["React", "Node.js", "Express", "MongoDB", "Google Authenticator", "Video Processing", "2FA"].map((tech) => (
+            {["React", "Node.js", "Express", "WebSocket", "Real-time Communication"].map((tech) => (
               <span
                 key={tech}
                 className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"

@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  // { href: "/work", label: "Experience" },
+  { href: "/work", label: "Experience" },
   { href: "/projects", label: "Projects" },
   // { href: "/web3", label: "Web3" },
 ];
@@ -33,18 +33,17 @@ export default function Header() {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? "bg-[#09090b]/80 backdrop-blur-xl border-b border-white/[0.06]" 
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+          ? "bg-[#09090b]/80 backdrop-blur-xl border-b border-white/[0.06]"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <nav className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="relative group"
           >
             <span className="text-xl font-semibold text-white">
@@ -59,11 +58,10 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                    isActive(link.href) 
-                      ? "text-white" 
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${isActive(link.href)
+                      ? "text-white"
                       : "text-gray-400 hover:text-gray-200"
-                  }`}
+                    }`}
                 >
                   {isActive(link.href) && (
                     <motion.span
@@ -76,7 +74,7 @@ export default function Header() {
                 </Link>
               ))}
             </div>
-            
+
             {/* <div className="ml-4">
               <a 
                 href="mailto:sambhav511974@gmail.com"
@@ -117,11 +115,10 @@ export default function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                      isActive(link.href)
+                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive(link.href)
                         ? "text-white bg-white/[0.06]"
                         : "text-gray-400 hover:text-white hover:bg-white/[0.04]"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>
