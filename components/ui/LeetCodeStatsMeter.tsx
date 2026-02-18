@@ -40,8 +40,10 @@ export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
   }
 
   const totalQuestions = displayStats.totalEasy + displayStats.totalMedium + displayStats.totalHard;
-  const radius = 90;
+  const radius = 60; // Reduced from 90
   const circumference = 2 * Math.PI * radius;
+  const center = 80; // Reduced from 120 (half of 160)
+  const size = 160; // Reduced from 240
 
   // Calculate individual percentages for multi-segment circle
   const easyPercentage = (displayStats.easySolved / displayStats.totalSolved) * 100;
@@ -62,13 +64,13 @@ export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
   ];
 
   return (
-    <div className=" mt-8  flex items-center justify-center">
-      <div className="w-full max-w-2xl  border border-gray-700 rounded-2xl p-6">
-        LeetCode Stats
-        <div className="flex items-center ">
+    <div className="mt-6 flex items-center justify-center lg:justify-start">
+      <div className="w-full max-w-md border border-gray-700 rounded-xl p-4">
+        <h3 className="text-sm font-medium text-gray-400 mb-3">LeetCode Stats</h3>
+        <div className="flex items-center gap-4">
           {/* Circular Meter */}
           <div className="relative flex-shrink-0">
-            <svg width="240" height="240" className="transform -rotate-90">
+            <svg width={size} height={size} className="transform -rotate-90">
               <defs>
                 {/* Gradients for each segment */}
                 <linearGradient id="easyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -86,61 +88,61 @@ export default function LeetCodeStatsMeter({ stats }: LeetCodeStatsMeterProps) {
               </defs>
 
               {/* Background circle */}
-              <circle cx="120" cy="120" r="90" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
+              <circle cx={center} cy={center} r={radius} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="5" />
 
               {/* Easy segment */}
-              <circle cx="120" cy="120" r={radius} fill="none" stroke="url(#easyGradient)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${easyLength} ${circumference}`} strokeDashoffset={-easyOffset} className="transition-all duration-1000 ease-out" />
+              <circle cx={center} cy={center} r={radius} fill="none" stroke="url(#easyGradient)" strokeWidth="5" strokeLinecap="round" strokeDasharray={`${easyLength} ${circumference}`} strokeDashoffset={-easyOffset} className="transition-all duration-1000 ease-out" />
 
               {/* Medium segment */}
-              <circle cx="120" cy="120" r={radius} fill="none" stroke="url(#mediumGradient)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${mediumLength} ${circumference}`} strokeDashoffset={-mediumOffset} className="transition-all duration-1000 ease-out" />
+              <circle cx={center} cy={center} r={radius} fill="none" stroke="url(#mediumGradient)" strokeWidth="5" strokeLinecap="round" strokeDasharray={`${mediumLength} ${circumference}`} strokeDashoffset={-mediumOffset} className="transition-all duration-1000 ease-out" />
 
               {/* Hard segment */}
-              <circle cx="120" cy="120" r={radius} fill="none" stroke="url(#hardGradient)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${hardLength} ${circumference}`} strokeDashoffset={-hardOffset} className="transition-all duration-1000 ease-out" />
+              <circle cx={center} cy={center} r={radius} fill="none" stroke="url(#hardGradient)" strokeWidth="5" strokeLinecap="round" strokeDasharray={`${hardLength} ${circumference}`} strokeDashoffset={-hardOffset} className="transition-all duration-1000 ease-out" />
             </svg>
 
             {/* Center text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-2xl font-bold text-white">
+              <div className="text-xl font-bold text-white">
                 {displayStats.totalSolved}
-                <span className="text-lg text-gray-400">/{totalQuestions}</span>
+                <span className="text-xs text-gray-400">/{totalQuestions}</span>
               </div>
-              <div className="flex items-center gap-1 text-sm text-emerald-400 mt-1">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex items-center gap-1 text-xs text-emerald-400 mt-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span>Solved</span>
               </div>
-              {displayStats.ranking > 0 && <div className="text-sm text-gray-400 mt-1">{displayStats.ranking} Attempting</div>}
+              {displayStats.ranking > 0 && <div className="text-xs text-gray-400 mt-1">{displayStats.ranking} Rank</div>}
             </div>
           </div>
 
           {/* Stats cards on the right */}
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 space-y-2">
             {/* Easy */}
-            <div className=" border border-gray-700 rounded-xl p-4 hover:bg-gray-700/50 transition-all duration-300">
+            <div className="border border-gray-700 rounded-lg p-2.5 hover:bg-gray-700/50 transition-all duration-300">
               <div className="flex items-center justify-between">
-                <span className="text-base font-medium text-amber-400">Easy</span>
-                <span className="text-base text-gray-300 font-semibold">
+                <span className="text-sm font-medium text-amber-400">Easy</span>
+                <span className="text-sm text-gray-300 font-semibold">
                   {displayStats.easySolved}/{displayStats.totalEasy}
                 </span>
               </div>
             </div>
 
             {/* Medium */}
-            <div className=" border border-gray-700 rounded-xl p-4 hover:bg-gray-700/50 transition-all duration-300">
+            <div className="border border-gray-700 rounded-lg p-2.5 hover:bg-gray-700/50 transition-all duration-300">
               <div className="flex items-center justify-between">
-                <span className="text-base font-medium text-cyan-400">Med.</span>
-                <span className="text-base text-gray-300 font-semibold">
+                <span className="text-sm font-medium text-cyan-400">Med.</span>
+                <span className="text-sm text-gray-300 font-semibold">
                   {displayStats.mediumSolved}/{displayStats.totalMedium}
                 </span>
               </div>
             </div>
 
             {/* Hard */}
-            <div className=" border border-gray-700 rounded-xl p-4 hover:bg-gray-700/50 transition-all duration-300">
+            <div className="border border-gray-700 rounded-lg p-2.5 hover:bg-gray-700/50 transition-all duration-300">
               <div className="flex items-center justify-between">
-                <span className="text-base font-medium text-red-400">Hard</span>
-                <span className="text-base text-gray-300 font-semibold">
+                <span className="text-sm font-medium text-red-400">Hard</span>
+                <span className="text-sm text-gray-300 font-semibold">
                   {displayStats.hardSolved}/{displayStats.totalHard}
                 </span>
               </div>

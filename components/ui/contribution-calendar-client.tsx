@@ -112,14 +112,14 @@ const platformConfig = {
 // This mimics GitHub's actual algorithm more closely
 function calculateLevel(count: number, maxCount: number): 0 | 1 | 2 | 3 | 4 {
   if (count === 0) return 0;
-  
+
   // For very low counts, always show level 1
   if (count <= 2) return 1;
-  
+
   // Use quartile-based approach for higher counts
   // This ensures better distribution across levels
   const quartile = maxCount / 4;
-  
+
   if (count <= quartile) return 1;
   if (count <= quartile * 2) return 2;
   if (count <= quartile * 3) return 3;
@@ -163,9 +163,9 @@ function mergeCombinedContributions(
 // Process platform data with proper level calculation
 function processPlatformData(data: Activity[]): Activity[] {
   if (!data || data.length === 0) return [];
-  
+
   const maxCount = Math.max(...data.map(a => a.count), 1);
-  
+
   return data.map(activity => ({
     ...activity,
     level: calculateLevel(activity.count, maxCount),
@@ -203,7 +203,7 @@ export default function ContributionCalendarClient({
 
   const renderBlock =
     (platform: Platform) =>
-    (block: React.ReactElement, activity: Activity) =>
+      (block: React.ReactElement, activity: Activity) =>
       (
         <TooltipProvider key={activity.date}>
           <Tooltip>
@@ -212,8 +212,8 @@ export default function ContributionCalendarClient({
               <div className="text-xs">
                 <div className="font-semibold">{activity.date}</div>
                 <div className="text-muted-foreground">
-                  {activity.count === 0 
-                    ? "No contributions" 
+                  {activity.count === 0
+                    ? "No contributions"
                     : `${activity.count} contribution${activity.count !== 1 ? 's' : ''}`}
                 </div>
               </div>
@@ -235,19 +235,19 @@ export default function ContributionCalendarClient({
     return (
       <div
         className={clsx(
-          "rounded-lg border bg-card p-4 transition-all duration-200 sm:p-6",
+          "rounded-lg border bg-card p-3 transition-all duration-200 sm:p-4",
           isHovered && "shadow-lg ring-2 ring-primary/20"
         )}
         onMouseEnter={() => setHoveredPlatform(platform)}
         onMouseLeave={() => setHoveredPlatform(null)}
       >
         {/* Header */}
-        <div className="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2">
-            <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
-            <h3 className="text-sm font-semibold sm:text-base">{config.label}</h3>
+        <div className="mb-2 flex flex-col gap-1 sm:mb-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-1.5">
+            <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <h3 className="text-xs font-semibold sm:text-sm">{config.label}</h3>
           </div>
-          <div className="text-xs text-muted-foreground sm:text-sm">
+          <div className="text-[10px] text-muted-foreground sm:text-xs">
             {totalCount.toLocaleString()} contributions
           </div>
         </div>
@@ -257,10 +257,10 @@ export default function ContributionCalendarClient({
           <ActivityCalendar
             data={data}
             theme={config.theme}
-            blockSize={12}
-            blockMargin={4}
-            fontSize={12}
-            
+            blockSize={10}
+            blockMargin={3}
+            fontSize={10}
+
             renderBlock={renderBlock(platform)}
             showWeekdayLabels
           />
@@ -282,7 +282,7 @@ export default function ContributionCalendarClient({
       */}
 
       {/* Scrollable Calendar Container */}
-      <div className="max-h-[75vh] flex-1 space-y-4 overflow-y-auto p-4 sm:space-y-6 sm:p-6">
+      <div className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto p-3 sm:space-y-4 sm:p-4">
         <CalendarCard platform="combined" />
         <CalendarCard platform="github" />
         <CalendarCard platform="leetcode" />
