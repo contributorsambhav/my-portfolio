@@ -38,6 +38,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth dark">
+      <head>
+        {/* Preconnect to external domains for faster resource loading */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        <link rel="preconnect" href="https://leetcode.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://leetcode.com" />
+        <link rel="preconnect" href="https://github-contributions-api.jogruber.de" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
+        <link rel="preconnect" href="https://codeforces.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://codeforces.com" />
+      </head>
       <body className={`${inter.className} antialiased bg-gray-950 text-gray-100`}>
         <Header />
         <div className="pt-16">{children}</div>

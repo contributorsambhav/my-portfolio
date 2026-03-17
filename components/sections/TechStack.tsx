@@ -3,6 +3,7 @@
 import { Cloud, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import React, { useMemo, useState } from "react";
 
+import Image from "next/image";
 import { JSX } from "react";
 import { allProjects } from "@/data/projects";
 import { motion } from "framer-motion";
@@ -218,13 +219,13 @@ export default function TechStack(): JSX.Element {
                           className="relative group/tech flex items-center gap-2 px-3 py-2 bg-white/[0.04] border border-white/[0.06] rounded-lg hover:bg-blue-500/10 hover:border-blue-500/30 transition-all duration-200 cursor-pointer shrink-0"
                         >
                           <div className="w-4 h-4 flex items-center justify-center shrink-0">
-                            <img
+                            <Image
                               src={tech.logo}
                               alt={tech.name}
+                              width={16}
+                              height={16}
                               className="w-full h-full object-contain"
-                              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                                e.currentTarget.style.display = "none";
-                              }}
+                              loading="lazy"
                             />
                           </div>
 

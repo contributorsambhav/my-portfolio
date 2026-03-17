@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Platform = "github" | "leetcode" | "codeforces" | "combined";
 
@@ -173,10 +173,89 @@ function processPlatformData(data: Activity[]): Activity[] {
 }
 
 export default function ContributionCalendarClient({
-  contributions,
+  contributions: initialContributions,
 }: ContributionCalendarClientProps) {
   const [hoveredPlatform, setHoveredPlatform] =
     useState<Platform | null>(null);
+  const [contributions, setContributions] =
+    useState<PlatformContributions | null>(initialContributions);
+
+  // Client-side fallback: if LeetCode data is empty, fetch from the browser
+  // Browsers can call leetcode.com/graphql directly (no Cloudflare blocking)
+  useEffect(() => {
+    const hasLeetCode =
+      initialContributions?.leetcode &&
+      initialContributions.leetcode.length > 0;
+
+    if (hasLeetCode) return;
+
+    const fetchLeetCode = async () => {
+      try {
+        const query = `
+          query userProfileCalendar($username: String!, $year: Int) {
+            matchedUser(username: $username) {
+              userCalendar(year: $year) {
+                submissionCalendar
+              }
+            }
+          }
+        `;
+        const res = await fetch("https://leetcode.com/graphql", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query,
+            variables: { username: "coder_sambhav" },
+          }),
+        });
+        if (!res.ok) return;
+        const json = await res.json();
+
+        const raw =
+          json?.data?.matchedUser?.userCalendar?.submissionCalendar;
+        if (!raw) return;
+
+        const calendar: Record<string, number> =
+          typeof raw === "string" ? JSON.parse(raw) : raw;
+
+        const counts = Object.values(calendar).filter(
+          (v) => typeof v === "number"
+        ) as number[];
+        const maxCount = Math.max(...counts, 1);
+
+        const leetcodeData: Activity[] = Object.entries(calendar).map(
+          ([timestamp, count]) => {
+            const date = new Date(parseInt(timestamp) * 1000)
+              .toISOString()
+              .split("T")[0];
+            const numCount = count as number;
+            return {
+              date,
+              count: numCount,
+              level:
+                numCount > 0
+                  ? (Math.min(
+                      Math.ceil((numCount / maxCount) * 4),
+                      4
+                    ) as 0 | 1 | 2 | 3 | 4)
+                  : (0 as const),
+            };
+          }
+        );
+
+        if (leetcodeData.length > 0) {
+          setContributions((prev) => ({
+            ...prev,
+            leetcode: leetcodeData,
+          }));
+        }
+      } catch {
+        // silently fail — fallback didn't work either
+      }
+    };
+
+    fetchLeetCode();
+  }, [initialContributions]);
 
   // Early return if no contributions
   if (!contributions) {
