@@ -43,30 +43,25 @@ export default function Hero({ contributions }: HeroProps) {
     // Fetch LeetCode stats
     async function fetchLeetCodeStats() {
       try {
-        // Fetch user's solved stats
+        // Fetch user's solved stats only — the /problems endpoint returns an object,
+        // not an array, so we use hardcoded totals as static fallback values.
         const solvedResponse = await fetch('https://alfa-leetcode-api.onrender.com/coder_sambhav/solved');
+        if (!solvedResponse.ok) throw new Error(`HTTP ${solvedResponse.status}`);
         const solvedData = await solvedResponse.json();
 
-        // Fetch all problems to get total counts
-        const problemsResponse = await fetch('https://alfa-leetcode-api.onrender.com/problems?limit=3000');
-        const problemsData = await problemsResponse.json();
-
-        if (solvedData && solvedData.solvedProblem !== undefined && problemsData) {
-          // Count total problems by difficulty
-          const totalEasy = problemsData.filter((p: any) => p.difficulty === 'Easy').length;
-          const totalMedium = problemsData.filter((p: any) => p.difficulty === 'Medium').length;
-          const totalHard = problemsData.filter((p: any) => p.difficulty === 'Hard').length;
-
+        if (solvedData && solvedData.solvedProblem !== undefined) {
           setLeetcodeStats({
             totalSolved: solvedData.solvedProblem,
-            easySolved: solvedData.easySolved,
-            totalEasy: totalEasy || 922,
-            mediumSolved: solvedData.mediumSolved,
-            totalMedium: totalMedium || 1993,
-            hardSolved: solvedData.hardSolved,
-            totalHard: totalHard || 902,
+            easySolved: solvedData.easySolved ?? 0,
+            totalEasy: 922,
+            mediumSolved: solvedData.mediumSolved ?? 0,
+            totalMedium: 1993,
+            hardSolved: solvedData.hardSolved ?? 0,
+            totalHard: 902,
             ranking: solvedData.ranking || 0
           });
+        } else {
+          throw new Error('Unexpected API response shape');
         }
       } catch (error) {
         console.error('Error fetching LeetCode stats:', error);

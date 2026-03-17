@@ -232,6 +232,30 @@ export default function ContributionCalendarClient({
     const totalCount = totalCounts[platform];
     const isHovered = hoveredPlatform === platform;
 
+    // ActivityCalendar crashes with an empty data array — guard against it
+    if (!data || data.length === 0) {
+      return (
+        <div
+          className={clsx(
+            "rounded-lg border bg-card p-3 transition-all duration-200 sm:p-4",
+            isHovered && "shadow-lg ring-2 ring-primary/20"
+          )}
+          onMouseEnter={() => setHoveredPlatform(platform)}
+          onMouseLeave={() => setHoveredPlatform(null)}
+        >
+          <div className="mb-2 flex flex-col gap-1 sm:mb-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-1.5">
+              <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <h3 className="text-xs font-semibold sm:text-sm">{config.label}</h3>
+            </div>
+          </div>
+          <div className="flex items-center justify-center h-16 text-xs text-muted-foreground animate-pulse">
+            Loading activity...
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div
         className={clsx(
