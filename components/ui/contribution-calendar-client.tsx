@@ -200,7 +200,7 @@ export default function ContributionCalendarClient({
             }
           }
         `;
-        const res = await fetch("https://leetcode.com/graphql", {
+        const res = await fetch("/api/leetcode", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

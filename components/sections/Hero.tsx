@@ -39,6 +39,17 @@ export default function Hero({ contributions, leetcodeStats: initialStats }: Her
     // If we already have real stats (not null/undefined, and totalSolved > 0), skip
     if (initialStats && initialStats.totalSolved > 0) return;
 
+    const FALLBACK: LeetCodeStats = {
+      totalSolved: 364,
+      easySolved: 131,
+      totalEasy: 922,
+      mediumSolved: 204,
+      totalMedium: 1993,
+      hardSolved: 29,
+      totalHard: 902,
+      ranking: 0,
+    };
+
     const fetchStats = async () => {
       try {
         const query = `
@@ -61,7 +72,7 @@ export default function Hero({ contributions, leetcodeStats: initialStats }: Her
           }
         `;
 
-        const res = await fetch("https://leetcode.com/graphql", {
+        const res = await fetch("/api/leetcode", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -69,15 +80,27 @@ export default function Hero({ contributions, leetcodeStats: initialStats }: Her
             variables: { username: "coder_sambhav" },
           }),
         });
-        if (!res.ok) return;
+        if (!res.ok) {
+          // Proxy failed — use hardcoded fallback
+          setLeetcodeStats(FALLBACK);
+          return;
+        }
         const json = await res.json();
+
+        // Check if proxy returned an error body
+        if (json.error) {
+          setLeetcodeStats(FALLBACK);
+          return;
+        }
 
         const allQuestions = json?.data?.allQuestionsCount;
         const acSubmissions = json?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
         const ranking = json?.data?.matchedUser?.profile?.ranking;
 
-        if (!acSubmissions) return;
-        console.log(acSubmissions);
+        if (!acSubmissions) {
+          setLeetcodeStats(FALLBACK);
+          return;
+        }
         const getCount = (arr: { difficulty: string; count: number }[], diff: string) =>
           arr.find((a) => a.difficulty === diff)?.count ?? 0;
 
@@ -92,7 +115,8 @@ export default function Hero({ contributions, leetcodeStats: initialStats }: Her
           ranking: ranking || 0,
         });
       } catch {
-        // silently fail — keep whatever server provided
+        // Both proxy and direct failed — use hardcoded fallback
+        setLeetcodeStats(FALLBACK);
       }
     };
 

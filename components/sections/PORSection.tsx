@@ -5,13 +5,9 @@ import { Award } from "lucide-react";
 import PORCard from "@/components/shared/PORCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { motion } from "framer-motion";
+import { PositionOfResponsibility } from "@/types";
 
-interface POR {
-  id: string;
-  [key: string]: unknown;
-}
-
-export default function PORSection({ positions }: { positions: POR[] }) {
+export default function PORSection({ positions }: { positions: PositionOfResponsibility[] }) {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_50%,rgba(168,85,247,0.06),transparent)]" />
@@ -36,7 +32,7 @@ export default function PORSection({ positions }: { positions: POR[] }) {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <PORCard por={por as any} index={index} />
+              <PORCard por={por} index={index} />
             </motion.div>
           ))}
         </div>

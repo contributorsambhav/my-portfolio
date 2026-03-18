@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 export const revalidate = 3600; // 1 hour cache
 
 const FETCH_TIMEOUT_MS = 8000; // 8 seconds max per external API call
+const LEETCODE_TIMEOUT_MS = 3000; // 3 seconds for LeetCode (fails fast, client retries)
 
 const BROWSER_UA =
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36";
@@ -65,7 +66,7 @@ async function leetCodeGraphQL(query: string, variables: Record<string, unknown>
     headers,
     body: JSON.stringify({ query, variables }),
     next: { revalidate: 3600 },
-  });
+  }, LEETCODE_TIMEOUT_MS);
 
   if (!res.ok) return null;
   return res.json();
@@ -172,7 +173,7 @@ async function fetchCodeforcesData() {
   }
 }
 
-async function fetchLeetCodeStats(): Promise<LeetCodeStats> {
+async function fetchLeetCodeStats(): Promise<LeetCodeStats | null> {
   try {
     const query = `
       query userProblemsSolved($username: String!) {
@@ -195,14 +196,14 @@ async function fetchLeetCodeStats(): Promise<LeetCodeStats> {
     `;
 
     const json = await leetCodeGraphQL(query, { username: "coder_sambhav" });
-    if (!json) return FALLBACK_LEETCODE_STATS;
+    if (!json) return null;
 
     const allQuestions = json?.data?.allQuestionsCount;
     const acSubmissions =
       json?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
     const ranking = json?.data?.matchedUser?.profile?.ranking;
 
-    if (!acSubmissions) return FALLBACK_LEETCODE_STATS;
+    if (!acSubmissions) return null;
 
     const getCount = (
       arr: { difficulty: string; count: number }[],
@@ -220,7 +221,7 @@ async function fetchLeetCodeStats(): Promise<LeetCodeStats> {
       ranking: ranking || 0,
     };
   } catch {
-    return FALLBACK_LEETCODE_STATS;
+    return null;
   }
 }
 

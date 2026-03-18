@@ -3,11 +3,7 @@
 
 import ProjectCard from "@/components/shared/ProjectCard";
 import { motion } from "framer-motion";
-
-interface Project {
-  id: string;
-  [key: string]: unknown;
-}
+import { Project } from "@/types";
 
 export default function FeaturedProjectsClient({
   projects,
@@ -24,7 +20,7 @@ export default function FeaturedProjectsClient({
           viewport={{ once: true }}
           transition={{ delay: index * 0.1 }}
         >
-          <ProjectCard project={project as any} index={index} />
+          <ProjectCard project={project} index={index} />
         </motion.div>
       ))}
     </div>

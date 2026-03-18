@@ -6,16 +6,12 @@ import ExperienceCard from "@/components/shared/ExperienceCard";
 import Link from "next/link";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { motion } from "framer-motion";
-
-interface Experience {
-  id: string;
-  [key: string]: unknown;
-}
+import { ExperienceItem } from "@/types";
 
 export default function ExperienceSection({
   experiences,
 }: {
-  experiences: Experience[];
+  experiences: ExperienceItem[];
 }) {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
@@ -42,7 +38,7 @@ export default function ExperienceSection({
                 transition={{ delay: index * 0.1 }}
                 className="mb-6"
               >
-                <ExperienceCard experience={exp as any} index={index} />
+                <ExperienceCard experience={exp} index={index} />
               </motion.div>
             </Link>
           ))}
