@@ -11,6 +11,7 @@ import { allProjects } from "@/data/projects";
 import dynamic from "next/dynamic";
 import { experiences } from "@/data/experience";
 import { positionsOfResponsibility } from "@/data/POR";
+import { getStatsData } from "@/lib/stats";
 
 // Dynamic imports for below-the-fold sections to reduce initial bundle
 const ExperienceSection = dynamic(
@@ -43,25 +44,7 @@ const ExploreSection = dynamic(
   }
 );
 
-// Server-side data fetching with ISR caching
-async function getStatsData() {
-  try {
-    // In production, use the full URL; in dev, use relative
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/stats`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) throw new Error("Failed to fetch stats");
-    return await res.json();
-  } catch (error) {
-    console.error("Error fetching stats:", error);
-    return {
-      contributions: { github: [], leetcode: [], codeforces: [] },
-      leetcodeStats: null,
-    };
-  }
-}
+// Server-side data fetching now imported directly from lib/stats.ts
 
 export default async function Home() {
   const { contributions, leetcodeStats } = await getStatsData();
