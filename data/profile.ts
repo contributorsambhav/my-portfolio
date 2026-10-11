@@ -3,8 +3,8 @@ import { Profile } from "@/types";
 
 export const profile: Profile = {
   name: "Sambhav",
-  title: "Full Stack Developer & Web3 Enthusiast",
-  bio: "Passionate developer building innovative solutions across web2 and web3. Experienced in creating scalable applications, winning hackathons, and contributing to open-source projects.",
+  title: "Software Engineer | Full Stack, AI & Web3",
+  bio: "Software engineer who enjoys turning complex problems into reliable, scalable products. Pursuing Mathematics & Computing at NIT Hamirpur, working across full-stack development, AI systems, and Web3.",
   location: "177001, Hamirpur, Himachal Pradesh, India",
   email: "sambhav511974@gmail.com",
   phone: "+91 7876754050",

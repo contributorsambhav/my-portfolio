@@ -2,26 +2,106 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, FolderDot, Briefcase, Mail, Compass, CheckSquare, BookOpen, Link2 } from "lucide-react";
+import {
+  Home,
+  FolderDot,
+  Briefcase,
+  Mail,
+  Compass,
+  CheckSquare,
+  BookOpen,
+  Link2,
+  Layers,
+  ArrowRight
+} from "lucide-react";
+import { allProjects } from "@/data/projects";
+import { experiences } from "@/data/experience";
 
 export default function SidebarNav() {
   const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
+  // Dynamic counts calculated directly from source data
+  const projectsCount = allProjects.length;
+  const experienceCount = experiences.length;
+  const archBlogsCount = allProjects.filter(
+    (p) => p.architectureDetails || p.architectureDiagram
+  ).length;
 
   const navItems = [
-    { label: "Home", href: "/", icon: Home },
-    { label: "Projects", href: "/projects", icon: FolderDot, count: 16 },
-    { label: "Experience", href: "/work", icon: Briefcase, count: 3 },
-    { label: "Contact", href: "/contact", icon: Mail },
+    {
+      label: "Home",
+      href: "/",
+      icon: Home,
+      isPageNav: false
+    },
+    {
+      label: "Projects",
+      // If on home, scroll to #projects; otherwise navigate to /projects
+      href: isHomePage ? "#projects" : "/projects",
+      icon: FolderDot,
+      count: projectsCount,
+      // Navigates to a separate full page if not on home
+      isPageNav: !isHomePage
+    },
+    {
+      label: "Experience",
+      // If on home, scroll to #experience; otherwise navigate to /work
+      href: isHomePage ? "#experience" : "/work",
+      icon: Briefcase,
+      count: experienceCount,
+      isPageNav: !isHomePage
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+      icon: Mail,
+      isPageNav: true
+    },
   ];
 
   const extraItems = [
-    { label: "Journey", href: "/journey", icon: Compass },
-    { label: "Bucket list", href: "/journey#bucket-list", icon: CheckSquare },
-    { label: "Links", href: "/contact#socials", icon: Link2 },
+    {
+      label: "Design Decisions",
+      href: "/design-decisions",
+      icon: Layers,
+      count: archBlogsCount,
+      isPageNav: true
+    },
+    {
+      label: "Journey",
+      href: "/journey",
+      icon: Compass,
+      isPageNav: true
+    },
+    {
+      label: "Bucket list",
+      href: "/journey#bucket-list",
+      icon: CheckSquare,
+      isPageNav: true
+    },
+    {
+      label: "Links",
+      href: "/contact#socials",
+      icon: Link2,
+      isPageNav: true
+    },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#") && isHomePage) {
+      e.preventDefault();
+      const targetId = href.substring(1);
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
+    if (href.startsWith("#")) return pathname === "/";
     return pathname.startsWith(href.split("#")[0]);
   };
 
@@ -35,9 +115,10 @@ export default function SidebarNav() {
             const active = isActive(item.href);
             return (
               <Link
-                key={item.href}
+                key={item.label}
                 href={item.href}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-all ${
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-all group ${
                   active
                     ? "bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-sm border border-zinc-200/80 dark:border-zinc-800"
                     : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100/60 dark:hover:bg-zinc-850/40"
@@ -47,11 +128,16 @@ export default function SidebarNav() {
                   <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
                   <span>{item.label}</span>
                 </div>
-                {item.count !== undefined && (
-                  <span className={`text-xs font-mono ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500"}`}>
-                    {item.count}
-                  </span>
-                )}
+                <div className="flex items-center gap-1.5">
+                  {item.count !== undefined && (
+                    <span className={`text-xs font-mono ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500"}`}>
+                      {item.count}
+                    </span>
+                  )}
+                  {item.isPageNav && (
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                  )}
+                </div>
               </Link>
             );
           })}
@@ -63,19 +149,31 @@ export default function SidebarNav() {
         <nav className="flex flex-col gap-1">
           {extraItems.map((item) => {
             const Icon = item.icon;
-            const active = pathname === "/journey" && item.label === "Journey";
+            const active = pathname === item.href.split("#")[0];
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-all group ${
                   active
                     ? "bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-sm border border-zinc-200/80 dark:border-zinc-800"
                     : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100/60 dark:hover:bg-zinc-850/40"
                 }`}
               >
-                <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
-                <span>{item.label}</span>
+                <div className="flex items-center gap-3">
+                  <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
+                  <span>{item.label}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {item.count !== undefined && (
+                    <span className={`text-xs font-mono ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500"}`}>
+                      {item.count}
+                    </span>
+                  )}
+                  {item.isPageNav && (
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                  )}
+                </div>
               </Link>
             );
           })}

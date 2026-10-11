@@ -1,6 +1,6 @@
 import { allProjects } from "@/data/projects";
 import { experiences } from "@/data/experience";
-import { ExternalLink, ArrowRight, Mail, Briefcase, Play } from "lucide-react";
+import { ExternalLink, ArrowRight, Mail, Briefcase, Play, Sparkles, Layers } from "lucide-react";
 import { GitHubIcon } from "@/components/ui/icons";
 import ContributionCalendarClient from "@/components/ui/contribution-calendar-client";
 import { getStatsData } from "@/lib/stats";
@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className="space-y-20">
       {/* Hero */}
-      <section className="space-y-6">
+      <section id="about" className="space-y-6 scroll-mt-24">
         <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-zinc-900 dark:text-zinc-100">
           Sambhav
         </h1>
@@ -27,12 +27,24 @@ export default function Home() {
 
         <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl pt-2">
           <p>
-            I care about the parts of software people feel before they notice: how a menu opens, how fast a page shows up, how data flows reliably. I build products end to end, from the first architecture sketch to the final deploy.
+            I&apos;m a software engineer who enjoys turning complex problems into reliable, scalable products. I care about more than just making things work — I care about how they&apos;re architected, how they perform under real-world conditions, and how the details come together to create a great user experience.
           </p>
           <p>
-            Currently studying Mathematics &amp; Computing at NIT Hamirpur. I specialize in full-stack development, AI pipelines, and Web3 integrations. Lately I&apos;m building{" "}
-            <span className="font-semibold text-zinc-900 dark:text-zinc-100 border-b-2 border-accent pb-0.5">RemitPay</span> and{" "}
-            <span className="font-semibold text-zinc-900 dark:text-zinc-100 border-b-2 border-accent pb-0.5">Saarthi</span>.
+            Currently pursuing Mathematics &amp; Computing at NIT Hamirpur, I work across full-stack development, AI systems, and Web3. I enjoy building end-to-end solutions, from designing system architecture and backend services to crafting interfaces and shipping products. My recent work includes{" "}
+            <Link
+              href="/projects/lms"
+              className="font-semibold text-zinc-900 dark:text-zinc-100 border-b-2 border-accent pb-0.5 hover:text-accent transition-colors"
+            >
+              LMS
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/projects/1"
+              className="font-semibold text-zinc-900 dark:text-zinc-100 border-b-2 border-accent pb-0.5 hover:text-accent transition-colors"
+            >
+              RemitPay
+            </Link>
+            , where I&apos;m exploring practical ways to solve real problems through software.
           </p>
         </div>
 
@@ -66,10 +78,11 @@ export default function Home() {
         <div className="flex flex-wrap items-center gap-3 pt-3">
           <Link
             href="/contact"
-            className="flex items-center gap-2 text-sm font-semibold bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity shadow-[0_0_15px_rgb(var(--accent)/0.25)]"
+            className="group flex items-center gap-2 text-sm font-semibold bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity shadow-[0_0_15px_rgb(var(--accent)/0.25)]"
           >
             <Mail className="w-4 h-4 text-white" />
             <span>Send an email</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
           <a
             href="https://github.com/contributorsambhav"
@@ -83,7 +96,7 @@ export default function Home() {
       </section>
 
       {/* Projects preview */}
-      <section className="space-y-8">
+      <section id="projects" className="space-y-8 scroll-mt-24">
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800/50 pb-4">
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono text-accent font-semibold">01</span>
@@ -92,9 +105,10 @@ export default function Home() {
           </div>
           <Link
             href="/projects"
-            className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-1 font-medium"
+            className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent transition-colors flex items-center gap-1.5 font-medium group"
           >
-            All projects <ArrowRight className="w-4 h-4" />
+            <span>All projects</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
@@ -124,6 +138,14 @@ export default function Home() {
                       </span>
                     </div>
                   )}
+
+                  {/* Redesigned Glassmorphism Featured Badge */}
+                  {project.featured && (
+                    <div className="absolute top-2 left-2 z-10 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold uppercase tracking-wider bg-black/65 dark:bg-black/75 backdrop-blur-md text-zinc-100 border border-white/20 dark:border-zinc-700/80 shadow-md">
+                      <Sparkles className="w-2.5 h-2.5 text-amber-400" />
+                      <span>Featured</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Project Details */}
@@ -146,19 +168,28 @@ export default function Home() {
 
                   <div>
                     {/* Action Links */}
-                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                      <Link
-                        href={`/projects#project-${project.id}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/30 transition-all"
-                      >
-                        More details <ArrowRight className="w-3 h-3" />
-                      </Link>
+                    <div className="flex flex-wrap items-center gap-2.5 mb-3">
+                      {(project.architectureDetails || project.architectureDiagram) ? (
+                        <Link
+                          href={`/projects/${project.id}`}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-accent/15 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/40 transition-all shadow-2xs"
+                        >
+                          <Layers className="w-3 h-3" /> System Design
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/projects#project-${project.id}`}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/30 transition-all"
+                        >
+                          More details <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      )}
                       {project.live && (
                         <a
                           href={project.live}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                         >
                           <ExternalLink className="w-3 h-3" /> Live Demo
                         </a>
@@ -168,7 +199,7 @@ export default function Home() {
                           href={project.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                         >
                           <GitHubIcon className="w-3.5 h-3.5" /> GitHub
                         </a>
@@ -178,7 +209,7 @@ export default function Home() {
                           href={project.video}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                         >
                           <Play className="w-3 h-3 text-red-500 fill-red-500" /> YT Demo
                         </a>
@@ -198,11 +229,20 @@ export default function Home() {
       </section>
 
       {/* Experience preview */}
-      <section className="space-y-8">
-        <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800/50 pb-4">
-          <span className="text-xs font-mono text-accent font-semibold">02</span>
-          <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">experience.</h2>
-          <span className="text-sm text-zinc-500 hidden sm:block">Where I&apos;ve worked and what I owned.</span>
+      <section id="experience" className="space-y-8 scroll-mt-24">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800/50 pb-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-mono text-accent font-semibold">02</span>
+            <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">experience.</h2>
+            <span className="text-sm text-zinc-500 hidden sm:block">Where I&apos;ve worked and what I owned.</span>
+          </div>
+          <Link
+            href="/work"
+            className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent transition-colors flex items-center gap-1.5 font-medium group"
+          >
+            <span>All experience</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
         <div className="space-y-8">

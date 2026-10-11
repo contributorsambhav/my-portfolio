@@ -3,6 +3,66 @@ import { Project } from '@/types';
 
 export const allProjects: Project[] = [
   {
+    id: 'lms',
+    title: 'Multi-Tenant LMS - Enterprise Educational Platform',
+    tagline: 'Zero-Egress HLS Streaming & Microservice LMS Architecture',
+    description: 'Enterprise multi-tenant Learning Management System featuring custom zero-egress HLS video streaming, automated anti-cheating assessments, and real-time doubt resolution.',
+    longDescription: 'A multi-tenant Learning Management System engineered end-to-end to simplify educational workflows. Features centralized hierarchical role-based onboarding (Superadmins, Institutes, Faculty, Students), adaptive video course delivery using a custom FFmpeg HLS pipeline with Cloudflare R2/CDN, automated quiz grading with anti-cheating heuristics, and real-time WebSocket doubt channels. Built with a decoupled microservice layout behind a Next.js reverse proxy.',
+    technologies: ['Next.js', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'Cloudflare R2', 'FFmpeg', 'HLS', 'WebSockets', 'Socket.IO', 'Google OAuth', 'JWT', 'Docker'],
+    category: 'fullstack',
+    featured: true,
+    github: 'https://github.com/contributorsambhav/LMS',
+    live: 'https://lms-sepia-tau.vercel.app/',
+    image: '/projects/LMS.png',
+    architectureUrl: 'https://github.com/contributorsambhav/LMS#architecture',
+    architectureDiagram: '/projects/lms-architecture.png',
+    highlights: [
+      'Multi-tenant MongoDB schema with strict tenant isolation and role matrices',
+      'Zero-Egress custom HLS streaming pipeline via FFmpeg, Cloudflare R2, and Cloudflare CDN',
+      'Next.js reverse proxy routing microservices to bypass CORS and mixed-content issues',
+      'Google OAuth onboarding with dynamic state-based multi-tenant role assignment',
+      'Decoupled Stream Service with 8GB swap memory and thread limits preventing OOM crashes',
+      'Real-time WebSocket doubt resolution and anti-cheating quiz grading engine'
+    ],
+    architectureDetails: {
+      diagramImage: '/projects/lms-architecture.png',
+      problemStatement: 'Educational institutes face high operational overhead and prohibitive SaaS costs when managing multi-role onboarding, video delivery, and student assessment. This LMS provides a unified, low-cost multi-tenant platform with role-based access control, zero-egress video streaming, and real-time classroom interaction.',
+      highLevelArchitecture: 'Next.js + TypeScript frontend serves as both the responsive client interface and a secure API reverse proxy. The backend is a microservice cluster in Node.js/Express composed of a Main API Service, a real-time WebSocket Doubt Service, and an asynchronous FFmpeg Stream Transcoding Service. Media assets are uploaded directly to Cloudflare R2 via pre-signed URLs and distributed via Cloudflare CDN with zero egress costs.',
+      contributions: [
+        { title: 'Database Design', desc: 'Designed a hierarchical multi-tenant MongoDB schema with strict ObjectId referencing and middleware-enforced tenant boundaries between Superadmins, Institutes, Faculty, Students, and Courses.' },
+        { title: 'Streaming Infrastructure', desc: 'Implemented a custom zero-egress HLS video pipeline with FFmpeg transcoding, chunking videos into .m3u8 playlists stored in Cloudflare R2.' },
+        { title: 'Network & Security Proxy', desc: 'Configured Next.js rewrites to proxy backend microservices through a unified origin, resolving CORS and browser mixed-content restrictions.' },
+        { title: 'Authentication Matrix', desc: 'Engineered Google OAuth with state-based redirect parameters to securely assign multi-tenant roles on the fly and generate signed JWTs.' },
+        { title: 'APIs & Real-Time Engine', desc: 'Built REST endpoints for anti-cheat quiz evaluations and real-time Socket.IO channels for institute doubt resolution.' }
+      ],
+      technicalDecisions: [
+        { question: 'Why MongoDB instead of PostgreSQL?', answer: 'Educational content (courses, modules, chapters, varied quiz types) is deeply nested and dynamic. MongoDB document storage prevents expensive multi-table SQL joins while maintaining rapid query flexibility.' },
+        { question: 'Why Cloudflare R2 instead of AWS S3?', answer: 'Traditional cloud providers levy steep video egress fees. R2 coupled with Cloudflare CDN eliminates bandwidth egress charges completely, cutting media delivery costs by nearly 100%.' },
+        { question: 'Why decouple Stream Service into a separate microservice?', answer: 'FFmpeg video transcoding is heavily CPU and memory intensive. Isolating it prevents transcoding jobs from starving the event loop of the primary transactional REST API.' }
+      ],
+      challengesFaced: [
+        { challenge: 'Server Out-of-Memory (OOM) Crashes during Transcoding', solution: 'Concurrent 1080p transcoding was exhausting RAM on small compute instances. Decoupled transcoding into an independent worker, provisioned 8GB swap memory, and constrained FFmpeg thread concurrency.' },
+        { challenge: 'Browser Mixed-Content and CORS Blocking', solution: 'Deploying microservices across multiple ports created browser origin friction. Leveraged Next.js rewrite proxies to route all client requests through a single unified domain.' }
+      ],
+      scalability: [
+        'Scale to 100k users by introducing Redis caching for hot course metadata and deploying MongoDB read replicas for query distribution.',
+        'Adopt RabbitMQ or Apache Kafka message queues for reliable asynchronous video ingestion pipelines.',
+        'Deploy microservice containers to AWS EKS with Horizontal Pod Autoscaling (HPA).'
+      ],
+      metrics: [
+        { label: 'Egress Cost', value: 'Zero ($0)' },
+        { label: 'Transcoding Stability', value: '100% Uptime' },
+        { label: 'Tenant Isolation', value: 'Strict RBAC' }
+      ],
+      elevatorPitch: 'This LMS is an enterprise multi-tenant platform I built end-to-end to streamline academic workflows—from hierarchical onboarding to zero-egress HLS video delivery and live doubt clearing. Using Next.js, Node.js, MongoDB, and Cloudflare R2, I eliminated recurring video bandwidth costs and prevented server memory crashes through isolated microservice architecture.'
+    },
+    metrics: [
+      { label: 'Bandwidth Egress', value: '$0 (Zero Egress)' },
+      { label: 'Architecture', value: 'Microservices + R2' },
+      { label: 'Tenancy', value: 'Multi-Tenant RBAC' }
+    ]
+  },
+  {
     id: '1',
     title: 'RemitPay',
     tagline: 'Government-Controlled Blockchain Remittance System',
@@ -16,6 +76,32 @@ export const allProjects: Project[] = [
     architectureUrl: 'https://github.com/contributorsambhav/RemitPay#architecture',
     image: '/projects/remitpay.png',
     highlights: ['On-chain KYC workflow with approval and rejection logic', 'Tier-based daily remittance limits (TIER1 → VIP)', 'Government-style central admin control using Ownable', 'User whitelisting, blacklisting, and account freezing', 'Secure remittance with reentrancy protection and pausing', 'Transparent transaction logging and fee collection', 'Emergency recovery and withdrawal mechanisms'],
+    architectureDetails: {
+      problemStatement: 'Cross-border remittances are plagued by high friction, delayed settlement times, and opaque intermediary fees. RemitPay models a sovereign-regulated decentralized remittance system where anti-money laundering (AML) compliance and tier limits are codified directly on-chain while enabling instant peer-to-peer settlement.',
+      highLevelArchitecture: 'A Solidity smart contract suite deployed on Ethereum/EVM testnets, interacting with a Next.js / TypeScript Web3 frontend via Wagmi and Ethers.js. Central regulators and compliance officers manage KYC whitelisting and daily quota checks directly through on-chain multi-sig administration.',
+      contributions: [
+        { title: 'Smart Contract Architecture', desc: 'Authored modular Solidity contracts implementing OpenZeppelin ReentrancyGuard, Pausable, and Ownable patterns for institutional security.' },
+        { title: 'On-Chain KYC Matrix', desc: 'Implemented a 5-tier dynamic quota engine enforcing daily remittance caps based on verified identity levels.' },
+        { title: 'Web3 Transaction State Management', desc: 'Built resilient frontend transaction lifecycle listeners with optimistic UI state updates and automatic gas estimation.' }
+      ],
+      technicalDecisions: [
+        { question: 'Why on-chain KYC verification tracking?', answer: 'Ensures regulatory compliance cannot be bypassed at the frontend or API layer, providing cryptographic proof of compliance.' },
+        { question: 'Why tier-based daily velocity limits?', answer: 'Mitigates fraud velocity and complies with standard international capital flow restrictions.' }
+      ],
+      challengesFaced: [
+        { challenge: 'Handling Reentrancy and State Mutation Risks', solution: 'Applied checks-effects-interactions patterns alongside OpenZeppelin ReentrancyGuard across all payment withdrawal functions.' }
+      ],
+      scalability: [
+        'Deploy on Ethereum Layer-2 rollups (Arbitrum/Optimism) to slash transaction gas costs by 95% while inheriting mainnet security.',
+        'Implement Chainlink Proof of Reserve (PoR) and real-time oracle exchange rates.'
+      ],
+      metrics: [
+        { label: 'Settlement Time', value: '<15s (L2 Instant)' },
+        { label: 'Security Model', value: 'Formal Reentrancy Guard' },
+        { label: 'Compliance', value: '100% On-Chain' }
+      ],
+      elevatorPitch: 'RemitPay is a compliant, blockchain-powered cross-border remittance architecture. By codifying institutional KYC verification and tiered velocity limits on-chain, it delivers instant sovereign-grade cross-border settlement with complete regulatory auditability.'
+    },
     metrics: [
       { label: 'KYC Model', value: 'On-chain Approval System' },
       { label: 'Security', value: 'ReentrancyGuard + Pausable' },
@@ -34,7 +120,33 @@ export const allProjects: Project[] = [
     featured: true,
     github: 'https://github.com/contributorsambhav/flute',
     live: 'https://flute-pi.vercel.app/',
+    architectureUrl: 'https://github.com/contributorsambhav/flute#architecture',
     highlights: ['AI-based automatic artwork generation', 'One-click NFT minting on Ethereum', 'Full NFT marketplace (list, buy, like, view)', 'User-specific NFT collections dashboard', 'On-chain ownership and pricing logic', 'Modern dark UI with smooth UX for Web3 users'],
+    architectureDetails: {
+      problemStatement: 'Creators without technical Web3 knowledge encounter significant barriers when transforming generative AI art into tradeable cryptographic assets with decentralized storage guarantees.',
+      highLevelArchitecture: 'Next.js frontend connects to an AI generation pipeline, pushes generated media to IPFS via NFT.Storage pinning services, and triggers ERC-721 smart contract minting and trading on Ethereum.',
+      contributions: [
+        { title: 'Generative AI Pipeline', desc: 'Integrated diffusion image generation pipelines with automatic metadata formatting conforming to OpenSea ERC-721 standards.' },
+        { title: 'IPFS Pinning Integration', desc: 'Implemented decentralized decentralized media persistence ensuring art permanence independent of centralized storage servers.' },
+        { title: 'NFT Marketplace Logic', desc: 'Authored smart contracts for listing, escrowing, and trading digital art on Ethereum.' }
+      ],
+      technicalDecisions: [
+        { question: 'Why IPFS instead of cloud storage for NFT assets?', answer: 'NFT metadata must remain immutable and verifiable by token holders forever; IPFS content identifiers (CIDs) prevent rug pulls.' }
+      ],
+      challengesFaced: [
+        { challenge: 'Network Latency in IPFS Gateways', solution: 'Implemented multi-gateway fallback fetching (Cloudflare, IPFS.io, Pinata) to ensure instant preview loads.' }
+      ],
+      scalability: [
+        'Implement ERC-721A batch minting to minimize gas consumption during high demand periods.',
+        'Support cross-chain bridge deployments across Ethereum and Polygon.'
+      ],
+      metrics: [
+        { label: 'Minting', value: 'One-Click ERC-721' },
+        { label: 'Storage', value: 'Decentralized IPFS' },
+        { label: 'Marketplace', value: 'Zero Escrow Risk' }
+      ],
+      elevatorPitch: 'Flute combines generative AI creation pipelines with decentralized NFT minting and marketplace trading on Ethereum, enabling artists to create, pin to IPFS, and trade assets seamlessly in one modern application.'
+    },
     metrics: [
       { label: 'Blockchain', value: 'Ethereum' },
       { label: 'NFT Type', value: 'AI-Generated Art' },
@@ -49,12 +161,44 @@ export const allProjects: Project[] = [
     longDescription: 'Constructed real-time chess platform using WebSockets and advanced software systems. Features Stockfish AI engine integration, secure authentication with JWT and bcrypt, ensuring complete data protection and user privacy.',
     technologies: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'WebSockets', 'Redux', 'JWT', 'Stockfish Engine'],
     category: 'fullstack',
-    featured: false,
+    featured: true,
     github: 'https://github.com/contributorsambhav/ReactChess',
     live: 'https://react-chess-e451.vercel.app/',
     architectureUrl: 'https://github.com/contributorsambhav/ReactChess#architecture',
+    architectureDiagram: '/projects/chess-architecture.png',
     image: '/projects/chess-master.png',
     highlights: ['Sub-100ms latency with WebSockets', 'Stockfish AI (2800 ELO rating)', 'Secure JWT authentication', 'Real-time multiplayer gameplay'],
+    architectureDetails: {
+      diagramImage: '/projects/chess-architecture.png',
+      problemStatement: 'Real-time multiplayer chess platforms often suffer from high cloud compute bills and backend freezes when running CPU-intensive chess engine evaluations. React Chess solves this by combining global Socket.IO multiplayer with zero-cost, client-side Stockfish Web Workers and instant FEN game analysis.',
+      highLevelArchitecture: 'React + Vite frontend manages user interactions and game board rendering via chessboardjs, while chess.js acts as the single source of truth for move validation. The Node.js/Express backend handles JWT authentication, Google OAuth, and match records in MongoDB. Socket.IO manages matchmaking queues and bidirectional move broadcasting, while Stockfish runs in isolated client Web Workers.',
+      contributions: [
+        { title: 'Real-Time Matchmaking', desc: 'Engineered a Socket.IO queue mechanism that pairs pending players, assigns colors, and synchronizes algebraic moves across global clients.' },
+        { title: 'Stockfish Web Worker Pipeline', desc: 'Implemented an asynchronous client-side engine pipeline utilizing Stockfish Web Workers to analyze FEN strings up to Depth 25 without blocking the main UI thread.' },
+        { title: 'Decoupled State Architecture', desc: 'Separated game logic and rule enforcement (chess.js) from presentation (chessboardjs) and synchronized moves via Redux.' },
+        { title: 'Database & Match Records', desc: 'Designed MongoDB schemas for player profiles, rating records, and PGN match histories.' }
+      ],
+      technicalDecisions: [
+        { question: 'Why Web Workers for Stockfish?', answer: 'Running chess engine calculations on a central Node.js server for thousands of concurrent players would crash server CPU. Web Workers offload 100% of compute to client browser threads with zero cloud cost.' },
+        { question: 'Why Socket.IO over HTTP Polling?', answer: 'Chess requires sub-100ms responsiveness. WebSockets maintain persistent TCP sockets eliminating round-trip HTTP overhead.' },
+        { question: 'Why decouple chess.js and chessboardjs?', answer: 'Direct DOM manipulation is brittle. chess.js acts as authoritative validator while chessboardjs purely reflects FEN state.' }
+      ],
+      challengesFaced: [
+        { challenge: 'Main Thread UI Freezes at High Evaluation Depths', solution: 'Offloaded Stockfish computations to dedicated Web Workers via postMessage, streaming back evaluation scores, principal variations (PV), and depth without dropping UI frames.' },
+        { challenge: 'Multiplayer Board State Desynchronization', solution: 'Enforced strict local chess.js validation before updating UI and handled Socket.IO disconnect events gracefully to notify opponents.' }
+      ],
+      scalability: [
+        'Introduce Redis Pub/Sub (Socket.IO Redis Adapter) to scale WebSocket gateways horizontally across multiple Node.js instances.',
+        'Persist live match states in Redis memory to allow instant match resumption upon browser refresh.',
+        'Implement an Elo / Glicko-2 matchmaking ranking system.'
+      ],
+      metrics: [
+        { label: 'Compute Cost', value: '$0 Cloud CPU' },
+        { label: 'Move Latency', value: '<100ms Global' },
+        { label: 'Stockfish Rating', value: '2800 ELO' }
+      ],
+      elevatorPitch: 'React Chess is a full-stack real-time multiplayer chess platform featuring automated matchmaking and deep engine analysis. By compiling Stockfish into client-side Web Workers, I eliminated cloud computation costs entirely, delivering depth-25 engine evaluations with zero latency and no server overhead.'
+    },
     metrics: [
       { label: 'Latency', value: '<100ms' },
       { label: 'AI Rating', value: '2800 ELO' },
@@ -72,8 +216,41 @@ export const allProjects: Project[] = [
     featured: true,
     github: 'https://github.com/nextgenquanta/rag-test',
     live: 'https://hiraya-companion.vercel.app/',
+    architectureUrl: 'https://github.com/nextgenquanta/rag-test#architecture',
+    architectureDiagram: '/projects/hiraya-architecture.png',
     image: '/projects/hiraya.png',
     highlights: ['80% response accuracy with NLP', '90% faster information retrieval', 'RAG architecture implementation', '100% context-aware responses'],
+    architectureDetails: {
+      diagramImage: '/projects/hiraya-architecture.png',
+      problemStatement: 'University students frequently struggle to find accurate, up-to-date information regarding campus rules, placements, and exam notices scattered across PDFs. Hiraya is an AI Campus Assistant for NIT Hamirpur using strict Retrieval-Augmented Generation (RAG) to provide verified, hallucination-free streamed answers from a maintainer knowledge base.',
+      highLevelArchitecture: 'Full-stack Next.js (React 19) architecture. Frontend consumes server-sent token streams from LangChain and Groq LLM (Llama 3.1). The backend generates 384-dimensional text embeddings in-process using local Hugging Face ONNX models, stores vectors in PostgreSQL via pgvector and Prisma ORM, and executes fast cosine similarity retrieval.',
+      contributions: [
+        { title: 'Zero-Cost RAG Pipeline', desc: 'Engineered a local in-process embedding pipeline using @huggingface/transformers (all-MiniLM-L6-v2), eliminating external embedding API costs completely.' },
+        { title: 'Vector Database Integration', desc: 'Integrated pgvector with PostgreSQL and Prisma to execute real-time cosine distance similarity queries on chunked campus data.' },
+        { title: 'Streaming UI/UX', desc: 'Built a responsive chat interface that decodes and renders text streams token-by-token directly from Groq and LangChain.' },
+        { title: 'Secure Ingestion System', desc: 'Developed a protected API route allowing maintainers to chunk and inject raw notices and PDF text directly into the knowledge base.' }
+      ],
+      technicalDecisions: [
+        { question: 'Why Local Embeddings (transformers.js)?', answer: 'External APIs like OpenAI introduce recurring costs and network round trips. Running all-MiniLM-L6-v2 locally in WebAssembly/ONNX reduced embedding costs to $0 and cut retrieval latency.' },
+        { question: 'Why pgvector over Pinecone/Milvus?', answer: 'For a campus system, a specialized vector DB adds unnecessary operational complexity. PostgreSQL with pgvector allowed relational and vector data to live together in a single Prisma schema.' },
+        { question: 'Why Groq + Llama 3.1?', answer: 'Groq LPU hardware generates tokens at extraordinary speeds. Combined with Next.js Edge streaming, it provides instantaneous response times.' }
+      ],
+      challengesFaced: [
+        { challenge: 'Serverless 250MB Bundle Limit on Vercel', solution: 'The onnxruntime-node library ships with ~513MB of multi-OS binaries. Added Webpack outputFileTracingExcludes in next.config.ts to aggressively strip CUDA, macOS, and Windows binaries down to ~130MB.' },
+        { challenge: 'Serverless Cold Starts on Read-Only Filesystems', solution: 'Vercel serverless filesystems are read-only. Configured the 90MB Hugging Face model cache to download into /tmp/ and maintained an in-process singleton for warm execution.' }
+      ],
+      scalability: [
+        'Migrate from serverless to persistent Docker containers (AWS ECS/Railway) to keep the 90MB embedding model permanently warm in memory.',
+        'Integrate Upstash Redis caching for frequently asked student questions (e.g., library timings, fee deadlines).',
+        'Incorporate multi-modal document parsing for scanned campus circulars.'
+      ],
+      metrics: [
+        { label: 'Embedding Cost', value: '$0 (Local ONNX)' },
+        { label: 'Hallucinations', value: '0% (Strict Filter)' },
+        { label: 'Token Speed', value: 'Blazing (Groq LPU)' }
+      ],
+      elevatorPitch: 'Hiraya is an AI Campus Assistant for NIT Hamirpur that eliminates hallucinations using Retrieval-Augmented Generation. By compiling Hugging Face transformers locally in Node.js with PostgreSQL pgvector, I achieved a zero-cost embedding architecture and overcame Vercel serverless bundle limits through custom Webpack binary pruning.'
+    },
     metrics: [
       { label: 'Accuracy', value: '80%' },
       { label: 'Speed Increase', value: '90%' },

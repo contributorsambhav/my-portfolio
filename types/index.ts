@@ -72,9 +72,18 @@ export interface Project {
   image?: string;
   highlights: string[];
   architectureUrl?: string;
+  architectureDiagram?: string;
   architectureDetails?: {
-    overview?: string;
-    diagram?: string;
+    diagramImage?: string;
+    problemStatement?: string;
+    highLevelArchitecture?: string;
+    contributions?: { title: string; desc: string }[];
+    technicalDecisions?: { question: string; answer: string }[];
+    challengesFaced?: { challenge: string; solution: string }[];
+    scalability?: string[];
+    metrics?: { label: string; value: string }[];
+    elevatorPitch?: string;
+    qa?: { question: string; answer: string }[];
   };
   metrics?: {
     label: string;

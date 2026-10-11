@@ -14,7 +14,11 @@ import {
   CheckSquare,
   FileText,
   ArrowUpRight,
+  ArrowRight,
+  Layers,
 } from "lucide-react";
+import { allProjects } from "@/data/projects";
+import { experiences } from "@/data/experience";
 import {
   GitHubIcon,
   LinkedInIcon,
@@ -30,6 +34,14 @@ import DirectoryBreadcrumbs from "./DirectoryBreadcrumbs";
 export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
+  // Dynamic counts
+  const projectsCount = allProjects.length;
+  const experienceCount = experiences.length;
+  const archBlogsCount = allProjects.filter(
+    (p) => p.architectureDetails || p.architectureDiagram
+  ).length;
 
   // Close drawer on path change
   useEffect(() => {
@@ -49,12 +61,31 @@ export default function MobileHeader() {
   }, [isOpen]);
 
   const navItems = [
-    { label: "Home", href: "/", icon: Home },
-    { label: "Projects", href: "/projects", icon: FolderDot, count: 16 },
-    { label: "Experience", href: "/work", icon: Briefcase, count: 3 },
-    { label: "Journey", href: "/journey", icon: Compass },
-    { label: "Bucket List", href: "/journey#bucket-list", icon: CheckSquare },
-    { label: "Contact", href: "/contact", icon: Mail },
+    { label: "Home", href: "/", icon: Home, isPageNav: false },
+    {
+      label: "Projects",
+      href: isHomePage ? "#projects" : "/projects",
+      icon: FolderDot,
+      count: projectsCount,
+      isPageNav: !isHomePage,
+    },
+    {
+      label: "Experience",
+      href: isHomePage ? "#experience" : "/work",
+      icon: Briefcase,
+      count: experienceCount,
+      isPageNav: !isHomePage,
+    },
+    {
+      label: "Design Decisions",
+      href: "/design-decisions",
+      icon: Layers,
+      count: archBlogsCount,
+      isPageNav: true,
+    },
+    { label: "Journey", href: "/journey", icon: Compass, isPageNav: true },
+    { label: "Bucket List", href: "/journey#bucket-list", icon: CheckSquare, isPageNav: true },
+    { label: "Contact", href: "/contact", icon: Mail, isPageNav: true },
   ];
 
   const socialLinks = [
@@ -134,7 +165,17 @@ export default function MobileHeader() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={(e) => {
+                      setIsOpen(false);
+                      if (item.href.startsWith("#") && isHomePage) {
+                        e.preventDefault();
+                        const targetId = item.href.substring(1);
+                        const element = document.getElementById(targetId);
+                        if (element) {
+                          element.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }
+                    }}
                     className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-accent/10 dark:bg-accent/15 border border-accent/30 text-accent font-semibold"
@@ -145,11 +186,16 @@ export default function MobileHeader() {
                       <Icon className={`w-4 h-4 ${isActive ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
                       <span>{item.label}</span>
                     </div>
-                    {item.count !== undefined && (
-                      <span className={`text-xs font-mono ${isActive ? "text-accent font-semibold" : "text-zinc-400"}`}>
-                        {item.count}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1.5">
+                      {item.count !== undefined && (
+                        <span className={`text-xs font-mono ${isActive ? "text-accent font-semibold" : "text-zinc-400"}`}>
+                          {item.count}
+                        </span>
+                      )}
+                      {item.isPageNav && (
+                        <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60" />
+                      )}
+                    </div>
                   </Link>
                 );
               })}

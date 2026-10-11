@@ -3,11 +3,15 @@
 import { allProjects } from "@/data/projects";
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { ExternalLink, Play, Layers } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink, Play, Layers, Sparkles, ArrowRight } from "lucide-react";
 import { GitHubIcon } from "@/components/ui/icons";
+import ArchitectureModal from "@/components/shared/ArchitectureModal";
+import { Project } from "@/types";
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [archProject, setArchProject] = useState<Project | null>(null);
 
   const categories = useMemo(() => {
     const cats = Array.from(new Set(allProjects.map((p) => p.category)));
@@ -29,26 +33,41 @@ export default function ProjectsPage() {
           <span className="text-sm text-zinc-500">{allProjects.length} Things I&apos;ve built and shipped.</span>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 pt-2">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`text-xs px-3 py-1.5 rounded-full capitalize font-medium transition-all ${
-                selectedCategory === cat
-                  ? "bg-accent text-white shadow-sm"
-                  : "bg-zinc-100 dark:bg-zinc-800/70 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700/60"
-              }`}
-            >
-              {cat === "all" ? "All Projects" : cat}
-              <span className="ml-1.5 opacity-60 text-[10px]">
-                {cat === "all"
-                  ? allProjects.length
-                  : allProjects.filter((p) => p.category === cat).length}
-              </span>
-            </button>
-          ))}
+        {/* Category Filters - Redesigned Modern Chips */}
+        <div className="flex flex-wrap items-center gap-2 pt-2">
+          {categories.map((cat) => {
+            const isSelected = selectedCategory === cat;
+            const count =
+              cat === "all"
+                ? allProjects.length
+                : allProjects.filter((p) => p.category === cat).length;
+
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`group relative inline-flex items-center gap-2 text-xs font-medium px-3.5 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
+                  isSelected
+                    ? "bg-accent/15 text-accent border-accent/40 shadow-xs dark:bg-accent/20 dark:border-accent/50 font-semibold"
+                    : "bg-zinc-100/80 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 border-zinc-200/80 dark:border-zinc-800/80 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/60"
+                }`}
+              >
+                {isSelected && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block shadow-[0_0_6px_rgb(var(--accent))]" />
+                )}
+                <span className="capitalize">{cat === "all" ? "All Projects" : cat}</span>
+                <span
+                  className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md transition-colors ${
+                    isSelected
+                      ? "bg-accent/25 text-accent font-bold"
+                      : "bg-zinc-200/70 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-300"
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -80,9 +99,12 @@ export default function ProjectsPage() {
                     </span>
                   </div>
                 )}
+
+                {/* Redesigned Premium Glassmorphism Featured Badge */}
                 {project.featured && (
-                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-accent text-white shadow-sm">
-                    Featured
+                  <div className="absolute top-2.5 left-2.5 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold uppercase tracking-wider bg-black/65 dark:bg-black/75 backdrop-blur-md text-zinc-100 border border-white/20 dark:border-zinc-700/80 shadow-md">
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    <span>Featured</span>
                   </div>
                 )}
               </div>
@@ -128,14 +150,26 @@ export default function ProjectsPage() {
                 </div>
 
                 <div>
-                  {/* Action Links */}
-                  <div className="flex flex-wrap items-center gap-3 mb-3">
+                  {/* Redesigned Action Links */}
+                  <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
+                    {/* In-Site System Design Blog Case Study Button */}
+                    {(project.architectureDetails || project.architectureDiagram || project.architectureUrl) && (
+                      <Link
+                        href={`/projects/${project.id}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-accent/15 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/40 hover:border-accent transition-all duration-200 shadow-2xs group/arch cursor-pointer"
+                      >
+                        <Layers className="w-3.5 h-3.5 group-hover/arch:rotate-6 transition-transform" />
+                        <span>System Design & Architecture</span>
+                        <ArrowRight className="w-3 h-3 opacity-70 group-hover/arch:translate-x-0.5 transition-transform" />
+                      </Link>
+                    )}
+
                     {project.live && (
                       <a
                         href={project.live}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                       >
                         <ExternalLink className="w-3.5 h-3.5" /> Live Demo
                       </a>
@@ -145,7 +179,7 @@ export default function ProjectsPage() {
                         href={project.github}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                       >
                         <GitHubIcon className="w-3.5 h-3.5" /> GitHub
                       </a>
@@ -155,21 +189,9 @@ export default function ProjectsPage() {
                         href={project.video}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                       >
                         <Play className="w-3.5 h-3.5 text-red-500 fill-red-500" /> YT Demo
-                      </a>
-                    )}
-                    {/* Optional Architecture & Design Button */}
-                    {project.architectureUrl && (
-                      <a
-                        href={project.architectureUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/40 transition-all shadow-2xs"
-                      >
-                        <Layers className="w-3.5 h-3.5" />
-                        <span>See detailed design and architecture</span>
                       </a>
                     )}
                   </div>
@@ -191,6 +213,15 @@ export default function ProjectsPage() {
           </div>
         ))}
       </section>
+
+      {/* System Design & Architecture Modal (available as fallback) */}
+      {archProject && (
+        <ArchitectureModal
+          project={archProject}
+          isOpen={!!archProject}
+          onClose={() => setArchProject(null)}
+        />
+      )}
     </div>
   );
 }
