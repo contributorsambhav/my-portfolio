@@ -14,7 +14,7 @@ async function CalendarSection() {
 }
 
 export default function Home() {
-  const topProjects = allProjects.filter((p) => p.featured).slice(0, 5);
+  const topProjects = allProjects.filter((p) => p.featured);
 
   return (
     <div className="space-y-20">
