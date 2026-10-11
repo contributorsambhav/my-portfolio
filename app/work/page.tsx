@@ -1,74 +1,59 @@
-// app/work/page.tsx
-"use client";
-
-import { Briefcase } from "lucide-react";
-import ExperienceCard from "@/components/shared/ExperienceCard";
-import Link from "next/link";
 import { experiences } from "@/data/experience";
-import { motion } from "framer-motion";
+import { Briefcase } from "lucide-react";
 
-export default function ExperienceList() {
+export default function WorkPage() {
   return (
-    <main className="min-h-screen bg-[#0a0a0f]">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(120,119,198,0.12),transparent)]" />
+    <div className="space-y-12">
+      <section className="space-y-4 border-b border-zinc-200 dark:border-zinc-800/50 pb-8">
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-mono text-accent font-semibold">02</span>
+          <h1 className="text-2xl font-medium text-zinc-900 dark:text-zinc-100">experience.</h1>
+          <span className="text-sm text-zinc-500">Where I&apos;ve worked and what I owned.</span>
+        </div>
+      </section>
 
-        <div className="max-w-6xl mx-auto relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center space-y-6"
+      <section className="space-y-12">
+        {experiences.map((exp) => (
+          <div
+            key={exp.id}
+            className="flex flex-col sm:flex-row gap-5 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/30 shadow-sm"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-sm text-gray-400">
-              <Briefcase className="w-4 h-4" />
-              <span className="font-medium">Career Journey</span>
+            <div className="flex-shrink-0 mt-1">
+              {exp.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={exp.imageUrl}
+                  alt={exp.company}
+                  className="w-12 h-12 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 object-contain p-1.5"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center">
+                  <Briefcase className="w-6 h-6 text-zinc-500" />
+                </div>
+              )}
             </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white">
-              Work{" "}
-              <span className="font-semibold bg-gradient-to-r from-blue-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
-                Experience
-              </span>
-            </h1>
-
-            <p className="text-gray-400/80 max-w-2xl mx-auto font-light text-lg">
-              Professional experience building products and leading technical initiatives.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-      </div>
-
-      {/* Experience Cards */}
-      <section className="py-16 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_50%,rgba(59,130,246,0.06),transparent)]" />
-
-        <div className="max-w-5xl mx-auto relative">
-          <div className="space-y-8">
-            {experiences.map((exp, index) => (
-              <Link key={exp.id} href={`/work/${exp.id}`}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="mb-8"
-                >
-                  <ExperienceCard experience={exp} index={index} />
-                </motion.div>
-              </Link>
-            ))}
+            <div className="flex-1">
+              <div className="flex justify-between items-baseline mb-1">
+                <h2 className="text-zinc-900 dark:text-zinc-100 font-medium text-lg">{exp.company}</h2>
+                <span className="text-xs text-zinc-500 font-mono hidden sm:block">
+                  {exp.duration}
+                </span>
+              </div>
+              <p className="text-sm text-accent font-medium mb-3">
+                {exp.role}
+              </p>
+              <div className="text-xs text-zinc-500 font-mono sm:hidden mb-3">
+                {exp.duration}
+              </div>
+              <ul className="space-y-2.5 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed list-disc list-outside ml-4 max-w-3xl">
+                {exp.description.map((desc, i) => (
+                  <li key={i} className="pl-1">{desc}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
+        ))}
       </section>
-
-      <div className="h-32 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
-    </main>
+    </div>
   );
 }

@@ -21,9 +21,24 @@ export const profile: Profile = {
       icon: "Linkedin",
     },
     {
-      name: "LeetCode",
-      url: "https://github.com/contributorsambhav",
+      name: "X (Twitter)",
+      url: "https://x.com/Sambhav59567",
+      icon: "Twitter",
+    },
+    {
+      name: "Codeforces",
+      url: "https://codeforces.com/profile/FrozenMind18",
       icon: "Code",
+    },
+    {
+      name: "LeetCode",
+      url: "https://leetcode.com/u/coder_sambhav/",
+      icon: "Code",
+    },
+    {
+      name: "DoraHacks",
+      url: "https://dorahacks.io/hacker/sambhav_511974",
+      icon: "Globe",
     },
     {
       name: "Email",

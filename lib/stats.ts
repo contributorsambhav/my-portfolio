@@ -2,8 +2,8 @@
 // Cached server-side functions that fetch all external data
 // ISR: Next.js 'next: { revalidate: 3600 }' will cache these fetches
 
-const FETCH_TIMEOUT_MS = 8000; // 8 seconds max per external API call
-const LEETCODE_TIMEOUT_MS = 3000; // 3 seconds for LeetCode (fails fast, client retries)
+const FETCH_TIMEOUT_MS = 2000; // 2 seconds max per external API call to prevent slow render
+const LEETCODE_TIMEOUT_MS = 1200; // 1.2 seconds for LeetCode (fails fast with fallback)
 
 const BROWSER_UA =
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36";

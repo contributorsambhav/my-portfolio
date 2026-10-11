@@ -3,6 +3,29 @@ import { ExperienceItem } from "@/types";
 
 export const experiences: ExperienceItem[] = [
   {
+    id: "exp-3",
+    company: "Accenture",
+    role: "AEH Intern",
+    location: "Remote",
+    duration: "May 2026 - Jul 2026",
+    startDate: "2026-05",
+    endDate: "2026-07",
+    current: false,
+    description: [
+      "Architected an agentic orchestrator for enterprise microservices, designing multi-step AI workflows with autonomous planning, tool usage, and persistent memory management across networked services.",
+      "Deployed scalable cloud infrastructure across AWS EC2, S3, RDS, and IAM; earned Udacity certifications in Agentic AI and Generative AI."
+    ],
+    achievements: [
+      "Designed multi-step AI workflows for enterprise microservices",
+      "Earned Udacity certifications in Agentic AI and Generative AI"
+    ],
+    technologies: ["Agentic AI", "Generative AI", "AWS EC2", "S3", "RDS", "IAM"],
+    projectLinks: [],
+    certificateImage: "/EXPERIENCE/accenture-cert.jpg", // placeholder if they add it later
+    offerLetterImage: "/EXPERIENCE/accenture-offer.jpg", // placeholder
+    imageUrl: "/EXPERIENCE/accenture.png", // placeholder
+  },
+  {
     id: "exp-2",
     company: "Atlantis Newtech Pvt. Ltd.",
     role: "Full Stack Developer Intern",

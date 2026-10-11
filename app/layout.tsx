@@ -1,34 +1,17 @@
-// app/layout.tsx
 import "./globals.css";
-
-import Footer from "../components/layout/Footer";
-import Header from "../components/layout/Header";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Github, Linkedin, Code2, Globe, Twitter } from "lucide-react";
+import ThemeAccentSelector from "@/components/ui/theme-accent-selector";
+import ThemeToggle from "@/components/ui/theme-toggle";
+import SidebarNav from "@/components/layout/SidebarNav";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Sambhav Gupta - Full Stack Developer & Web3 Enthusiast",
-  description:
-    "Portfolio of Sambhav Gupta - Full Stack Developer, Web3 Enthusiast, and Mathematics & Computing student at NIT Hamirpur. Explore my projects, hackathon wins, and blockchain journey.",
-  keywords: [
-    "Sambhav Gupta",
-    "Full Stack Developer",
-    "Web3",
-    "Blockchain",
-    "NIT Hamirpur",
-    "React",
-    "Next.js",
-    "Portfolio",
-  ],
-  authors: [{ name: "Sambhav Gupta" }],
-  openGraph: {
-    title: "Sambhav Gupta - Full Stack Developer",
-    description:
-      "Portfolio showcasing web development, blockchain projects, and hackathon achievements",
-    type: "website",
-  },
+  title: "Sambhav | Software Engineer",
+  description: "Software Engineer. Building resilient backends, fluid interfaces, and the details in between.",
 };
 
 export default function RootLayout({
@@ -37,22 +20,102 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth dark">
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external domains for faster resource loading */}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-        <link rel="preconnect" href="https://leetcode.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://leetcode.com" />
-        <link rel="preconnect" href="https://github-contributions-api.jogruber.de" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
-        <link rel="preconnect" href="https://codeforces.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://codeforces.com" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const t = localStorage.getItem('theme');
+                const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'light' || (!t && !d)) {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
+                }
+                const a = localStorage.getItem('accent-color');
+                if (a) document.documentElement.style.setProperty('--accent', a);
+              } catch (_) {}
+            `,
+          }}
+        />
       </head>
-      <body className={`${inter.className} antialiased bg-gray-950 text-gray-100`}>
-        <Header />
-        <div className="pt-16">{children}</div>
-        <Footer />
+      <body className={`${inter.className} bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased flex flex-col md:flex-row min-h-screen selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-black dark:selection:text-white transition-colors duration-200`}>
+        {/* Mobile Header */}
+        <header className="md:hidden sticky top-0 z-30 bg-white/90 dark:bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/60 px-4 py-3 flex items-center justify-between transition-colors duration-200">
+          <Link href="/" className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/avatar.jpg" alt="Sambhav" className="w-8 h-8 rounded-full object-cover border border-zinc-200 dark:border-zinc-800" />
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">Sambhav</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/projects" className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
+              Projects
+            </Link>
+            <Link href="/work" className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
+              Experience
+            </Link>
+            <Link href="/contact" className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
+              Contact
+            </Link>
+            <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200 dark:border-zinc-800">
+              <ThemeAccentSelector />
+              <ThemeToggle />
+            </div>
+          </div>
+        </header>
+
+        {/* Left Sidebar */}
+        <aside className="w-64 fixed h-screen p-6 flex flex-col border-r border-zinc-200 dark:border-zinc-800/50 bg-white dark:bg-[#09090b] z-20 overflow-y-auto hidden md:flex transition-colors duration-200">
+          <div className="flex flex-col gap-4 mb-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/avatar.jpg" alt="Sambhav" className="w-16 h-16 rounded-full object-cover border border-zinc-200 dark:border-zinc-800 shadow-sm" />
+            <div>
+              <h2 className="text-zinc-900 dark:text-zinc-100 font-medium text-lg">Sambhav</h2>
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm mt-1 leading-relaxed">Full Stack Developer & Web3 Enthusiast. Building scalable applications.</p>
+            </div>
+          </div>
+
+          <SidebarNav />
+
+          <div className="pt-6 flex flex-col gap-3 text-zinc-600 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800/50 mt-auto">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <a href="https://github.com/contributorsambhav" target="_blank" rel="noreferrer" aria-label="GitHub Profile" className="hover:text-accent transition-colors"><Github className="w-4 h-4" /></a>
+                <a href="https://www.linkedin.com/in/sambhav-2535a8285/" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile" className="hover:text-accent transition-colors"><Linkedin className="w-4 h-4" /></a>
+                <a href="https://x.com/Sambhav59567" target="_blank" rel="noreferrer" aria-label="X Profile" className="hover:text-accent transition-colors"><Twitter className="w-4 h-4" /></a>
+                <a href="https://codeforces.com/profile/FrozenMind18" target="_blank" rel="noreferrer" aria-label="Codeforces Profile" className="hover:text-accent transition-colors"><Code2 className="w-4 h-4" /></a>
+                <a href="https://dorahacks.io/hacker/sambhav_511974" target="_blank" rel="noreferrer" aria-label="DoraHacks Profile" className="hover:text-accent transition-colors"><Globe className="w-4 h-4" /></a>
+              </div>
+              <a href="https://drive.google.com/file/d/1uYP_q5i4DDZ-58BAxnJUGgtgF-6rFLvd/view?usp=sharing" target="_blank" rel="noreferrer" className="text-sm font-medium hover:text-accent transition-colors">Resume</a>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 md:ml-64 bg-zinc-50 dark:bg-[#09090b] min-h-screen flex flex-col transition-colors duration-200">
+          {/* Top Bar for Desktop */}
+          <header className="sticky top-0 z-10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 px-8 py-4 items-center justify-between hidden md:flex transition-colors duration-200">
+            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 text-sm">
+              <span className="font-mono text-xs text-zinc-400 dark:text-zinc-500">portfolio</span>
+              <span className="text-zinc-300 dark:text-zinc-700">/</span>
+              <span className="text-xs text-zinc-600 dark:text-zinc-300">sambhav.dev</span>
+            </div>
+            <div className="flex items-center gap-4 text-zinc-600 dark:text-zinc-400 relative">
+              <a href="https://github.com/contributorsambhav" target="_blank" rel="noreferrer" aria-label="GitHub Profile" className="hover:text-accent transition-colors"><Github className="w-4 h-4" /></a>
+              <a href="https://www.linkedin.com/in/sambhav-2535a8285/" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile" className="hover:text-accent transition-colors"><Linkedin className="w-4 h-4" /></a>
+              <a href="https://x.com/Sambhav59567" target="_blank" rel="noreferrer" aria-label="X Profile" className="hover:text-accent transition-colors"><Twitter className="w-4 h-4" /></a>
+              <a href="https://dorahacks.io/hacker/sambhav_511974" target="_blank" rel="noreferrer" aria-label="DoraHacks Profile" className="hover:text-accent transition-colors"><Globe className="w-4 h-4" /></a>
+              <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
+              <ThemeAccentSelector />
+              <ThemeToggle />
+            </div>
+          </header>
+
+          <div className="p-6 sm:p-8 md:p-12 lg:px-20 lg:py-14 max-w-4xl w-full">
+            {children}
+          </div>
+        </main>
       </body>
     </html>
   );
