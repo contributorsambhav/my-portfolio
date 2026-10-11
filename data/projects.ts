@@ -13,7 +13,7 @@ export const allProjects: Project[] = [
     featured: true,
     github: 'https://github.com/contributorsambhav/LMS',
     live: 'https://lms-sepia-tau.vercel.app/',
-    image: '/projects/LMS.png',
+    image: '/projects/lms.jpg',
     architectureUrl: 'https://github.com/contributorsambhav/LMS#architecture',
     architectureDiagram: '/projects/lms-architecture.png',
     highlights: [
@@ -218,7 +218,7 @@ export const allProjects: Project[] = [
     live: 'https://hiraya-companion.vercel.app/',
     architectureUrl: 'https://github.com/nextgenquanta/rag-test#architecture',
     architectureDiagram: '/projects/hiraya-architecture.png',
-    image: '/projects/hiraya.png',
+    image: '/projects/hiraya.jpg',
     highlights: ['80% response accuracy with NLP', '90% faster information retrieval', 'RAG architecture implementation', '100% context-aware responses'],
     architectureDetails: {
       diagramImage: '/projects/hiraya-architecture.png',
