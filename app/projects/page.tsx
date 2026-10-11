@@ -3,7 +3,8 @@
 import { allProjects } from "@/data/projects";
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { ExternalLink, Github, Play, Layers } from "lucide-react";
+import { ExternalLink, Play, Layers } from "lucide-react";
+import { GitHubIcon } from "@/components/ui/icons";
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -56,7 +57,8 @@ export default function ProjectsPage() {
         {filteredProjects.map((project) => (
           <div
             key={project.id}
-            className="group p-6 rounded-xl border border-zinc-200 dark:border-zinc-800/70 bg-white dark:bg-zinc-900/30 hover:border-zinc-300 dark:hover:border-zinc-700/80 transition-all shadow-sm"
+            id={`project-${project.id}`}
+            className="group p-6 rounded-xl border border-zinc-200 dark:border-zinc-800/70 bg-white dark:bg-zinc-900/30 hover:border-zinc-300 dark:hover:border-zinc-700/80 transition-all shadow-sm scroll-mt-24"
           >
             <div className="flex flex-col md:flex-row gap-6">
               {/* Project Image */}
@@ -145,7 +147,7 @@ export default function ProjectsPage() {
                         rel="noreferrer"
                         className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                       >
-                        <Github className="w-3.5 h-3.5" /> GitHub
+                        <GitHubIcon className="w-3.5 h-3.5" /> GitHub
                       </a>
                     )}
                     {project.video && (
@@ -156,6 +158,18 @@ export default function ProjectsPage() {
                         className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                       >
                         <Play className="w-3.5 h-3.5 text-red-500 fill-red-500" /> YT Demo
+                      </a>
+                    )}
+                    {/* Optional Architecture & Design Button */}
+                    {project.architectureUrl && (
+                      <a
+                        href={project.architectureUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/40 transition-all shadow-2xs"
+                      >
+                        <Layers className="w-3.5 h-3.5" />
+                        <span>See detailed design and architecture</span>
                       </a>
                     )}
                   </div>

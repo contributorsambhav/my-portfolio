@@ -1,11 +1,20 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Github, Linkedin, Code2, Globe, Twitter } from "lucide-react";
+import {
+  GitHubIcon,
+  LinkedInIcon,
+  XIcon,
+  CodeforcesIcon,
+  LeetCodeIcon,
+  DoraHacksIcon,
+} from "@/components/ui/icons";
 import ThemeAccentSelector from "@/components/ui/theme-accent-selector";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import SidebarNav from "@/components/layout/SidebarNav";
+import MobileHeader from "@/components/layout/MobileHeader";
+import DirectoryBreadcrumbs from "@/components/layout/DirectoryBreadcrumbs";
+import { SearchTriggerButton } from "@/components/ui/SearchModal";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -20,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -28,10 +37,10 @@ export default function RootLayout({
               try {
                 const t = localStorage.getItem('theme');
                 const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (t === 'light' || (!t && !d)) {
-                  document.documentElement.classList.remove('dark');
-                } else {
+                if (t === 'dark' || (!t && d)) {
                   document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
                 }
                 const a = localStorage.getItem('accent-color');
                 if (a) document.documentElement.style.setProperty('--accent', a);
@@ -41,33 +50,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased flex flex-col md:flex-row min-h-screen selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-black dark:selection:text-white transition-colors duration-200`}>
-        {/* Mobile Header */}
-        <header className="md:hidden sticky top-0 z-30 bg-white/90 dark:bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/60 px-4 py-3 flex items-center justify-between transition-colors duration-200">
-          <Link href="/" className="flex items-center gap-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/avatar.jpg" alt="Sambhav" className="w-8 h-8 rounded-full object-cover border border-zinc-200 dark:border-zinc-800" />
-            <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">Sambhav</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/projects" className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
-              Projects
-            </Link>
-            <Link href="/work" className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
-              Experience
-            </Link>
-            <Link href="/contact" className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
-              Contact
-            </Link>
-            <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200 dark:border-zinc-800">
-              <ThemeAccentSelector />
-              <ThemeToggle />
-            </div>
-          </div>
-        </header>
+        {/* Mobile Header with Left Hamburger & Directory Structure */}
+        <MobileHeader />
 
         {/* Left Sidebar */}
         <aside className="w-64 fixed h-screen p-6 flex flex-col border-r border-zinc-200 dark:border-zinc-800/50 bg-white dark:bg-[#09090b] z-20 overflow-y-auto hidden md:flex transition-colors duration-200">
-          <div className="flex flex-col gap-4 mb-8">
+          <div className="flex flex-col gap-4 mb-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/avatar.jpg" alt="Sambhav" className="w-16 h-16 rounded-full object-cover border border-zinc-200 dark:border-zinc-800 shadow-sm" />
             <div>
@@ -76,18 +64,24 @@ export default function RootLayout({
             </div>
           </div>
 
+          {/* Quick Search Button in Sidebar */}
+          <div className="mb-6">
+            <SearchTriggerButton className="w-full justify-between" />
+          </div>
+
           <SidebarNav />
 
-          <div className="pt-6 flex flex-col gap-3 text-zinc-600 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800/50 mt-auto">
+          <div className="pt-5 flex flex-col gap-3 text-zinc-600 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800/50 mt-auto">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <a href="https://github.com/contributorsambhav" target="_blank" rel="noreferrer" aria-label="GitHub Profile" className="hover:text-accent transition-colors"><Github className="w-4 h-4" /></a>
-                <a href="https://www.linkedin.com/in/sambhav-2535a8285/" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile" className="hover:text-accent transition-colors"><Linkedin className="w-4 h-4" /></a>
-                <a href="https://x.com/Sambhav59567" target="_blank" rel="noreferrer" aria-label="X Profile" className="hover:text-accent transition-colors"><Twitter className="w-4 h-4" /></a>
-                <a href="https://codeforces.com/profile/FrozenMind18" target="_blank" rel="noreferrer" aria-label="Codeforces Profile" className="hover:text-accent transition-colors"><Code2 className="w-4 h-4" /></a>
-                <a href="https://dorahacks.io/hacker/sambhav_511974" target="_blank" rel="noreferrer" aria-label="DoraHacks Profile" className="hover:text-accent transition-colors"><Globe className="w-4 h-4" /></a>
+                <a href="https://github.com/contributorsambhav" target="_blank" rel="noreferrer" aria-label="GitHub Profile" title="GitHub" className="hover:text-accent transition-colors"><GitHubIcon className="w-4 h-4" /></a>
+                <a href="https://www.linkedin.com/in/sambhav-2535a8285/" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile" title="LinkedIn" className="hover:text-accent transition-colors"><LinkedInIcon className="w-4 h-4" /></a>
+                <a href="https://x.com/Sambhav59567" target="_blank" rel="noreferrer" aria-label="X Profile" title="X (Twitter)" className="hover:text-accent transition-colors"><XIcon className="w-4 h-4" /></a>
+                <a href="https://leetcode.com/u/coder_sambhav/" target="_blank" rel="noreferrer" aria-label="LeetCode Profile" title="LeetCode" className="hover:text-accent transition-colors"><LeetCodeIcon className="w-4 h-4" /></a>
+                <a href="https://codeforces.com/profile/FrozenMind18" target="_blank" rel="noreferrer" aria-label="Codeforces Profile" title="Codeforces" className="hover:text-accent transition-colors"><CodeforcesIcon className="w-4 h-4" /></a>
+                <a href="https://dorahacks.io/hacker/sambhav_511974" target="_blank" rel="noreferrer" aria-label="DoraHacks Profile" title="DoraHacks" className="hover:text-accent transition-colors"><DoraHacksIcon className="w-4 h-4" /></a>
               </div>
-              <a href="https://drive.google.com/file/d/1uYP_q5i4DDZ-58BAxnJUGgtgF-6rFLvd/view?usp=sharing" target="_blank" rel="noreferrer" className="text-sm font-medium hover:text-accent transition-colors">Resume</a>
+              <a href="https://drive.google.com/file/d/1uYP_q5i4DDZ-58BAxnJUGgtgF-6rFLvd/view?usp=sharing" target="_blank" rel="noreferrer" className="text-xs font-medium hover:text-accent transition-colors">Resume</a>
             </div>
           </div>
         </aside>
@@ -96,16 +90,17 @@ export default function RootLayout({
         <main className="flex-1 md:ml-64 bg-zinc-50 dark:bg-[#09090b] min-h-screen flex flex-col transition-colors duration-200">
           {/* Top Bar for Desktop */}
           <header className="sticky top-0 z-10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 px-8 py-4 items-center justify-between hidden md:flex transition-colors duration-200">
-            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 text-sm">
-              <span className="font-mono text-xs text-zinc-400 dark:text-zinc-500">portfolio</span>
-              <span className="text-zinc-300 dark:text-zinc-700">/</span>
-              <span className="text-xs text-zinc-600 dark:text-zinc-300">sambhav.dev</span>
-            </div>
-            <div className="flex items-center gap-4 text-zinc-600 dark:text-zinc-400 relative">
-              <a href="https://github.com/contributorsambhav" target="_blank" rel="noreferrer" aria-label="GitHub Profile" className="hover:text-accent transition-colors"><Github className="w-4 h-4" /></a>
-              <a href="https://www.linkedin.com/in/sambhav-2535a8285/" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile" className="hover:text-accent transition-colors"><Linkedin className="w-4 h-4" /></a>
-              <a href="https://x.com/Sambhav59567" target="_blank" rel="noreferrer" aria-label="X Profile" className="hover:text-accent transition-colors"><Twitter className="w-4 h-4" /></a>
-              <a href="https://dorahacks.io/hacker/sambhav_511974" target="_blank" rel="noreferrer" aria-label="DoraHacks Profile" className="hover:text-accent transition-colors"><Globe className="w-4 h-4" /></a>
+            {/* Directory Structure */}
+            <DirectoryBreadcrumbs />
+
+            {/* Right Handles & Controls */}
+            <div className="flex items-center gap-3.5 text-zinc-600 dark:text-zinc-400 relative">
+              <a href="https://github.com/contributorsambhav" target="_blank" rel="noreferrer" aria-label="GitHub Profile" title="GitHub" className="hover:text-accent transition-colors"><GitHubIcon className="w-4 h-4" /></a>
+              <a href="https://www.linkedin.com/in/sambhav-2535a8285/" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile" title="LinkedIn" className="hover:text-accent transition-colors"><LinkedInIcon className="w-4 h-4" /></a>
+              <a href="https://x.com/Sambhav59567" target="_blank" rel="noreferrer" aria-label="X Profile" title="X (Twitter)" className="hover:text-accent transition-colors"><XIcon className="w-4 h-4" /></a>
+              <a href="https://leetcode.com/u/coder_sambhav/" target="_blank" rel="noreferrer" aria-label="LeetCode Profile" title="LeetCode" className="hover:text-accent transition-colors"><LeetCodeIcon className="w-4 h-4" /></a>
+              <a href="https://codeforces.com/profile/FrozenMind18" target="_blank" rel="noreferrer" aria-label="Codeforces Profile" title="Codeforces" className="hover:text-accent transition-colors"><CodeforcesIcon className="w-4 h-4" /></a>
+              <a href="https://dorahacks.io/hacker/sambhav_511974" target="_blank" rel="noreferrer" aria-label="DoraHacks Profile" title="DoraHacks" className="hover:text-accent transition-colors"><DoraHacksIcon className="w-4 h-4" /></a>
               <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
               <ThemeAccentSelector />
               <ThemeToggle />

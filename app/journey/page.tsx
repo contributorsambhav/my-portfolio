@@ -30,13 +30,21 @@ export default function JourneyPage() {
   ];
 
   const bucketList = [
-    { text: "Create Portfolio Website", completed: true },
-    { text: "Win national hackathon (Smart India Hackathon / Payman AI Dev Challenge)", completed: true },
-    { text: "Achieve 36+ PSNR on AI Frame Interpolator for ISRO Problem Statement", completed: true },
-    { text: "Solve 500+ LeetCode problems & rank candidate master on Codeforces", completed: true },
-    { text: "Ship decentralized remittance protocol on Ethereum & Stellar", completed: true },
-    { text: "Contribute major features to open-source developer tooling", completed: false },
-    { text: "Lead engineering team for a high-scale production system", completed: false },
+    { text: "Crack JEE and secure admission to a premier National Institute of Technology (NIT)", completed: true },
+    { text: "Design and ship a high-performance personal portfolio website", completed: true },
+    { text: "Intern across high-growth startups and a Fortune 500 company", completed: true },
+    { text: "Architect a scalable Learning Management System and onboard 3 clients", completed: true },
+    { text: "Develop a compliant enterprise ERP system and onboard 3 corporate clients", completed: true },
+    { text: "Solve 500+ LeetCode problems & achieve Specialist rank on Codeforces", completed: true },
+    { text: "Secure a full-time software engineering offer", completed: true },
+    { text: "Trek to Vaishno Devi within a single day and seek divine blessings", completed: true },
+    { text: "Summit Churdhar Peak — the highest summit of the Shivalik Himalayas", completed: false },
+    { text: "Tie the knot and build a loving family", completed: false },
+    { text: "Lead an engineering team architecting high-scale distributed production systems", completed: false },
+    { text: "Achieve financial freedom and become a millionaire by age 35", completed: false },
+    { text: "Deploy a decentralized remittance system approved for real-world institutional adoption", completed: false },
+    { text: "Build a venture of generational impact and reach billionaire status", completed: false },
+    { text: "Cultivate inner peace, gratitude, and lifelong contentment", completed: false },
   ];
 
   return (
@@ -99,8 +107,8 @@ export default function JourneyPage() {
                 )}
               </div>
               <span className={`text-sm ${item.completed
-                  ? "text-zinc-900 dark:text-zinc-100 font-medium border-b-2 border-accent/80 pb-0.5"
-                  : "text-zinc-500 dark:text-zinc-400"
+                ? "text-zinc-900 dark:text-zinc-100 font-medium border-b-2 border-accent/80 pb-0.5"
+                : "text-zinc-500 dark:text-zinc-400"
                 }`}>
                 {item.text}
               </span>

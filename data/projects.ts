@@ -13,6 +13,7 @@ export const allProjects: Project[] = [
     featured: true,
     github: 'https://github.com/contributorsambhav/RemitPay',
     live: 'https://remit-pay.vercel.app/',
+    architectureUrl: 'https://github.com/contributorsambhav/RemitPay#architecture',
     image: '/projects/remitpay.png',
     highlights: ['On-chain KYC workflow with approval and rejection logic', 'Tier-based daily remittance limits (TIER1 → VIP)', 'Government-style central admin control using Ownable', 'User whitelisting, blacklisting, and account freezing', 'Secure remittance with reentrancy protection and pausing', 'Transparent transaction logging and fee collection', 'Emergency recovery and withdrawal mechanisms'],
     metrics: [
@@ -50,7 +51,8 @@ export const allProjects: Project[] = [
     category: 'fullstack',
     featured: true,
     github: 'https://github.com/contributorsambhav/ReactChess',
-    live: 'https://reactchess.onrender.com/',
+    live: 'https://react-chess-e451.vercel.app/',
+    architectureUrl: 'https://github.com/contributorsambhav/ReactChess#architecture',
     image: '/projects/chess-master.png',
     highlights: ['Sub-100ms latency with WebSockets', 'Stockfish AI (2800 ELO rating)', 'Secure JWT authentication', 'Real-time multiplayer gameplay'],
     metrics: [
@@ -127,6 +129,7 @@ export const allProjects: Project[] = [
     featured: true,
     github: 'https://github.com/contributorsambhav/saarthi',
     live: 'https://saarthi-web.vercel.app/',
+    architectureUrl: 'https://github.com/contributorsambhav/saarthi#system-architecture',
     video: 'https://www.youtube.com/watch?v=V8kZM2U_b14',
     highlights: ['Collision-free train path and schedule optimization', 'Operations Research–based modeling using IBM ILOG CPLEX', 'Constraint-based optimization with OPL', 'Frontend simulation and visualization of routing decisions', 'Designed for real-world railway traffic constraints', 'Built for Smart India Hackathon 2025 – Ministry of Railways problem statement'],
     metrics: [

@@ -82,8 +82,8 @@ html {
   border-color: rgb(var(--accent));
 }
 .text-accent-contrast {
-  color: #09090b;
+  color: #ffffff;
 }
 .dark .text-accent-contrast {
-  color: #09090b;
+  color: #ffffff;
 }

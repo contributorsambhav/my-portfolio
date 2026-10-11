@@ -71,6 +71,11 @@ export interface Project {
   video?: string;
   image?: string;
   highlights: string[];
+  architectureUrl?: string;
+  architectureDetails?: {
+    overview?: string;
+    diagram?: string;
+  };
   metrics?: {
     label: string;
     value: string;

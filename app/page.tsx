@@ -1,6 +1,7 @@
 import { allProjects } from "@/data/projects";
 import { experiences } from "@/data/experience";
-import { ExternalLink, ArrowRight, Mail, Briefcase, Github, Play } from "lucide-react";
+import { ExternalLink, ArrowRight, Mail, Briefcase, Play } from "lucide-react";
+import { GitHubIcon } from "@/components/ui/icons";
 import ContributionCalendarClient from "@/components/ui/contribution-calendar-client";
 import { getStatsData } from "@/lib/stats";
 import Link from "next/link";
@@ -65,9 +66,10 @@ export default function Home() {
         <div className="flex flex-wrap items-center gap-3 pt-3">
           <Link
             href="/contact"
-            className="flex items-center gap-2 text-sm font-semibold bg-accent text-accent-contrast px-4 py-2 rounded-lg hover:opacity-90 transition-opacity shadow-[0_0_15px_rgb(var(--accent)/0.25)]"
+            className="flex items-center gap-2 text-sm font-semibold bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity shadow-[0_0_15px_rgb(var(--accent)/0.25)]"
           >
-            <Mail className="w-4 h-4" /> Send an email
+            <Mail className="w-4 h-4 text-white" />
+            <span>Send an email</span>
           </Link>
           <a
             href="https://github.com/contributorsambhav"
@@ -75,7 +77,7 @@ export default function Home() {
             rel="noreferrer"
             className="flex items-center gap-2 text-sm font-medium bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 px-4 py-2 rounded-lg transition-colors"
           >
-            <Github className="w-4 h-4" /> View GitHub
+            <GitHubIcon className="w-4 h-4" /> View GitHub
           </a>
         </div>
       </section>
@@ -145,6 +147,12 @@ export default function Home() {
                   <div>
                     {/* Action Links */}
                     <div className="flex flex-wrap items-center gap-3 mb-3">
+                      <Link
+                        href={`/projects#project-${project.id}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent hover:text-white dark:hover:text-white border border-accent/30 transition-all"
+                      >
+                        More details <ArrowRight className="w-3 h-3" />
+                      </Link>
                       {project.live && (
                         <a
                           href={project.live}
@@ -162,7 +170,7 @@ export default function Home() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-700/60 transition-colors"
                         >
-                          <Github className="w-3.5 h-3.5" /> GitHub
+                          <GitHubIcon className="w-3.5 h-3.5" /> GitHub
                         </a>
                       )}
                       {project.video && (

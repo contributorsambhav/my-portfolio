@@ -1,6 +1,14 @@
 "use client";
 
-import { Mail, Copy, ArrowUpRight, Github, Linkedin, Code2, Terminal, Globe, Twitter } from "lucide-react";
+import { Mail, Copy, ArrowUpRight } from "lucide-react";
+import {
+  GitHubIcon,
+  LinkedInIcon,
+  XIcon,
+  LeetCodeIcon,
+  CodeforcesIcon,
+  DoraHacksIcon,
+} from "@/components/ui/icons";
 import { useState } from "react";
 
 export default function ContactPage() {
@@ -18,37 +26,37 @@ export default function ContactPage() {
       name: "GitHub",
       handle: "@contributorsambhav",
       url: "https://github.com/contributorsambhav",
-      icon: Github,
+      icon: GitHubIcon,
     },
     {
       name: "LinkedIn",
       handle: "@Sambhav",
       url: "https://www.linkedin.com/in/sambhav-2535a8285/",
-      icon: Linkedin,
+      icon: LinkedInIcon,
     },
     {
       name: "X (Twitter)",
       handle: "@Sambhav59567",
       url: "https://x.com/Sambhav59567",
-      icon: Twitter,
+      icon: XIcon,
     },
     {
       name: "LeetCode",
       handle: "@coder_sambhav",
       url: "https://leetcode.com/u/coder_sambhav/",
-      icon: Code2,
+      icon: LeetCodeIcon,
     },
     {
       name: "Codeforces",
       handle: "@FrozenMind18",
       url: "https://codeforces.com/profile/FrozenMind18",
-      icon: Terminal,
+      icon: CodeforcesIcon,
     },
     {
       name: "DoraHacks",
       handle: "@sambhav_511974",
       url: "https://dorahacks.io/hacker/sambhav_511974",
-      icon: Globe,
+      icon: DoraHacksIcon,
     },
     {
       name: "Email",
@@ -86,9 +94,10 @@ export default function ContactPage() {
           </button>
           <a 
             href={`mailto:${email}`}
-            className="flex-1 sm:flex-none flex items-center justify-center px-5 py-2 rounded-xl bg-accent text-accent-contrast font-semibold text-xs sm:text-sm hover:opacity-90 transition-opacity shadow-[0_0_15px_rgb(var(--accent)/0.25)]"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-accent text-white font-semibold text-xs sm:text-sm hover:opacity-90 transition-opacity shadow-[0_0_15px_rgb(var(--accent)/0.25)]"
           >
-            Write an email
+            <Mail className="w-4 h-4 text-white" />
+            <span>Write an email</span>
           </a>
         </div>
       </div>
