@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth hide-scrollbar" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -54,7 +54,7 @@ export default function RootLayout({
         <MobileHeader />
 
         {/* Left Sidebar */}
-        <aside className="w-64 fixed h-screen p-6 flex flex-col border-r border-zinc-200 dark:border-zinc-800/50 bg-white dark:bg-[#09090b] z-20 overflow-y-auto hidden md:flex">
+        <aside className="w-64 fixed h-screen p-6 flex flex-col border-r border-zinc-200 dark:border-zinc-800/50 bg-white dark:bg-[#09090b] z-20 overflow-y-auto hide-scrollbar hidden md:flex">
           <div className="flex flex-col gap-4 mb-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/avatar.jpg" alt="Sambhav" className="w-16 h-16 rounded-full object-cover border border-zinc-200 dark:border-zinc-800 shadow-sm" />

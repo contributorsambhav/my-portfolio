@@ -20,16 +20,18 @@ export default function ThemeToggle() {
   }, []);
 
   const toggleTheme = () => {
-    const isCurrentlyDark = document.documentElement.classList.contains("dark");
+    const root = document.documentElement;
+    root.classList.add("theme-switching");
+    const isCurrentlyDark = root.classList.contains("dark");
     const nextDark = !isCurrentlyDark;
 
     if (nextDark) {
-      document.documentElement.classList.add("dark");
+      root.classList.add("dark");
       try {
         localStorage.setItem("theme", "dark");
       } catch (_) {}
     } else {
-      document.documentElement.classList.remove("dark");
+      root.classList.remove("dark");
       try {
         localStorage.setItem("theme", "light");
       } catch (_) {}
@@ -37,6 +39,9 @@ export default function ThemeToggle() {
 
     setIsDark(nextDark);
     window.dispatchEvent(new Event("theme-change"));
+    requestAnimationFrame(() => {
+      root.classList.remove("theme-switching");
+    });
   };
 
   if (!mounted) {

@@ -105,6 +105,13 @@ export default function SidebarNav() {
     return pathname.startsWith(href.split("#")[0]);
   };
 
+  const itemClass = (active: boolean) =>
+    `flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-colors group border ${
+      active
+        ? "bg-accent/10 text-zinc-950 dark:text-white border-accent/40"
+        : "text-zinc-600 dark:text-zinc-400 border-transparent hover:text-accent hover:bg-accent/10 hover:border-accent/30"
+    }`;
+
   return (
     <div className="flex flex-col gap-6 flex-1">
       <div>
@@ -118,24 +125,20 @@ export default function SidebarNav() {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-all group ${
-                  active
-                    ? "bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-sm border border-zinc-200/80 dark:border-zinc-800"
-                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100/60 dark:hover:bg-zinc-850/40"
-                }`}
+                className={itemClass(active)}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
+                  <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500 group-hover:text-accent"}`} />
                   <span>{item.label}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   {item.count !== undefined && (
-                    <span className={`text-xs font-mono ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500"}`}>
+                    <span className={`text-xs font-mono transition-colors ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500 group-hover:text-accent"}`}>
                       {item.count}
                     </span>
                   )}
                   {item.isPageNav && (
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                   )}
                 </div>
               </Link>
@@ -154,24 +157,20 @@ export default function SidebarNav() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-all group ${
-                  active
-                    ? "bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-sm border border-zinc-200/80 dark:border-zinc-800"
-                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100/60 dark:hover:bg-zinc-850/40"
-                }`}
+                className={itemClass(active)}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
+                  <Icon className={`w-4 h-4 transition-colors ${active ? "text-accent" : "text-zinc-400 dark:text-zinc-500 group-hover:text-accent"}`} />
                   <span>{item.label}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   {item.count !== undefined && (
-                    <span className={`text-xs font-mono ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500"}`}>
+                    <span className={`text-xs font-mono transition-colors ${active ? "text-accent font-semibold" : "text-zinc-400 dark:text-zinc-500 group-hover:text-accent"}`}>
                       {item.count}
                     </span>
                   )}
                   {item.isPageNav && (
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 opacity-60 group-hover:text-accent group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                   )}
                 </div>
               </Link>

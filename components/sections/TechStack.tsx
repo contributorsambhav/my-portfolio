@@ -194,7 +194,7 @@ export default function TechStack(): JSX.Element {
                 </div>
                 
                 {/* Horizontally Scrollable Technologies */}
-                <div className="flex-1 overflow-x-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <div className="flex-1 overflow-x-auto hide-scrollbar">
                   <div className="flex gap-2 pb-2">
                     {category.technologies.map((tech, techIndex) => {
                       const projectCount = techProjectCounts[tech.name] || 0;
@@ -279,7 +279,7 @@ export default function TechStack(): JSX.Element {
               Practices
             </h3>
             
-            <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex-1">
+            <div className="overflow-x-auto hide-scrollbar flex-1">
               <div className="flex gap-3 pb-2">
                 {methodologies.map((methodology, index) => {
                   const isHovered = hoveredPractice === methodology.name;
@@ -319,21 +319,6 @@ export default function TechStack(): JSX.Element {
         </motion.div>
       </div>
 
-      <style jsx global>{`
-        .scrollbar-thin::-webkit-scrollbar {
-          height: 6px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 3px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.15);
-        }
-      `}</style>
     </section>
   );
 }

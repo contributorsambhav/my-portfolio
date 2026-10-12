@@ -38,7 +38,7 @@ export default function JourneyPage() {
     { text: "Solve 500+ LeetCode problems & achieve Specialist rank on Codeforces", completed: true },
     { text: "Secure a full-time software engineering offer", completed: true },
     { text: "Trek to Vaishno Devi within a single day and seek divine blessings", completed: true },
-    { text: "Summit Churdhar Peak — the highest summit of the Shivalik Himalayas", completed: false },
+    { text: "Summit Churdhar Peak - the highest summit of the Shivalik Himalayas", completed: false },
     { text: "Tie the knot and build a loving family", completed: false },
     { text: "Lead an engineering team architecting high-scale distributed production systems", completed: false },
     { text: "Achieve financial freedom and become a millionaire by age 35", completed: false },

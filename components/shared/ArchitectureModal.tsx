@@ -85,7 +85,7 @@ export default function ArchitectureModal({
         )}
 
         {/* Content body */}
-        <div className="overflow-y-auto p-5 sm:p-7 space-y-8 flex-1">
+        <div className="overflow-y-auto hide-scrollbar p-5 sm:p-7 space-y-8 flex-1">
           {activeTab === "architecture" ? (
             <>
               {/* Problem statement */}

@@ -27,7 +27,7 @@ export default function Home() {
 
         <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl pt-2">
           <p>
-            I&apos;m a software engineer who enjoys turning complex problems into reliable, scalable products. I care about more than just making things work — I care about how they&apos;re architected, how they perform under real-world conditions, and how the details come together to create a great user experience.
+            I&apos;m a software engineer who enjoys turning complex problems into reliable, scalable products. I care about more than just making things work - I care about how they&apos;re architected, how they perform under real-world conditions, and how the details come together to create a great user experience.
           </p>
           <p>
             Currently pursuing Mathematics &amp; Computing at NIT Hamirpur, I work across full-stack development, AI systems, and Web3. I enjoy building end-to-end solutions, from designing system architecture and backend services to crafting interfaces and shipping products. My recent work includes{" "}
