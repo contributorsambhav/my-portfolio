@@ -99,7 +99,7 @@ export default function MobileHeader() {
 
   return (
     <>
-      <header className="md:hidden sticky top-0 z-30 bg-white/90 dark:bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/60 px-4 py-3 flex items-center justify-between transition-colors duration-200">
+      <header className="md:hidden sticky top-0 z-30 bg-white/90 dark:bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/60 px-4 py-3 flex items-center justify-between">
         {/* Left: Hamburger Button + Directory Structure */}
         <div className="flex items-center gap-3 min-w-0">
           <button

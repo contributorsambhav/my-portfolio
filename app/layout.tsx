@@ -49,12 +49,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased flex flex-col md:flex-row min-h-screen selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-black dark:selection:text-white transition-colors duration-200`}>
+      <body className={`${inter.className} bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased flex flex-col md:flex-row min-h-screen selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-black dark:selection:text-white`}>
         {/* Mobile Header with Left Hamburger & Directory Structure */}
         <MobileHeader />
 
         {/* Left Sidebar */}
-        <aside className="w-64 fixed h-screen p-6 flex flex-col border-r border-zinc-200 dark:border-zinc-800/50 bg-white dark:bg-[#09090b] z-20 overflow-y-auto hidden md:flex transition-colors duration-200">
+        <aside className="w-64 fixed h-screen p-6 flex flex-col border-r border-zinc-200 dark:border-zinc-800/50 bg-white dark:bg-[#09090b] z-20 overflow-y-auto hidden md:flex">
           <div className="flex flex-col gap-4 mb-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/avatar.jpg" alt="Sambhav" className="w-16 h-16 rounded-full object-cover border border-zinc-200 dark:border-zinc-800 shadow-sm" />
@@ -87,9 +87,9 @@ export default function RootLayout({
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 md:ml-64 bg-zinc-50 dark:bg-[#09090b] min-h-screen flex flex-col transition-colors duration-200">
+        <main className="flex-1 md:ml-64 bg-zinc-50 dark:bg-[#09090b] min-h-screen flex flex-col">
           {/* Top Bar for Desktop */}
-          <header className="sticky top-0 z-10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 px-8 py-4 items-center justify-between hidden md:flex transition-colors duration-200">
+          <header className="sticky top-0 z-10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 px-8 py-4 items-center justify-between hidden md:flex">
             {/* Directory Structure */}
             <DirectoryBreadcrumbs />
 

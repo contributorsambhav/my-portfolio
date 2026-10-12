@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, X, FolderDot, Briefcase, FileText, ArrowUpRight, Compass, CheckSquare, Mail, CornerDownLeft } from "lucide-react";
+import { Search, X, FolderDot, Briefcase, FileText, ArrowUpRight, Compass, CheckSquare, Mail, CornerDownLeft, Sun } from "lucide-react";
 import { allProjects } from "@/data/projects";
 import { experiences } from "@/data/experience";
 import { XIcon, GitHubIcon, LinkedInIcon, LeetCodeIcon, CodeforcesIcon, DoraHacksIcon } from "@/components/ui/icons";
 
 interface SearchResult {
   id: string;
-  category: "Pages" | "Projects" | "Experience" | "Links";
+  category: "Pages" | "Projects" | "Experience" | "Links" | "Theme";
   title: string;
   subtitle?: string;
   url: string;
@@ -29,14 +29,27 @@ export default function SearchModal({
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  const isKeyboardNav = useRef(false);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
   // Focus input when opened
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 50);
       setQuery("");
       setSelectedIndex(0);
+      isKeyboardNav.current = false;
     }
   }, [isOpen]);
+
+  // Keep selected item scrolled into view when navigating via keys
+  useEffect(() => {
+    if (isOpen && itemRefs.current[selectedIndex]) {
+      itemRefs.current[selectedIndex]?.scrollIntoView({
+        block: "nearest",
+      });
+    }
+  }, [selectedIndex, isOpen]);
 
   // Lock body scroll when open
   useEffect(() => {
@@ -52,6 +65,9 @@ export default function SearchModal({
 
   // Static items pool
   const allItems: SearchResult[] = [
+    // Theme & Quick Preferences
+    { id: "action-theme", category: "Theme", title: "Toggle Theme", subtitle: "Switch between dark and light mode", url: "#toggle-theme", icon: Sun },
+
     // Navigation Pages
     { id: "page-home", category: "Pages", title: "Home", subtitle: "Overview, bio & featured work", url: "/", icon: FileText },
     { id: "page-projects", category: "Pages", title: "Projects", subtitle: "Full catalog of 16 shipped projects", url: "/projects", icon: FolderDot },
@@ -105,6 +121,23 @@ export default function SearchModal({
 
   const handleSelect = (item: SearchResult) => {
     onClose();
+    if (item.id === "action-theme") {
+      const isCurrentlyDark = document.documentElement.classList.contains("dark");
+      const nextDark = !isCurrentlyDark;
+      if (nextDark) {
+        document.documentElement.classList.add("dark");
+        try {
+          localStorage.setItem("theme", "dark");
+        } catch (_) {}
+      } else {
+        document.documentElement.classList.remove("dark");
+        try {
+          localStorage.setItem("theme", "light");
+        } catch (_) {}
+      }
+      window.dispatchEvent(new Event("theme-change"));
+      return;
+    }
     if (item.isExternal) {
       window.open(item.url, "_blank", "noopener,noreferrer");
     } else {
@@ -115,9 +148,11 @@ export default function SearchModal({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
+      isKeyboardNav.current = true;
       setSelectedIndex((prev) => (prev + 1) % Math.max(1, filtered.length));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
+      isKeyboardNav.current = true;
       setSelectedIndex((prev) => (prev - 1 + filtered.length) % Math.max(1, filtered.length));
     } else if (e.key === "Enter") {
       e.preventDefault();
@@ -136,15 +171,15 @@ export default function SearchModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-100"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-xl bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col text-zinc-900 dark:text-zinc-100 animate-in zoom-in-95 duration-150"
+        className="w-full max-w-xl bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col text-zinc-900 dark:text-zinc-100 animate-in zoom-in-95 duration-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800 focus-within:border-accent/40 transition-colors">
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800 focus-within:border-accent/40">
           <Search className="w-5 h-5 text-zinc-400 dark:text-zinc-500 flex-shrink-0" />
           <input
             ref={inputRef}
@@ -161,7 +196,7 @@ export default function SearchModal({
           {query && (
             <button
               onClick={() => setQuery("")}
-              className="p-1 rounded-md text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors"
+              className="p-1 rounded-md text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-pointer"
               aria-label="Clear query"
             >
               <X className="w-4 h-4" />
@@ -173,7 +208,12 @@ export default function SearchModal({
         </div>
 
         {/* Results List */}
-        <div className="max-h-[380px] overflow-y-auto p-2 space-y-1">
+        <div
+          className="max-h-[380px] overflow-y-auto p-2 space-y-1"
+          onMouseMove={() => {
+            isKeyboardNav.current = false;
+          }}
+        >
           {filtered.length === 0 ? (
             <div className="py-12 text-center text-sm text-zinc-500 dark:text-zinc-400">
               No results found for &ldquo;<span className="text-zinc-900 dark:text-zinc-200 font-medium">{query}</span>&rdquo;
@@ -185,17 +225,27 @@ export default function SearchModal({
               return (
                 <button
                   key={item.id}
+                  ref={(el) => {
+                    itemRefs.current[index] = el;
+                  }}
                   onClick={() => handleSelect(item)}
-                  onMouseEnter={() => setSelectedIndex(index)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-sm transition-all ${
+                  onPointerMove={() => {
+                    if (isKeyboardNav.current) {
+                      isKeyboardNav.current = false;
+                    }
+                    if (selectedIndex !== index) {
+                      setSelectedIndex(index);
+                    }
+                  }}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-sm transition-none select-none cursor-pointer ${
                     isSelected
                       ? "bg-accent/10 dark:bg-accent/15 border border-accent/40 text-zinc-950 dark:text-white shadow-[0_0_15px_rgb(var(--accent)/0.1)]"
-                      : "border border-transparent text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/60 dark:hover:bg-zinc-850/40"
+                      : "border border-transparent text-zinc-700 dark:text-zinc-300"
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div
-                      className={`p-2 rounded-lg flex-shrink-0 transition-all ${
+                      className={`p-2 rounded-lg flex-shrink-0 transition-none ${
                         isSelected
                           ? "bg-accent text-white shadow-sm shadow-accent/30"
                           : "bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400"
@@ -213,7 +263,7 @@ export default function SearchModal({
                         )}
                       </div>
                       {item.subtitle && (
-                        <div className={`text-xs truncate transition-colors ${isSelected ? "text-zinc-700 dark:text-zinc-300" : "text-zinc-500 dark:text-zinc-400"}`}>
+                        <div className={`text-xs truncate ${isSelected ? "text-zinc-700 dark:text-zinc-300" : "text-zinc-500 dark:text-zinc-400"}`}>
                           {item.subtitle}
                         </div>
                       )}
@@ -221,7 +271,7 @@ export default function SearchModal({
                   </div>
                   <div className="flex items-center gap-2 ml-3 flex-shrink-0">
                     <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded transition-colors ${
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded ${
                         isSelected
                           ? "bg-accent/20 text-accent font-semibold border border-accent/30"
                           : "bg-zinc-100 dark:bg-zinc-800 text-zinc-500"
@@ -230,7 +280,7 @@ export default function SearchModal({
                       {item.category}
                     </span>
                     {isSelected && (
-                      <CornerDownLeft className="w-3.5 h-3.5 text-accent animate-in fade-in duration-150 hidden sm:block" />
+                      <CornerDownLeft className="w-3.5 h-3.5 text-accent hidden sm:block" />
                     )}
                   </div>
                 </button>
