@@ -1,5 +1,5 @@
 // app/api/leetcode/route.ts
-// Proxy route for LeetCode GraphQL — solves CORS issues for client-side fallback.
+// Proxy route for LeetCode GraphQL - solves CORS issues for client-side fallback.
 // The client calls this route (same origin, no CORS), and we forward to LeetCode.
 
 import { NextRequest, NextResponse } from "next/server";

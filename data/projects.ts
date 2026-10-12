@@ -54,7 +54,7 @@ export const allProjects: Project[] = [
         { label: 'Transcoding Stability', value: '100% Uptime' },
         { label: 'Tenant Isolation', value: 'Strict RBAC' }
       ],
-      elevatorPitch: 'This LMS is an enterprise multi-tenant platform I built end-to-end to streamline academic workflows—from hierarchical onboarding to zero-egress HLS video delivery and live doubt clearing. Using Next.js, Node.js, MongoDB, and Cloudflare R2, I eliminated recurring video bandwidth costs and prevented server memory crashes through isolated microservice architecture.'
+      elevatorPitch: 'This LMS is an enterprise multi-tenant platform I built end-to-end to streamline academic workflows - from hierarchical onboarding to zero-egress HLS video delivery and live doubt clearing. Using Next.js, Node.js, MongoDB, and Cloudflare R2, I eliminated recurring video bandwidth costs and prevented server memory crashes through isolated microservice architecture.'
     },
     metrics: [
       { label: 'Bandwidth Egress', value: '$0 (Zero Egress)' },
@@ -308,7 +308,7 @@ export const allProjects: Project[] = [
     live: 'https://saarthi-web.vercel.app/',
     architectureUrl: 'https://github.com/contributorsambhav/saarthi#system-architecture',
     video: 'https://www.youtube.com/watch?v=V8kZM2U_b14',
-    highlights: ['Collision-free train path and schedule optimization', 'Operations Research–based modeling using IBM ILOG CPLEX', 'Constraint-based optimization with OPL', 'Frontend simulation and visualization of routing decisions', 'Designed for real-world railway traffic constraints', 'Built for Smart India Hackathon 2025 – Ministry of Railways problem statement'],
+    highlights: ['Collision-free train path and schedule optimization', 'Operations Research-based modeling using IBM ILOG CPLEX', 'Constraint-based optimization with OPL', 'Frontend simulation and visualization of routing decisions', 'Designed for real-world railway traffic constraints', 'Built for Smart India Hackathon 2025 - Ministry of Railways problem statement'],
     metrics: [
       { label: 'Optimization Engine', value: 'IBM ILOG CPLEX' },
       { label: 'Domain', value: 'Railway Scheduling & Routing' },
@@ -369,7 +369,7 @@ export const allProjects: Project[] = [
 
   {
     id: '11',
-    title: 'Among Us – DSC Landing Page',
+    title: 'Among Us - DSC Landing Page',
     tagline: 'Sponsor Landing Page for DSC Event',
     description: 'A static landing page built to showcase the Among Us themed event organized by DSC, including sponsor information, event overview, and call-to-action sections.',
     longDescription: 'Developed a responsive and visually engaging landing page for an Among Us themed event hosted by DSC (Developer Students Club). The page highlights event details, sponsor logos, schedule brief, and key calls to action to attract attendees. Built with modern frontend tooling and deployed live for promotional use. Focused on UI clarity, responsiveness across devices, and seamless navigation.',

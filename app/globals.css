@@ -41,29 +41,28 @@ html {
   scroll-behavior: smooth;
 }
 
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
 ::selection {
   background-color: rgb(var(--accent) / 0.25);
   color: inherit;
 }
 
-/* Minimal Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.hide-scrollbar,
+.hide-scrollbar * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(140, 140, 140, 0.25);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(140, 140, 140, 0.45);
-}
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(140, 140, 140, 0.25) transparent;
+.hide-scrollbar::-webkit-scrollbar,
+.hide-scrollbar *::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 :root {

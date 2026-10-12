@@ -243,7 +243,7 @@ export default function ContributionCalendarClient({
       </div>
       
       {/* Calendar Grid */}
-      <div className="overflow-x-auto pb-4">
+      <div className="overflow-x-auto hide-scrollbar pb-4">
         {(!data || data.length === 0) ? (
            <div className="h-24 flex items-center justify-center text-xs text-zinc-500 animate-pulse">
              Loading activity...

@@ -132,7 +132,7 @@ export default function MobileHeader() {
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="w-full max-w-sm bg-white dark:bg-[#0c0c0e] border-b border-r border-zinc-200 dark:border-zinc-800 p-5 shadow-2xl h-[calc(100vh-53px)] overflow-y-auto flex flex-col animate-in slide-in-from-left-6 duration-200"
+            className="w-full max-w-sm bg-white dark:bg-[#0c0c0e] border-b border-r border-zinc-200 dark:border-zinc-800 p-5 shadow-2xl h-[calc(100vh-53px)] overflow-y-auto hide-scrollbar flex flex-col animate-in slide-in-from-left-6 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* User Profile Header in Drawer */}
@@ -176,14 +176,14 @@ export default function MobileHeader() {
                         }
                       }
                     }}
-                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                    className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors border ${
                       isActive
-                        ? "bg-accent/10 dark:bg-accent/15 border border-accent/30 text-accent font-semibold"
-                        : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-850 hover:text-zinc-950 dark:hover:text-white"
+                        ? "bg-accent/10 dark:bg-accent/15 border-accent/30 text-accent font-semibold"
+                        : "text-zinc-700 dark:text-zinc-300 border-transparent hover:bg-accent/10 hover:border-accent/30 hover:text-accent"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className={`w-4 h-4 ${isActive ? "text-accent" : "text-zinc-400 dark:text-zinc-500"}`} />
+                      <Icon className={`w-4 h-4 transition-colors ${isActive ? "text-accent" : "text-zinc-400 dark:text-zinc-500 group-hover:text-accent"}`} />
                       <span>{item.label}</span>
                     </div>
                     <div className="flex items-center gap-1.5">

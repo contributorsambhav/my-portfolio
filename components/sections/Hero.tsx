@@ -81,7 +81,7 @@ export default function Hero({ contributions, leetcodeStats: initialStats }: Her
           }),
         });
         if (!res.ok) {
-          // Proxy failed — use hardcoded fallback
+          // Proxy failed - use hardcoded fallback
           setLeetcodeStats(FALLBACK);
           return;
         }
@@ -115,7 +115,7 @@ export default function Hero({ contributions, leetcodeStats: initialStats }: Her
           ranking: ranking || 0,
         });
       } catch {
-        // Both proxy and direct failed — use hardcoded fallback
+        // Both proxy and direct failed - use hardcoded fallback
         setLeetcodeStats(FALLBACK);
       }
     };
